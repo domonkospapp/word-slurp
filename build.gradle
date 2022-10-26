@@ -26,9 +26,6 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured:4.4.0")
 }
 
-task stage(dependsOn: ['build', 'clean'])
-build.mustRunAfter clean
-
 tasks.named('test') {
     useJUnitPlatform()
 }
