@@ -30,8 +30,6 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-tasks.jar {
-    enabled = true
-    // Remove `plain` postfix from jar file name
-    archiveClassifier.set("")
+jar {
+    enabled = false
 }
