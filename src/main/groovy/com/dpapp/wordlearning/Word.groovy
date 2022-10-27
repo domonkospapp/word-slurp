@@ -27,6 +27,10 @@ class Word {
         this.level = level
     }
 
+    Long getId() {
+        return id
+    }
+
     User getUser() {
         return user
     }
