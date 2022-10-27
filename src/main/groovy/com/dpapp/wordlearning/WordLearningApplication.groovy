@@ -18,7 +18,7 @@ class WordLearningApplication {
         return new WebMvcConfigurer() {
             @Override
             void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*")
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS")
             }
         }
     }
