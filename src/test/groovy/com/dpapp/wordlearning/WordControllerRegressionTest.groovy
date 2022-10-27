@@ -7,6 +7,7 @@ import spock.lang.Specification
 
 import static io.restassured.RestAssured.given
 import static org.hamcrest.Matchers.equalTo
+import static org.hamcrest.Matchers.notNullValue
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class WordControllerRegressionTest extends Specification {
@@ -72,12 +73,45 @@ class WordControllerRegressionTest extends Specification {
                 .statusCode(200)
                 .body(
                         "size()", equalTo(2),
+                        "[0].id", notNullValue(),
                         "[0].original", equalTo("original 1"),
                         "[0].foreign", equalTo("foreign 1"),
                         "[0].level", equalTo(0),
+                        "[1].id", notNullValue(),
                         "[1].original", equalTo("original 2"),
                         "[1].foreign", equalTo("foreign 2"),
                         "[1].level", equalTo(1),
+                )
+    }
+
+    def "edit word"() {
+        given:
+        final Word word = wordRepository.save(new Word(user, "original", "foreign", 0))
+
+        expect:
+        given().port(port)
+                .basePath("/words/{wordId}")
+                .pathParam("wordId", word.getId())
+                .queryParams("username", user.getUsername(), "email", user.getEmail())
+                .contentType("application/json")
+                .body("""
+                    {
+                        "user": {
+                            "username":"${user.getUsername()}",
+                            "email":"${user.getEmail()}"
+                        },
+                        "original":"originalx",
+                        "foreign":"foreignx",
+                        "level":1
+                    }
+                """)
+                .put()
+                .then()
+                .statusCode(200)
+                .body(
+                        "original", equalTo("originalx"),
+                        "foreign", equalTo("foreignx"),
+                        "level", equalTo(1)
                 )
     }
 

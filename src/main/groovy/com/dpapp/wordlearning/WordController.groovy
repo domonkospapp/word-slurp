@@ -32,4 +32,17 @@ class WordController {
         return wordRepository.findAllByUser(existingUser)
     }
 
+    @PutMapping("/words/{wordId}")
+    Word updateWord(@RequestBody Word word, @PathVariable String wordId) {
+        User existingUser = userRepository.getByUsernameAndEmail(word.getUser().getUsername(), word.getUser().getEmail())
+                .orElseThrow(() -> new RuntimeException("Wrong user"))
+        Word existingWord = wordRepository.findById(wordId.toLong()).orElseThrow(() -> new RuntimeException("Word not found"))
+        if (existingWord.getUser() != existingUser)
+            throw new RuntimeException("Can not edit others words")
+        existingWord.setOriginal(word.getOriginal())
+        existingWord.setForeign(word.getForeign())
+        existingWord.setLevel(word.getLevel())
+        return wordRepository.save(existingWord)
+    }
+
 }
