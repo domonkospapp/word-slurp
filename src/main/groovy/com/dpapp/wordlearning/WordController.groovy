@@ -22,6 +22,7 @@ class WordController {
         if (wordRepository.existsByOriginalAndForeign(word.getOriginal(), word.getForeign()))
             throw new RuntimeException("Word already exists")
         word.setUser(currentUser)
+        word.setLevel(0)
         return wordRepository.save(word)
     }
 

@@ -45,7 +45,8 @@ class WordControllerRegressionTest extends Specification {
                             "email":"${user.getEmail()}"
                         },
                         "original":"${original}",
-                        "foreign":"${foreign}"
+                        "foreign":"${foreign}",
+                        "level": 5
                     }
                 """)
                 .post("/words")
