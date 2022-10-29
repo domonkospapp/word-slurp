@@ -1,7 +1,9 @@
 package com.dpapp.wordlearning
 
+import com.dpapp.wordlearning.importer.CsvImporter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 class WordController {
@@ -44,6 +46,14 @@ class WordController {
         existingWord.setForeign(word.getForeign())
         existingWord.setLevel(word.getLevel())
         return wordRepository.save(existingWord)
+    }
+
+    @PostMapping("/words/translations")
+    List<Word> uploadFile(@RequestParam("translations") MultipartFile translations, @RequestParam String username, @RequestParam String email) {
+        User existingUser = userRepository.getByUsernameAndEmail(username, email)
+                .orElseThrow(() -> new RuntimeException("Wrong user"))
+        List<Word> words = CsvImporter.loadForUser(translations, existingUser)
+        return wordRepository.saveAll(words)
     }
 
 }
