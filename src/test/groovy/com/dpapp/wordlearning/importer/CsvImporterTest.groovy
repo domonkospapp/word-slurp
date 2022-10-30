@@ -2,12 +2,10 @@ package com.dpapp.wordlearning.importer
 
 import com.dpapp.wordlearning.User
 import com.dpapp.wordlearning.Word
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.web.multipart.MultipartFile
 import spock.lang.Specification
 
-@SpringBootTest
 class CsvImporterTest extends Specification {
 
     private final String TEST_CSV = "build/resources/test/translations_small.csv"
@@ -20,7 +18,7 @@ class CsvImporterTest extends Specification {
 
     def "test CSV importing with translations_small.csv"() {
         given:
-        User user = new User("test", "test", null)
+        User user = new User("test", null)
         when:
         List<Word> words = CsvImporter.loadForUser(translations, user)
         then:

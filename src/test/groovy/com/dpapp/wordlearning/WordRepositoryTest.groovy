@@ -18,7 +18,7 @@ class WordRepositoryTest extends Specification {
     User user
 
     def setup() {
-        user = new User("username", "email", null)
+        user = new User("email")
         entityManager.persist(user)
         entityManager.flush()
     }

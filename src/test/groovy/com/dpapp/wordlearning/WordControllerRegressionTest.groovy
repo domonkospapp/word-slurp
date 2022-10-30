@@ -3,14 +3,17 @@ package com.dpapp.wordlearning
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.http.HttpHeaders
 import spock.lang.Specification
 
 import static io.restassured.RestAssured.given
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.notNullValue
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestSecurityConfig.class)
 class WordControllerRegressionTest extends Specification {
+
+    private static String token = TestSecurityConfig.TEST_0AUTH_TOKEN
 
     @LocalServerPort
     private int port
@@ -26,7 +29,7 @@ class WordControllerRegressionTest extends Specification {
     void setup() {
         wordRepository.deleteAll()
         userRepository.deleteAll()
-        user = new User("username", "email", null)
+        user = new User(TestSecurityConfig.TEST_EMAIL)
         userRepository.save(user)
     }
 
@@ -37,13 +40,10 @@ class WordControllerRegressionTest extends Specification {
 
         expect:
         given().port(port)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
                 .contentType("application/json")
                 .body("""
                     {
-                        "user": {
-                            "username":"${user.getUsername()}",
-                            "email":"${user.getEmail()}"
-                        },
                         "original":"${original}",
                         "foreign":"${foreign}",
                         "level": 5
@@ -68,7 +68,7 @@ class WordControllerRegressionTest extends Specification {
         expect:
         given().port(port)
                 .basePath("/words")
-                .queryParams("username", user.getUsername(), "email", user.getEmail())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
                 .get()
                 .then()
                 .statusCode(200)
@@ -92,15 +92,11 @@ class WordControllerRegressionTest extends Specification {
         expect:
         given().port(port)
                 .basePath("/words/{wordId}")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
                 .pathParam("wordId", word.getId())
-                .queryParams("username", user.getUsername(), "email", user.getEmail())
                 .contentType("application/json")
                 .body("""
                     {
-                        "user": {
-                            "username":"${user.getUsername()}",
-                            "email":"${user.getEmail()}"
-                        },
                         "original":"originalx",
                         "foreign":"foreignx",
                         "level":1
@@ -123,7 +119,7 @@ class WordControllerRegressionTest extends Specification {
         expect:
         given().port(port)
                 .basePath("/words/translations")
-                .queryParams("username", user.getUsername(), "email", user.getEmail())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
                 .multiPart("translations", new File(TEST_CSV))
                 .post()
                 .then()

@@ -17,30 +17,27 @@ class UserRepositoryTest extends Specification {
 
     def "existsByUsernameAndEmail"() {
         given:
-        final User user = new User("username", "email", null)
+        final User user = new User("email")
         entityManager.persist(user)
         entityManager.flush()
 
         expect:
-        userRepository.existsByUsernameAndEmail("username", "email")
-        !userRepository.existsByUsernameAndEmail("username", "email+")
-        !userRepository.existsByUsernameAndEmail("username+", "email")
+        userRepository.existsByEmail("email")
+        !userRepository.existsByEmail("email+")
     }
 
     def "getByUsernameAndEmail"() {
         given:
-        final User user = new User("username", "email", null)
+        final User user = new User("email")
         entityManager.persist(user)
         entityManager.flush()
 
         expect:
-        userRepository.getByUsernameAndEmail("username", "email").present
-        userRepository.getByUsernameAndEmail("username", "email").ifPresent({
-            it.username == "username"
+        userRepository.getByEmail("email").present
+        userRepository.getByEmail("email").ifPresent({
             it.email == "email"
         })
-        !userRepository.getByUsernameAndEmail("username", "email+").present
-        !userRepository.getByUsernameAndEmail("username+", "email").present
+        !userRepository.getByEmail("email+").present
     }
 
 

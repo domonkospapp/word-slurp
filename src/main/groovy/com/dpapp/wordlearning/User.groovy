@@ -1,17 +1,17 @@
 package com.dpapp.wordlearning
 
+import com.dpapp.wordlearning.security.UserPrincipal
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 import javax.persistence.*
 
 @Entity
 @Table(name = "app_users")
-class User {
+class User implements UserPrincipal {
 
     @Id
     @GeneratedValue
     private Long id
-    private String username
     private String email
 
     @OneToMany(mappedBy = "user")
@@ -22,20 +22,16 @@ class User {
 
     }
 
-    User(String username, String email, Set<Word> words) {
-        this.username = username
+    User(String email) {
+        this.email = email
+    }
+
+    User(String email, Set<Word> words) {
         this.email = email
         this.words = words
     }
 
-    String getUsername() {
-        return username
-    }
-
-    void setUsername(String username) {
-        this.username = username
-    }
-
+    @Override
     String getEmail() {
         return email
     }
