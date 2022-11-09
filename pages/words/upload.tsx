@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next'
 import { getToken } from 'next-auth/jwt'
 import { FormData, Blob } from 'formdata-node'
 import { IncomingMessage } from 'http'
+import { NextApiRequestCookies } from 'next/dist/server/api-utils'
 
 const FILE_UPLOAD_BASE_URL = `${process.env.BACKEND_BASE_URL}/words/translations`
 
@@ -13,7 +14,11 @@ const createBody = (file: string) => {
   return form
 }
 
-const createAuthHeader = async (req: IncomingMessage) => {
+const createAuthHeader = async (
+  req: IncomingMessage & {
+    cookies: NextApiRequestCookies
+  }
+) => {
   const token = await getToken({ req })
   return {
     Authorization: `Bearer ${token?.id_token}`,
