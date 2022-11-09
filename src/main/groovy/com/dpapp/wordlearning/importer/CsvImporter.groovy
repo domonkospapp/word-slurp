@@ -12,7 +12,9 @@ class CsvImporter {
 
     static List<List<String>> getCsvContent(MultipartFile translations) {
         if (!translations.empty) {
-            return translations.inputStream.readLines().collect { Arrays.asList(it.split(",")) }
+            return translations.inputStream.readLines()
+                    .collect { Arrays.asList(it.split(",")) }
+                    .findAll { it.size() == 4 }
         }
         throw new RuntimeException("File is empty")
     }
