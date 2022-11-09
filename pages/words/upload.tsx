@@ -10,7 +10,7 @@ const FILE_UPLOAD_BASE_URL = `${process.env.BACKEND_BASE_URL}/words/translations
 const createBody = (file: string) => {
   const form = new FormData()
   const blob = new Blob([file], { type: 'text/csv' })
-  form.set('translations', blob, 'translation.csv')
+  form.set('translations', blob)
   return form
 }
 
@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         method: 'POST',
         headers: await createAuthHeader(req),
         body: createBody(body),
-      })
+      }).then((res) => console.log(res))
     })
     return {
       redirect: {
