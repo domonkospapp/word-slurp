@@ -5,8 +5,9 @@ const Navbar = () => {
   const { data: session } = useSession()
   return (
     <>
-      <Link href="/words">My words</Link> |<Link href="learning">Learning</Link>{' '}
-      |<Link href="/words/import">Import words</Link> |
+      <Link href="/words">My words</Link> |
+      <Link href="/words/learning">Learning</Link> |
+      <Link href="/words/import">Import words</Link> |
       {session?.user ? (
         <button onClick={() => signOut()}>Logout</button>
       ) : (

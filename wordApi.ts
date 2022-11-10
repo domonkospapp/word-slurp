@@ -13,6 +13,15 @@ export const createWord = (word: Word) =>
     })
     .then((res) => res.data)
 
+export const updateWord = (word: Word) =>
+  axios
+    .put(`${BASE_URL_WORDS}/${word.id}`, {
+      original: word.original,
+      foreign: word.foreign,
+      level: word.level,
+    })
+    .then((res) => res.data)
+
 export const importWords = (wordCsv: string) => {
   console.log(JSON.stringify(wordCsv))
   const body = JSON.stringify({
