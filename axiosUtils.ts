@@ -1,11 +1,11 @@
 import axios from 'axios'
-import { getToken, GetTokenParams } from 'next-auth/jwt'
+import { getToken, GetTokenParams, JWT } from 'next-auth/jwt'
 
 export const initAxiosAuthHeaderInterceptor = async ({
   req,
 }: GetTokenParams) => {
-  const token = await getToken({ req })
-  if (token) {
+  const token: JWT | null = await getToken({ req })
+  if (token && token.id_token && typeof token.id_token == 'string') {
     initHeaders(token.id_token)
   }
 }
