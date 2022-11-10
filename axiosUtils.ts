@@ -8,12 +8,17 @@ export const initAxiosAuthHeaderInterceptor = async ({
   if (token) {
     axios.interceptors.request.use((config) => {
       const authHeader = `Bearer ${token.id_token}`
+      const additionalHeaders = {
+        Authorization: authHeader,
+        'Content-Type': 'application/json',
+      }
       if (config.headers) {
-        config.headers.Authorization = authHeader
-      } else {
         config.headers = {
-          Authorization: authHeader,
+          ...config.headers,
+          ...additionalHeaders,
         }
+      } else {
+        config.headers = additionalHeaders
       }
       return config
     })
