@@ -10,10 +10,12 @@ class CsvImporterTest extends Specification {
 
     private final String TEST_CSV = "build/resources/test/translations_small.csv"
     private MultipartFile translations
+    private String translationsString
 
     void setup() {
         File file = new File(TEST_CSV)
         translations = new MockMultipartFile("translations_small.csv", new FileInputStream(file))
+        translationsString = file.readLines().join("\n")
     }
 
     def "test CSV importing with translations_small.csv"() {
@@ -22,6 +24,19 @@ class CsvImporterTest extends Specification {
         when:
         List<Word> words = CsvImporter.loadForUser(translations, user)
         then:
+        validateWords(words, user)
+    }
+
+    def "test CSV importing with translations_small.csv as string"() {
+        given:
+        User user = new User("test", null)
+        when:
+        List<Word> words = CsvImporter.loadForUser(translationsString, user)
+        then:
+        validateWords(words, user)
+    }
+
+    private validateWords(List<Word> words, User user) {
         words.size() == 7
 
         words.get(0).getLevel() == 0

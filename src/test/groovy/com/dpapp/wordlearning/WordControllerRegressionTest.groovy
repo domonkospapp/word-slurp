@@ -136,4 +136,30 @@ class WordControllerRegressionTest extends Specification {
                 )
     }
 
+    def "upload translation string"() {
+        given:
+        final String TEST_CSV = "build/resources/test/translations_small.csv"
+        final String csv = new File(TEST_CSV).readLines().join("\\r\\n")
+        String body = """{"content":"${csv}"}"""
+        expect:
+        given().port(port)
+                .basePath("/words/import")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                .contentType("application/json")
+                .body(body)
+                .post()
+                .then()
+                .statusCode(200)
+                .body(
+                        "size()", equalTo(7),
+                        "[0].id", notNullValue(),
+                        "[0].original", equalTo("hasznos"),
+                        "[0].foreign", equalTo("useful"),
+                        "[0].level", equalTo(0),
+                        "[6].original", equalTo("kétség"),
+                        "[6].foreign", equalTo("doubt"),
+                        "[6].level", equalTo(0),
+                )
+    }
+
 }

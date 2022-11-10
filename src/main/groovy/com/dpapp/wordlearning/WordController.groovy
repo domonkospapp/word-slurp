@@ -61,4 +61,13 @@ class WordController {
         return wordRepository.saveAll(words)
     }
 
+    @PostMapping("/words/import")
+    List<Word> uploadFile(@RequestBody CsvTranslations translations, CustomUserJwtAuthenticationToken principal) {
+        String email = principal.getPrincipal().getEmail()
+        User existingUser = userRepository.getByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Wrong user"))
+        List<Word> words = CsvImporter.loadForUser(translations.getContent(), existingUser)
+        return wordRepository.saveAll(words)
+    }
+
 }
