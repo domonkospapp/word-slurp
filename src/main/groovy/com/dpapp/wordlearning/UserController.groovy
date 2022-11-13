@@ -18,10 +18,11 @@ class UserController {
     @PostMapping("/users")
     User createUser(CustomUserJwtAuthenticationToken principal) {
         String email = principal.getPrincipal().getEmail()
-        if (userRepository.existsByEmail(email))
-            throw new RuntimeException("User already exists")
-        User user = new User(email)
-        return userRepository.save(user)
+        Optional<User> user = userRepository.getByEmail(email)
+        if (user.present) {
+            return user.get()
+        }
+        return userRepository.save(new User(email))
     }
 
 }
