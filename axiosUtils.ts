@@ -5,8 +5,8 @@ export const initAxiosAuthHeaderInterceptor = async ({
   req,
 }: GetTokenParams) => {
   const token: JWT | null = await getToken({ req })
-  if (token && token.id_token && typeof token.id_token == 'string') {
-    initHeaders(token.id_token)
+  if (token && token.idToken) {
+    initHeaders(token.idToken)
   }
 }
 

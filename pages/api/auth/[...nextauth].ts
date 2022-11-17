@@ -28,6 +28,7 @@ export const authOptions: NextAuthOptions = {
           accessToken: account.access_token,
           accessTokenExpires: account.expires_at,
           refreshToken: account.refresh_token,
+          idToken: account.id_token,
           user,
         }
       }
