@@ -2,21 +2,20 @@ import { Word } from '../../word'
 import WordLearningInput from '../../components/WordLearningInput'
 import { getWords, updateWord } from '../../wordApi'
 import { Suspense } from 'react'
-import { initAxiosAuthHeaderInterceptor } from '../../axiosUtils'
 import { GetServerSideProps } from 'next'
 import { parseBody } from 'next/dist/server/api-utils/node'
 import axios from 'axios'
+import { getToken } from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  await initAxiosAuthHeaderInterceptor({ req })
+  const token = await getToken({ req })
   if (req.method == 'PUT') {
     const body = await parseBody(req, '1mb')
-    await initAxiosAuthHeaderInterceptor({ req })
-    updateWord(body)
+    updateWord(body, token?.idToken)
   }
   return {
     props: {
-      words: await getWords(),
+      words: await getWords(token?.idToken),
     },
   }
 }

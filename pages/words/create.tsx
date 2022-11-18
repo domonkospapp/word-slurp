@@ -1,13 +1,13 @@
 import { GetServerSideProps } from 'next'
 import { createWord } from '../../wordApi'
 import { parseBody } from 'next/dist/server/api-utils/node'
-import { initAxiosAuthHeaderInterceptor } from '../../axiosUtils'
+import { getToken } from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   if (req.method == 'POST') {
     const body = await parseBody(req, '1mb')
-    await initAxiosAuthHeaderInterceptor({ req })
-    createWord(body)
+    const token = await getToken({ req })
+    createWord(body, token?.idToken)
   }
   return { props: {} }
 }

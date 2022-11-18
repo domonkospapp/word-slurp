@@ -1,15 +1,15 @@
 import { GetServerSideProps } from 'next'
+import { getToken, JWT } from 'next-auth/jwt'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { initAxiosAuthHeaderInterceptor } from '../../axiosUtils'
 import { Word } from '../../word'
 import { getWords } from '../../wordApi'
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  await initAxiosAuthHeaderInterceptor({ req })
+  const token: JWT | null = await getToken({ req })
   return {
     props: {
-      words: await getWords(),
+      words: await getWords(token?.idToken),
     },
   }
 }

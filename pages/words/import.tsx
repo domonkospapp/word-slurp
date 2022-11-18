@@ -2,16 +2,16 @@ import * as React from 'react'
 import { GetServerSideProps } from 'next'
 import { ChangeEvent, useState } from 'react'
 import { parseBody } from 'next/dist/server/api-utils/node'
-import { initAxiosAuthHeaderInterceptor } from '../../axiosUtils'
 import { importWords } from '../../wordApi'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { getToken } from 'next-auth/jwt'
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   if (req.method == 'POST') {
     const body = await parseBody(req, '1mb')
-    await initAxiosAuthHeaderInterceptor({ req })
-    importWords(body.csv)
+    const token = await getToken({ req })
+    importWords(body.csv, token?.idToken)
   }
   return { props: {} }
 }

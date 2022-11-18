@@ -1,6 +1,5 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-import { initAxiosAuthHeaderInterceptorWithToken } from '../../../axiosUtils'
 import { createUser } from '../../../userApi'
 import { refreshAccessToken } from '../../../utils/auth/refreshToken'
 
@@ -45,8 +44,7 @@ export const authOptions: NextAuthOptions = {
       return session
     },
     async signIn({ account }) {
-      initAxiosAuthHeaderInterceptorWithToken(account?.id_token)
-      createUser()
+      createUser(account?.id_token)
       return true
     },
   },
