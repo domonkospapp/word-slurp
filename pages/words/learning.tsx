@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
   return {
     props: {
-      words: await getWords(token?.idToken),
+      words: await getWords(token?.idToken).catch(() => []),
     },
   }
 }

@@ -9,7 +9,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const token: JWT | null = await getToken({ req })
   return {
     props: {
-      words: await getWords(token?.idToken),
+      words: await getWords(token?.idToken).catch(() => null),
     },
   }
 }
