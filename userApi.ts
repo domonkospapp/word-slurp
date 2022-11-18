@@ -12,4 +12,4 @@ const withHeader = (token: string | undefined) => {
 }
 
 export const createUser = (token: string | undefined) =>
-  axios.post(BASE_URL_USERS, withHeader(token)).then((res) => res.data)
+  axios.post(BASE_URL_USERS, {}, withHeader(token)).then((res) => res.data)
