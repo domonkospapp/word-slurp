@@ -18,6 +18,8 @@ class User implements UserPrincipal {
     @JsonIgnore
     private Set<Word> words
 
+    private String nativeLanguage
+
     User() {
 
     }
@@ -46,5 +48,13 @@ class User implements UserPrincipal {
 
     void setWords(Set<Word> words) {
         this.words = words
+    }
+
+    String getNativeLanguage() {
+        return nativeLanguage
+    }
+
+    void setNativeLanguage(String nativeLanguage) {
+        this.nativeLanguage = nativeLanguage
     }
 }

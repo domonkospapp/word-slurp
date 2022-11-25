@@ -25,30 +25,34 @@ class WordRepositoryTest extends Specification {
 
     def "existsByOriginalAndForeign"() {
         given:
-        final Word word = new Word(user, "o1", "f1", 0)
+        final Word word = new Word(user, "ow", "ol","fw","fl",  0)
         entityManager.persist(word)
         entityManager.flush()
 
         expect:
-        wordRepository.existsByOriginalAndForeign("o1", "f1")
-        !wordRepository.existsByOriginalAndForeign("o2", "f1")
-        !wordRepository.existsByOriginalAndForeign("o1", "f2")
+        wordRepository.existsByOriginalAndForeign("ow", "fw")
+        !wordRepository.existsByOriginalAndForeign("ow2", "fw")
+        !wordRepository.existsByOriginalAndForeign("ow", "fw2")
     }
 
     def "findAllByUser"() {
         given:
-        entityManager.persist(new Word(user, "o1", "f1", 0))
-        entityManager.persist(new Word(user, "o2", "f2", 1))
+        entityManager.persist(new Word(user, "ow1", "ol1","fw1", "fl1", 0))
+        entityManager.persist(new Word(user, "ow2", "ol2","fw2", "fl2", 1))
         entityManager.flush()
 
         expect:
         final List<WordProjection> words = wordRepository.findAllByUser(user)
         words.size() == 2
-        words.get(0).getOriginal() == "o1"
-        words.get(0).getForeign() == "f1"
+        words.get(0).getOriginal() == "ow1"
+        words.get(0).getOriginalLanguage() == "ol1"
+        words.get(0).getForeign() == "fw1"
+        words.get(0).getForeignLanguage() == "fl1"
         words.get(0).getLevel() == 0
-        words.get(1).getOriginal() == "o2"
-        words.get(1).getForeign() == "f2"
+        words.get(1).getOriginal() == "ow2"
+        words.get(1).getOriginalLanguage() == "ol2"
+        words.get(1).getForeign() == "fw2"
+        words.get(1).getForeignLanguage() == "fl2"
         words.get(1).getLevel() == 1
     }
 

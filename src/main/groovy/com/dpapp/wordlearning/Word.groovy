@@ -12,18 +12,22 @@ class Word {
     @JoinColumn(name = "user_id", nullable = false)
     private User user
     private String original
+    private String originalLanguage
     @Column(name = "foreign_word")
     private String foreign
+    private String foreignLanguage
     private int level
 
     Word() {
 
     }
 
-    Word(User user, String original, String foreign, int level) {
+    Word(User user, String original, String originalLanguage, String foreign, String foreignLanguage, int level) {
         this.user = user
         this.original = original
+        this.originalLanguage = originalLanguage
         this.foreign = foreign
+        this.foreignLanguage = foreignLanguage
         this.level = level
     }
 
@@ -61,5 +65,21 @@ class Word {
 
     void setLevel(int level) {
         this.level = level
+    }
+
+    String getOriginalLanguage() {
+        return originalLanguage
+    }
+
+    void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage
+    }
+
+    String getForeignLanguage() {
+        return foreignLanguage
+    }
+
+    void setForeignLanguage(String foreignLanguage) {
+        this.foreignLanguage = foreignLanguage
     }
 }

@@ -47,7 +47,9 @@ class WordController {
         if (existingWord.getUser() != existingUser)
             throw new RuntimeException("Can not edit others words")
         existingWord.setOriginal(word.getOriginal())
+        existingWord.setOriginalLanguage(word.getOriginalLanguage())
         existingWord.setForeign(word.getForeign())
+        existingWord.setForeignLanguage(word.getForeignLanguage())
         existingWord.setLevel(word.getLevel())
         return wordRepository.save(existingWord)
     }

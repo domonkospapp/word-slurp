@@ -7,5 +7,9 @@ interface WordProjection {
 
     String getForeign()
 
+    String getOriginalLanguage()
+
+    String getForeignLanguage()
+
     int getLevel()
 }

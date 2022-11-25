@@ -21,6 +21,7 @@ class CsvImporterTest extends Specification {
     def "test CSV importing with translations_small.csv"() {
         given:
         User user = new User("test", null)
+        user.setNativeLanguage("magyar")
         when:
         List<Word> words = CsvImporter.loadForUser(translations, user)
         then:
@@ -30,6 +31,7 @@ class CsvImporterTest extends Specification {
     def "test CSV importing with translations_small.csv as string"() {
         given:
         User user = new User("test", null)
+        user.setNativeLanguage("magyar")
         when:
         List<Word> words = CsvImporter.loadForUser(translationsString, user)
         then:
