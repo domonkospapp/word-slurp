@@ -6,17 +6,28 @@ import { importWords } from '../../wordApi'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { getToken } from 'next-auth/jwt'
+import SelectedNativeLanguage from '../../components/selectedNativeLanguage'
+import { getUser, updateUser } from '../../userApi'
+import { User } from '../../types/user'
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const token = await getToken({ req })
   if (req.method == 'POST') {
     const body = await parseBody(req, '1mb')
-    const token = await getToken({ req })
     importWords(body.csv, token?.idToken)
   }
-  return { props: {} }
+  if (req.method == 'PUT') {
+    const body = await parseBody(req, '1mb')
+    await updateUser(body, token?.idToken)
+  }
+  return {
+    props: {
+      user: await getUser(token?.idToken).catch(() => []),
+    },
+  }
 }
 
-const ImportWords = () => {
+const ImportWords = ({ user }: { user: User }) => {
   const router = useRouter()
   const [selectedFile, setSelectedFile] = useState<File>()
   const [error, setError] = useState<string>()
@@ -41,6 +52,8 @@ const ImportWords = () => {
 
   return (
     <div>
+      <SelectedNativeLanguage user={user} />
+      <br />
       <input type="file" name="file" onChange={changeHandler} />
       {selectedFile && !error ? (
         <div>
