@@ -8,6 +8,7 @@ import spock.lang.Specification
 
 import static io.restassured.RestAssured.given
 import static org.hamcrest.Matchers.equalTo
+import static org.hamcrest.Matchers.notNullValue
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestSecurityConfig.class)
 class UserControllerRegressionTest extends Specification {
@@ -19,6 +20,25 @@ class UserControllerRegressionTest extends Specification {
 
     @Autowired
     private UserRepository userRepository
+
+    def "get user"() {
+        given:
+        User user = new User(TestSecurityConfig.TEST_EMAIL)
+        user.setNativeLanguage("german")
+        userRepository.save(user)
+
+        expect:
+        given().port(port)
+                .basePath("/users")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                .get()
+                .then()
+                .statusCode(200)
+                .body(
+                        "id", notNullValue(),
+                        "nativeLanguage", equalTo("german")
+                )
+    }
 
     def "user registration"() {
         expect:
