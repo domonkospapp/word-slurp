@@ -85,12 +85,6 @@ const Learning = ({
             </option>
           ))}
       </select>
-      {words &&
-        words.map((w) => (
-          <p key={w.id}>
-            {w.original}-{w.foreign}
-          </p>
-        ))}
       <WordLearningInput
         words={words}
         levelUp={levelUp}
