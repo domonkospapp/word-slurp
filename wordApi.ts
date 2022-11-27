@@ -12,36 +12,35 @@ const withHeader = (token: string | undefined) => {
   }
 }
 
-export const getWords = (token: string | undefined) =>
-  axios.get(BASE_URL_WORDS, withHeader(token)).then((res) => res.data)
+export const getWords = (
+  originalLanguage: string | undefined | string[],
+  foreignLanguage: string | undefined | string[],
+  token: string | undefined
+) =>
+  axios
+    .get(BASE_URL_WORDS, {
+      ...withHeader(token),
+      params: {
+        originalLanguage: originalLanguage,
+        foreignLanguage: foreignLanguage,
+      },
+    })
+    .then((res) => res.data)
+
+export const getLanguages = (token: string | undefined) =>
+  axios
+    .get(`${process.env.BACKEND_BASE_URL}/languages`, withHeader(token))
+    .then((res) => res.data)
 
 export const createWord = (word: Word, token: string | undefined) =>
-  axios
-    .post(
-      BASE_URL_WORDS,
-      {
-        original: word.original,
-        foreign: word.foreign,
-      },
-      withHeader(token)
-    )
-    .then((res) => res.data)
+  axios.post(BASE_URL_WORDS, word, withHeader(token)).then((res) => res.data)
 
 export const updateWord = (word: Word, token: string | undefined) =>
   axios
-    .put(
-      `${BASE_URL_WORDS}/${word.id}`,
-      {
-        original: word.original,
-        foreign: word.foreign,
-        level: word.level,
-      },
-      withHeader(token)
-    )
+    .put(`${BASE_URL_WORDS}/${word.id}`, word, withHeader(token))
     .then((res) => res.data)
 
 export const importWords = (wordCsv: string, token: string | undefined) => {
-  console.log(JSON.stringify(wordCsv))
   const body = JSON.stringify({
     content: wordCsv,
   })

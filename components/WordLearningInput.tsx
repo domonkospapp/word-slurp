@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { Word } from '../word'
 
 const WordLearningInput = ({
@@ -18,6 +18,11 @@ const WordLearningInput = ({
   const [currentWord, setCurrentWord] = useState<Word>(pickRandom())
   const [answer, setAnswer] = useState('')
   const [waitingForAnswer, setWaitingForAnswer] = useState(true)
+
+  useEffect(() => {
+    getNextWord()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [words])
 
   const updateAnswer = (e: ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.target.value)

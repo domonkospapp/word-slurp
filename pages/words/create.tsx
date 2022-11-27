@@ -16,8 +16,14 @@ const CreateWord = () => {
   return (
     <div>
       <form action="/words/create" method="POST">
-        Original: <input type="text" name="original" />
-        Foreign: <input type="text" name="foreign" />
+        Original word: <input type="text" name="original" />
+        <br />
+        Original language: <input type="text" name="originalLanguage" />
+        <br />
+        Foreign word: <input type="text" name="foreign" />
+        <br />
+        Foreign language: <input type="text" name="foreignLanguage" />
+        <br />
         <button type="submit">Create</button>
       </form>
     </div>
