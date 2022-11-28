@@ -90,6 +90,80 @@ class WordControllerRegressionTest extends Specification {
                 )
     }
 
+    def "get words for user with filter"() {
+        given:
+        wordRepository.saveAll([
+                new Word(user, "x", "en", "x", "de", 0),
+                new Word(user, "x", "en", "x", "de", 0),
+                new Word(user, "x", "en", "x", "de", 0),
+                new Word(user, "x", "de", "x", "hu", 0),
+                new Word(user, "x", "de", "x", "hu", 0),
+                new Word(user, "x", "hu", "x", "de", 0),
+        ])
+
+        expect:
+        given().port(port)
+                .basePath("/words")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                .queryParam("originalLanguage", "en")
+                .queryParam("foreignLanguage", "de")
+                .get()
+                .then()
+                .statusCode(200)
+                .body(
+                        "size()", equalTo(3)
+                )
+        where:
+        originalLanguage | foreignLanguage || size
+        null             | null            || 6
+
+        "en"             | null            || 3
+        "de"             | null            || 2
+        "hu"             | null            || 1
+
+        null             | "de"            || 4
+        null             | "hu"            || 2
+
+        "en"             | "de"            || 3
+        "de"             | "hu"            || 2
+        "hu"             | "de"            || 1
+
+        "sp"             | null            || 0
+        null             | "sp"            || 0
+
+    }
+
+    def "get language pairs for user"() {
+        given:
+        wordRepository.saveAll([
+                new Word(user, "x", "en", "x", "de", 0),
+                new Word(user, "x", "de", "x", "en", 0),
+                new Word(user, "x", "de", "x", "en", 0),
+                new Word(user, "x", "hu", "x", "en", 0),
+                new Word(user, "x", "hu", "x", "en", 0),
+                new Word(user, "x", "uk", "x", "en", 0),
+        ])
+
+        expect:
+        given().port(port)
+                .basePath("/languages")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                .get()
+                .then()
+                .statusCode(200)
+                .body(
+                        "size()", equalTo(4),
+                        "[0].originalLanguage", equalTo("en"),
+                        "[0].foreignLanguage", equalTo("de"),
+                        "[1].originalLanguage", equalTo("de"),
+                        "[1].foreignLanguage", equalTo("en"),
+                        "[2].originalLanguage", equalTo("hu"),
+                        "[2].foreignLanguage", equalTo("en"),
+                        "[3].originalLanguage", equalTo("uk"),
+                        "[3].foreignLanguage", equalTo("en"),
+                )
+    }
+
     def "edit word"() {
         given:
         final Word word = wordRepository.save(new Word(user, "original", "language1", "foreign", "language2", 0))

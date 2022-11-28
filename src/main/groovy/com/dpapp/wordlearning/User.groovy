@@ -24,6 +24,10 @@ class User implements UserPrincipal {
 
     }
 
+    Long getId() {
+        return id
+    }
+
     User(String email) {
         this.email = email
     }

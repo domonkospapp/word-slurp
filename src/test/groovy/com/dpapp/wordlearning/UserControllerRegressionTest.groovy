@@ -21,6 +21,10 @@ class UserControllerRegressionTest extends Specification {
     @Autowired
     private UserRepository userRepository
 
+    def setup(){
+        userRepository.deleteAll()
+    }
+
     def "get user"() {
         given:
         User user = new User(TestSecurityConfig.TEST_EMAIL)

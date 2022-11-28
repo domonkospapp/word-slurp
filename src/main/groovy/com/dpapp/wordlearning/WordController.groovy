@@ -3,6 +3,8 @@ package com.dpapp.wordlearning
 import com.dpapp.wordlearning.importer.CsvImporter
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.projection.ProjectionFactory
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
@@ -31,11 +33,24 @@ class WordController {
     }
 
     @GetMapping("/words")
-    Set<WordProjection> getWords(CustomUserJwtAuthenticationToken principal) {
+    Set<WordProjection> getWords(
+            @RequestParam(required = false) String originalLanguage,
+            @RequestParam(required = false) String foreignLanguage,
+            CustomUserJwtAuthenticationToken principal
+    ) {
         String email = principal.getPrincipal().getEmail()
         User existingUser = userRepository.getByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Wrong user"))
-        return wordRepository.findAllByUser(existingUser)
+        return wordRepository.findAll(existingUser, originalLanguage, foreignLanguage)
+    }
+
+    @GetMapping("/languages")
+    Set<WordLanguagesProjection> getLanguagePairs(CustomUserJwtAuthenticationToken principal) {
+        String email = principal.getPrincipal().getEmail()
+        User existingUser = userRepository.getByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Wrong user"))
+        ProjectionFactory pf = new SpelAwareProxyProjectionFactory()
+        return wordRepository.findAllLanguages(existingUser.getId()).collect{pf.createProjection(WordLanguagesProjection, it)}
     }
 
     @PutMapping("/words/{wordId}")
