@@ -8,10 +8,10 @@ import spock.lang.Specification
 
 import static io.restassured.RestAssured.given
 import static org.hamcrest.Matchers.equalTo
-import static org.hamcrest.Matchers.notNullValue
+import static org.hamcrest.Matchers.hasItems
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestSecurityConfig.class)
-class UserControllerRegressionTest extends Specification {
+class LanguageControllerRegressionTest extends Specification {
 
     private static String token = TestSecurityConfig.TEST_0AUTH_TOKEN
 
@@ -21,58 +21,65 @@ class UserControllerRegressionTest extends Specification {
     @Autowired
     private UserRepository userRepository
 
-    def setup(){
+    def setup() {
         userRepository.deleteAll()
     }
 
-    def "get user"() {
-        given:
-        User user = new User(TestSecurityConfig.TEST_EMAIL)
-        user.setNativeLanguage("de")
-        userRepository.save(user)
-
-        expect:
-        given().port(port)
-                .basePath("/users")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
-                .get()
-                .then()
-                .statusCode(200)
-                .body(
-                        "id", notNullValue(),
-                        "nativeLanguage", equalTo("de")
-                )
-    }
-
-    def "user registration"() {
-        expect:
-        given().port(port)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
-                .contentType("application/json")
-                .post("/users")
-                .then()
-                .statusCode(200)
-                .body("email", equalTo("email"))
-    }
-
-    def "user set native language"() {
+    def "get languages"() {
         given:
         userRepository.save(new User(TestSecurityConfig.TEST_EMAIL))
 
         expect:
         given().port(port)
-                .basePath("/users")
+                .basePath("/languages")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                .get()
+                .then()
+                .statusCode(200)
+                .body(
+                        "size()", equalTo(188),
+                        "\$", hasItems("hu", "de", "en", "fr", "es")
+                )
+    }
+
+    def "get language map"() {
+        given:
+        User user = new User(TestSecurityConfig.TEST_EMAIL)
+        user.addLanguage("magyar", "hu")
+        user.addLanguage("nemet", "de")
+        user.addLanguage("angol", "en")
+        userRepository.save(user)
+
+        expect:
+        given().port(port)
+                .basePath("/languageMap")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                .get()
+                .then()
+                .statusCode(200)
+                .body(
+                        "size()", equalTo(3),
+                        "magyar", equalTo("hu"),
+                        "nemet", equalTo("de"),
+                        "angol", equalTo("en")
+                )
+    }
+
+    def "add language map element"() {
+        given:
+        userRepository.save(new User(TestSecurityConfig.TEST_EMAIL))
+
+        expect:
+        given().port(port)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
                 .contentType("application/json")
                 .body("""
-                    {
-                        "nativeLanguage":"de"
-                    }
+                    {"language":"magyar","isoLanguage":"hu"}
                 """)
-                .put()
+                .post("/languageMap")
                 .then()
                 .statusCode(200)
-                .body("nativeLanguage", equalTo("de"))
+                .body("size()", equalTo(1), "magyar", equalTo("hu"))
     }
 
 }

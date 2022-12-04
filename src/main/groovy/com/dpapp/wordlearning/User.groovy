@@ -1,6 +1,7 @@
 package com.dpapp.wordlearning
 
 import com.dpapp.wordlearning.security.UserPrincipal
+import com.dpapp.wordlearning.validator.ISOLanguageValidator
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 import javax.persistence.*
@@ -19,6 +20,12 @@ class User implements UserPrincipal {
     private Set<Word> words
 
     private String nativeLanguage
+
+    @ElementCollection
+    @MapKeyColumn(name="language")
+    @Column(name="iso_language", length = 2)
+    @CollectionTable(name="user_language_iso_mapping")
+    private Map<String, String> languages = new HashMap<String, String>()
 
     User() {
 
@@ -59,6 +66,16 @@ class User implements UserPrincipal {
     }
 
     void setNativeLanguage(String nativeLanguage) {
+        ISOLanguageValidator.validateLanguage(nativeLanguage)
         this.nativeLanguage = nativeLanguage
+    }
+
+    Map<String, String> getLanguages() {
+        return languages
+    }
+
+    void addLanguage(String language, String languageIso) {
+        ISOLanguageValidator.validateLanguage(languageIso)
+        this.languages.put(language, languageIso)
     }
 }

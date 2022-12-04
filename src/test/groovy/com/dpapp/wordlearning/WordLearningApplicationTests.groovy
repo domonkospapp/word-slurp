@@ -18,10 +18,14 @@ class WordLearningApplicationTests extends Specification {
     @Autowired
     private WordController wordController
 
+    @Autowired
+    private LanguageController languageController
+
     def "when context is loaded then all expected beans are created"() {
         expect: "the WebController is created"
         userController
         wordController
+        languageController
     }
 
 }

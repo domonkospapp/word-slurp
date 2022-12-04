@@ -25,7 +25,7 @@ class WordRepositoryTest extends Specification {
 
     def "existsByOriginalAndForeign"() {
         given:
-        final Word word = new Word(user, "ow", "ol","fw","fl",  0)
+        final Word word = new Word(user, "ow", "hu","fw","en",  0)
         entityManager.persist(word)
         entityManager.flush()
 
@@ -37,44 +37,44 @@ class WordRepositoryTest extends Specification {
 
     def "findAllByUser"() {
         given:
-        entityManager.persist(new Word(user, "ow1", "ol1","fw1", "fl1", 0))
-        entityManager.persist(new Word(user, "ow2", "ol2","fw2", "fl2", 1))
+        entityManager.persist(new Word(user, "ow1", "de","fw1", "en", 0))
+        entityManager.persist(new Word(user, "ow2", "es","fw2", "it", 1))
         entityManager.flush()
 
         expect:
         final List<WordProjection> words = wordRepository.findAllByUser(user)
         words.size() == 2
         words.get(0).getOriginal() == "ow1"
-        words.get(0).getOriginalLanguage() == "ol1"
+        words.get(0).getOriginalLanguage() == "de"
         words.get(0).getForeign() == "fw1"
-        words.get(0).getForeignLanguage() == "fl1"
+        words.get(0).getForeignLanguage() == "en"
         words.get(0).getLevel() == 0
         words.get(1).getOriginal() == "ow2"
-        words.get(1).getOriginalLanguage() == "ol2"
+        words.get(1).getOriginalLanguage() == "es"
         words.get(1).getForeign() == "fw2"
-        words.get(1).getForeignLanguage() == "fl2"
+        words.get(1).getForeignLanguage() == "it"
         words.get(1).getLevel() == 1
     }
 
     def "findAll"() {
         given:
-        entityManager.persist(new Word(user, "x", "ol", "x", "fl", 0))
-        entityManager.persist(new Word(user, "x", "ol2", "x", "fl", 0))
-        entityManager.persist(new Word(user, "x", "ol", "x", "fl2", 0))
+        entityManager.persist(new Word(user, "x", "nl", "x", "de", 0))
+        entityManager.persist(new Word(user, "x", "es", "x", "de", 0))
+        entityManager.persist(new Word(user, "x", "nl", "x", "it", 0))
         entityManager.flush()
 
         expect:
         wordRepository.findAll(user, null, null).size() == 3
 
-        wordRepository.findAll(user, "ol", "fl").size() == 1
-        wordRepository.findAll(user, "ol2", "fl").size() == 1
-        wordRepository.findAll(user, "ol", "fl2").size() == 1
+        wordRepository.findAll(user, "nl", "de").size() == 1
+        wordRepository.findAll(user, "es", "de").size() == 1
+        wordRepository.findAll(user, "nl", "it").size() == 1
 
-        wordRepository.findAll(user, "ol", null).size() == 2
-        wordRepository.findAll(user, null, "fl").size() == 2
+        wordRepository.findAll(user, "nl", null).size() == 2
+        wordRepository.findAll(user, null, "de").size() == 2
 
-        wordRepository.findAll(user, "ol2", null).size() == 1
-        wordRepository.findAll(user, null, "fl2").size() == 1
+        wordRepository.findAll(user, "es", null).size() == 1
+        wordRepository.findAll(user, null, "it").size() == 1
     }
 
     def "findAllLanguages"() {
@@ -90,7 +90,7 @@ class WordRepositoryTest extends Specification {
         entityManager.persist(new Word(user, "x", "en", "x", "hu", 0))
         entityManager.persist(new Word(user, "x", "en", "x", "hu", 0))
         entityManager.persist(new Word(user, "x", "en", "x", "hu", 0))
-        entityManager.persist(new Word(user2, "x", "sp", "x", "nl", 0))
+        entityManager.persist(new Word(user2, "x", "es", "x", "nl", 0))
         entityManager.flush()
 
         when:
@@ -116,7 +116,7 @@ class WordRepositoryTest extends Specification {
         then:
         languages.size() == 1
 
-        languages.get(0).getOriginalLanguage() == "sp"
+        languages.get(0).getOriginalLanguage() == "es"
         languages.get(0).getForeignLanguage() == "nl"
     }
 

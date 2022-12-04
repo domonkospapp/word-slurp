@@ -44,7 +44,7 @@ class WordController {
         return wordRepository.findAll(existingUser, originalLanguage, foreignLanguage)
     }
 
-    @GetMapping("/languages")
+    @GetMapping("/words/languages")
     Set<WordLanguagesProjection> getLanguagePairs(CustomUserJwtAuthenticationToken principal) {
         String email = principal.getPrincipal().getEmail()
         User existingUser = userRepository.getByEmail(email)

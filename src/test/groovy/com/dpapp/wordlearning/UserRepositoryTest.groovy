@@ -40,5 +40,19 @@ class UserRepositoryTest extends Specification {
         !userRepository.getByEmail("email+").present
     }
 
+    def "createUserLanguageMapIso"() {
+        given:
+        final User user = new User("email")
+        user.addLanguage("magyar","hu")
+        user.addLanguage("nemet","de")
+        user.addLanguage("deutsch","de")
+        userRepository.save(user)
+
+        expect:
+        def languages = userRepository.getByEmail("email").get().languages
+        languages.get("magyar") == "hu"
+        languages.get("nemet") == "de"
+        languages.get("deutsch") == "de"
+    }
 
 }
