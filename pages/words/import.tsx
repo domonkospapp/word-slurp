@@ -14,6 +14,8 @@ import {
 } from '../../languagesApi'
 import LanguageMappings from '../../components/languageMappings/LanguageMappings'
 import MissingLanguageMappings from '../../components/languageMappings/MissingLanguageMappings'
+import { useSession } from 'next-auth/react'
+import Link from 'next/link'
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const token = await getToken({ req })
@@ -28,8 +30,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return {
     props: {
       user: await getUser(token?.idToken).catch(() => []),
-      languages: await getLanguages(token?.idToken),
-      languageMapping: await getLanguagesMaping(token?.idToken),
+      languages: await getLanguages(token?.idToken).catch(() => []),
+      languageMapping: await getLanguagesMaping(token?.idToken).catch(() => []),
     },
   }
 }
@@ -43,6 +45,7 @@ const ImportWords = ({
   languages: Array<string>
   languageMapping: { [key: string]: string }
 }) => {
+  const session = useSession()
   const router = useRouter()
   const [selectedFile, setSelectedFile] = useState<File>()
   const [error, setError] = useState<string>()
@@ -94,33 +97,43 @@ const ImportWords = ({
 
   return (
     <div>
-      <h2>Selected native language</h2>
-      <p>
-        Native language: {user.nativeLanguage || 'No native language selected'}
-      </p>
-      <button onClick={() => router.push('/user/nativeLanguage')}>
-        Change it!
-      </button>
-      <h2>Select CSV file</h2>
-      <input type="file" name="file" onChange={changeHandler} />
-      {selectedFile && !error ? (
-        <div>
-          <LanguageMappings mappings={languageMapping} />
-          <MissingLanguageMappings
-            mappings={languageMapping}
-            languages={languages}
-            containedLanguages={containedLanguages}
-          />
-          <h2>File details</h2>
-          <p>Filename: {selectedFile.name}</p>
-          <p>Filetype: {selectedFile.type}</p>
-          <p>Size in bytes: {selectedFile.size}</p>
-          <button onClick={uploadWords}>Upload words!</button>
-        </div>
+      {session.data ? (
+        <>
+          <h2>Selected native language</h2>
+          <p>
+            Native language:{' '}
+            {user.nativeLanguage || 'No native language selected'}
+          </p>
+          <button onClick={() => router.push('/user/nativeLanguage')}>
+            Change it!
+          </button>
+          <h2>Select CSV file</h2>
+          <input type="file" name="file" onChange={changeHandler} />
+          {selectedFile && !error ? (
+            <div>
+              <LanguageMappings mappings={languageMapping} />
+              <MissingLanguageMappings
+                mappings={languageMapping}
+                languages={languages}
+                containedLanguages={containedLanguages}
+              />
+              <h2>File details</h2>
+              <p>Filename: {selectedFile.name}</p>
+              <p>Filetype: {selectedFile.type}</p>
+              <p>Size in bytes: {selectedFile.size}</p>
+              <button onClick={uploadWords}>Upload words!</button>
+            </div>
+          ) : (
+            <p>Select an exported Google Translate csv file to import words</p>
+          )}
+          {error && <p>{error}</p>}
+        </>
       ) : (
-        <p>Select an exported Google Translate csv file to import words</p>
+        <div>
+          <p>You are not logged in</p>
+          <Link href="/login">Go to the login page</Link>
+        </div>
       )}
-      {error && <p>{error}</p>}
     </div>
   )
 }
