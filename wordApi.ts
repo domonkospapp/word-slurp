@@ -29,7 +29,7 @@ export const getWords = (
 
 export const getLanguages = (token: string | undefined) =>
   axios
-    .get(`${process.env.BACKEND_BASE_URL}/languages`, withHeader(token))
+    .get(`${BASE_URL_WORDS}/languages`, withHeader(token))
     .then((res) => res.data)
 
 export const createWord = (word: Word, token: string | undefined) =>
