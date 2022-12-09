@@ -1,3 +1,4 @@
+import axios from 'axios'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import { createUser } from '../../../userApi'
@@ -41,6 +42,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       session.user = token.user
       session.error = token.error
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token.idToken}`
       return session
     },
     async signIn({ account }) {

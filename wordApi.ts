@@ -1,3 +1,4 @@
+/* REMOVE THIS */
 import axios from 'axios'
 import { Word } from './word'
 
@@ -32,19 +33,7 @@ export const getLanguages = (token: string | undefined) =>
     .get(`${BASE_URL_WORDS}/languages`, withHeader(token))
     .then((res) => res.data)
 
-export const createWord = (word: Word, token: string | undefined) =>
-  axios.post(BASE_URL_WORDS, word, withHeader(token)).then((res) => res.data)
-
 export const updateWord = (word: Word, token: string | undefined) =>
   axios
     .put(`${BASE_URL_WORDS}/${word.id}`, word, withHeader(token))
     .then((res) => res.data)
-
-export const importWords = (wordCsv: string, token: string | undefined) => {
-  const body = JSON.stringify({
-    content: wordCsv,
-  })
-  axios
-    .post(`${BASE_URL_WORDS}/import`, body, withHeader(token))
-    .then((res) => res.data)
-}

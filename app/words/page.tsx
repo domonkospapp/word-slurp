@@ -1,23 +1,12 @@
-import { GetServerSideProps } from 'next'
-import { getToken, JWT } from 'next-auth/jwt'
-import { useSession } from 'next-auth/react'
+import { unstable_getServerSession } from 'next-auth'
 import Link from 'next/link'
+import { authOptions } from '../../pages/api/auth/[...nextauth]'
+import { getWords } from '../../utils/clients/wordApi'
 import { Word } from '../../word'
-import { getWords } from '../../wordApi'
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const token: JWT | null = await getToken({ req })
-  return {
-    props: {
-      words: await getWords(undefined, undefined, token?.idToken).catch(
-        () => null
-      ),
-    },
-  }
-}
-
-const WordList: React.FC<{ words: [Word] }> = ({ words }) => {
-  const session = useSession()
+const WordList = async () => {
+  await unstable_getServerSession(authOptions)
+  const words: [Word] = await getWords().catch(() => null)
 
   const getStars = (count: number) => {
     if (count == 0) return '0'
@@ -31,7 +20,7 @@ const WordList: React.FC<{ words: [Word] }> = ({ words }) => {
 
   return (
     <div>
-      {session.data ? (
+      {true ? (
         <div>
           Your words are:
           <div>

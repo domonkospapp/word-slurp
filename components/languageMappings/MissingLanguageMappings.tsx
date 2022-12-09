@@ -1,4 +1,5 @@
-import axios from 'axios'
+'use client'
+
 import LanguageSelection from '../languageSelection'
 
 const MissingLanguageMappings = ({
@@ -13,7 +14,13 @@ const MissingLanguageMappings = ({
   const missingMappings = containedLanguages.filter((lang) => !mappings[lang])
 
   const addMapping = (key: string, value: string) => {
-    axios.put('/words/import', { language: key, isoLanguage: value })
+    fetch('/api/languages/addMapping', {
+      method: 'POST',
+      body: JSON.stringify({
+        language: key,
+        isoLanguage: value,
+      }),
+    })
   }
 
   return (
