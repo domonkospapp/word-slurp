@@ -8,6 +8,7 @@ import {
 import { getUser } from '../../../utils/clients/userApi'
 import { User } from '../../../types/user'
 import Link from 'next/link'
+import SelectedNativeLanguage from '../../../components/selectedNativeLanguage'
 
 const ImportWords = async () => {
   const session = await unstable_getServerSession(authOptions)
@@ -20,6 +21,8 @@ const ImportWords = async () => {
       {session?.user ? (
         <>
           <h2>Selected native language</h2>
+          <SelectedNativeLanguage user={user} languages={languages} />
+
           <p>
             Native language:{' '}
             {user.nativeLanguage || 'No native language selected'}

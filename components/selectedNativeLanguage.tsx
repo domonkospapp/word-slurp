@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { useRouter } from 'next/router'
+'use client'
+
 import { Suspense } from 'react'
 import { User } from '../types/user'
 import LanguageSelection from './languageSelection'
@@ -11,13 +11,11 @@ const SelectedNativeLanguage = ({
   user: User
   languages: Array<string>
 }) => {
-  const router = useRouter()
-
   const updateNativeLanguage = (lang: string) => {
-    console.log(lang)
-    axios
-      .put('/user/nativeLanguage', { nativeLanguage: lang })
-      .then(() => router.push('/words/import'))
+    fetch('/api/user/updateNativeLanguage', {
+      method: 'PUT',
+      body: lang,
+    })
   }
 
   return (
