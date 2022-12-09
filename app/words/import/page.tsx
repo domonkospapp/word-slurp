@@ -27,10 +27,6 @@ const ImportWords = async () => {
             Native language:{' '}
             {user.nativeLanguage || 'No native language selected'}
           </p>
-          {/*<button onClick={() => router.push('/user/nativeLanguage')}>
-            Change it!
-          </button>
-          <Link href="/user/nativeLanguage">Change it!</Link>*/}
 
           <h2>Select CSV file</h2>
           <CsvUploader
