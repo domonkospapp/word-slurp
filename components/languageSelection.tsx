@@ -1,26 +1,33 @@
 'use client'
 
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 const LanguageSelection = ({
   languages,
   initialValue,
   update,
+  autoUpdate,
 }: {
   initialValue?: string
   languages: Array<string>
   update: (language: string) => void
+  autoUpdate?: boolean
 }) => {
-  const getInitialValue = () => {
-    return initialValue ? languages.indexOf(initialValue) : undefined
-  }
-  const [languageIndex, setLanguageIndex] = useState<number | undefined>(
-    getInitialValue()
-  )
+  const [languageIndex, setLanguageIndex] = useState<number | undefined>()
+
+  useEffect(() => {
+    if (initialValue) {
+      setLanguageIndex(languages.indexOf(initialValue))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const updateNativeLanguageInput = (e: ChangeEvent<HTMLSelectElement>) => {
     const index: number = parseInt(e.target.value)
     setLanguageIndex(index)
+    if (autoUpdate) {
+      update(languages[index])
+    }
   }
 
   const updateHandler = () => {
@@ -40,7 +47,7 @@ const LanguageSelection = ({
             </option>
           ))}
       </select>
-      <button onClick={updateHandler}>Update</button>
+      {!autoUpdate && <button onClick={updateHandler}>Update</button>}
     </>
   )
 }

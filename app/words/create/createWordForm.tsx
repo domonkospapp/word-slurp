@@ -5,13 +5,14 @@ import { ChangeEvent, useState } from 'react'
 import LanguageSelection from '../../../components/languageSelection'
 
 const CreateWordForm = ({ languages }: { languages: Array<string> }) => {
+  const router = useRouter()
+
   const [originalLanguage, setOriginalLanguage] = useState<string | undefined>()
   const [foreignLanguage, setForeignLanguage] = useState<string | undefined>()
 
-  const [originalWord, setOriginalWord] = useState<string | undefined>()
-  const [foreignWord, setForeignWord] = useState<string | undefined>()
+  const [originalWord, setOriginalWord] = useState<string>('')
+  const [foreignWord, setForeignWord] = useState<string>('')
 
-  const router = useRouter()
   const createWord = async () => {
     await fetch('/api/words/create', {
       method: 'POST',
@@ -40,6 +41,7 @@ const CreateWordForm = ({ languages }: { languages: Array<string> }) => {
         initialValue={originalLanguage}
         languages={languages}
         update={(language: string) => setOriginalLanguage(language)}
+        autoUpdate
       />
       <br />
       Original Word
@@ -49,6 +51,7 @@ const CreateWordForm = ({ languages }: { languages: Array<string> }) => {
         initialValue={foreignLanguage}
         languages={languages}
         update={(language: string) => setForeignLanguage(language)}
+        autoUpdate
       />
       <br />
       Foreign Word
