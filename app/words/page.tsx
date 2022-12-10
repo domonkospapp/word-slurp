@@ -6,7 +6,7 @@ import { Word } from '../../word'
 
 const WordList = async () => {
   await unstable_getServerSession(authOptions)
-  const words: [Word] = await getWords().catch(() => null)
+  const words: [Word] = await getWords(undefined, undefined).catch(() => null)
 
   const getStars = (count: number) => {
     if (count == 0) return '0'

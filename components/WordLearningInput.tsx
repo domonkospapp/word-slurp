@@ -1,21 +1,15 @@
+'use client'
+
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Word } from '../word'
 
-const WordLearningInput = ({
-  words,
-  levelUp,
-  levelDown,
-}: {
-  words: Array<Word>
-  levelUp: (word: Word) => void
-  levelDown: (word: Word) => void
-}) => {
+const WordLearningInput = ({ words }: { words: Array<Word> }) => {
   const pickRandom = (): Word => {
     const randomIndex = Math.floor(Math.random() * words.length)
     return words[randomIndex]
   }
 
-  const [currentWord, setCurrentWord] = useState<Word>(pickRandom())
+  const [currentWord, setCurrentWord] = useState<Word | undefined>()
   const [answer, setAnswer] = useState('')
   const [waitingForAnswer, setWaitingForAnswer] = useState(true)
 
@@ -28,13 +22,32 @@ const WordLearningInput = ({
     setAnswer(e.target.value)
   }
 
+  const levelUp = (word: Word) => {
+    word.level = word.level + 1
+    updateWord(word)
+  }
+
+  const levelDown = (word: Word) => {
+    word.level = word.level - 1
+    updateWord(word)
+  }
+
+  const updateWord = (word: Word) => {
+    fetch('/api/words/update', {
+      method: 'PUT',
+      body: JSON.stringify(word),
+    })
+  }
+
   const evaulate = () => {
-    if (isAnswerCorrect()) {
-      levelUp(currentWord)
-    } else {
-      levelDown(currentWord)
+    if (currentWord) {
+      if (isAnswerCorrect()) {
+        levelUp(currentWord)
+      } else {
+        levelDown(currentWord)
+      }
+      setWaitingForAnswer(false)
     }
-    setWaitingForAnswer(false)
   }
 
   const getNextWord = () => {
@@ -44,11 +57,11 @@ const WordLearningInput = ({
   }
 
   const isAnswerCorrect = () => {
-    return answer.toLowerCase() == currentWord.foreign?.toLowerCase()
+    return answer.toLowerCase() == currentWord?.foreign?.toLowerCase()
   }
 
   const playPronunciation = () => {
-    const msg = new SpeechSynthesisUtterance(currentWord.foreign)
+    const msg = new SpeechSynthesisUtterance(currentWord?.foreign)
     window.speechSynthesis.speak(msg)
   }
 
@@ -62,7 +75,7 @@ const WordLearningInput = ({
   ) : (
     <div>
       <p>
-        {isAnswerCorrect() ? 'Correct!' : `Correct is: ${currentWord.foreign}`}
+        {isAnswerCorrect() ? 'Correct!' : `Correct is: ${currentWord?.foreign}`}
       </p>
 
       <button onClick={playPronunciation}>Pronunce it!</button>
