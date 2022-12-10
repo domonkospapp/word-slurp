@@ -1,8 +1,8 @@
 import axios from 'axios'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-import { createUser } from '../../../userApi'
 import { refreshAccessToken } from '../../../utils/auth/refreshToken'
+import { createUser } from '../../../utils/clients/userApi'
 
 const GOOGLE_AUTHORIZATION_URL =
   'https://accounts.google.com/o/oauth2/v2/auth?' +
@@ -46,7 +46,10 @@ export const authOptions: NextAuthOptions = {
       return session
     },
     async signIn({ account }) {
-      createUser(account?.id_token)
+      axios.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${account?.id_token}`
+      createUser()
       return true
     },
   },
