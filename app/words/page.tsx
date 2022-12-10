@@ -5,7 +5,7 @@ import { getWords } from '../../utils/clients/wordApi'
 import { Word } from '../../types/word'
 
 const WordList = async () => {
-  await unstable_getServerSession(authOptions)
+  const session = await unstable_getServerSession(authOptions)
   const words: [Word] = await getWords(undefined, undefined).catch(() => null)
 
   const getStars = (count: number) => {
@@ -20,7 +20,7 @@ const WordList = async () => {
 
   return (
     <div>
-      {true ? (
+      {session?.user ? (
         <div>
           Your words are:
           <div>
