@@ -2,7 +2,7 @@ import { unstable_getServerSession } from 'next-auth'
 import Link from 'next/link'
 import { authOptions } from '../../pages/api/auth/[...nextauth]'
 import { getWords } from '../../utils/clients/wordApi'
-import { Word } from '../../word'
+import { Word } from '../../types/word'
 
 const WordList = async () => {
   await unstable_getServerSession(authOptions)

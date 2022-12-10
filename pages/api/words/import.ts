@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { importWords } from '../../../utils/clients/wordApi'
-import { Word } from '../../../word'
+import { Word } from '../../../types/word'
 
 export default async function handler(
   req: NextApiRequest,

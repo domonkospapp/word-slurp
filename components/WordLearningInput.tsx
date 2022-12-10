@@ -1,7 +1,7 @@
 'use client'
 
 import { ChangeEvent, useEffect, useState } from 'react'
-import { Word } from '../word'
+import { Word } from '../types/word'
 
 const WordLearningInput = ({ words }: { words: Array<Word> }) => {
   const pickRandom = (): Word => {

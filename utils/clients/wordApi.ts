@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Word } from '../../word'
+import { Word } from '../../types/word'
 
 const wordBaseUrl = process.env.BACKEND_BASE_URL + '/words'
 

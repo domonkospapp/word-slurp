@@ -1,4 +1,4 @@
-import { Word } from '../../word'
+import { Word } from '../../types/word'
 import { LanguagePair } from '../../types/languagePair'
 import { unstable_getServerSession } from 'next-auth'
 import { authOptions } from '../../pages/api/auth/[...nextauth]'
