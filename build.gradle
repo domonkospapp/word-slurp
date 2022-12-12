@@ -35,5 +35,5 @@ tasks.named('test') {
 }
 
 jar {
-    archiveFileName.set('word-learning.jar')
+    enabled false
 }
