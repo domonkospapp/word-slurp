@@ -3,7 +3,6 @@ name: Deploy production
 jobs:
   deploy_on_googles_app_engine:
     name: Deploy
-    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
