@@ -1,5 +1,6 @@
 runtime: java11
 env: standard
+entrypoint: java -Xmx64m -jar build/libs/word-learning.jar
 runtime_config:
   jdk: openjdk11
 instance_class: F2
