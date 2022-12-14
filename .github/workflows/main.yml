@@ -14,7 +14,7 @@ jobs:
       - name: Update access
         run: git update-index --chmod=+x gradlew
       - name: Run build with Gradle Wrapper
-        run: gradlew build
+        run: ./gradlew build
       - uses: 73h/gae-app-yaml-replace-env-variables@v0.2
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
