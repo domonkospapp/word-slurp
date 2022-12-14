@@ -21,7 +21,7 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}
         with:
-          app_yaml_path: "src/main/appengine/app.yaml"
+          app_yaml_path: "backend/src/main/appengine/app.yaml"
       - uses: "google-github-actions/auth@v0"
         with:
           credentials_json: "${{ secrets.GCP_SA_JSON }}"
