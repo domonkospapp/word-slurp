@@ -9,9 +9,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Update access
-        run: git update-index --chmod=+x gradlew
+        run: git update-index --chmod=+x backend/gradlew
       - name: Run build with Gradle Wrapper
-        run: ./gradlew build
+        run: backend/gradlew build
       - uses: 73h/gae-app-yaml-replace-env-variables@v0.2
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
@@ -25,4 +25,4 @@ jobs:
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"
       - name: "Deploy"
-        run: "gcloud app deploy build/libs/ --appyaml backend/src/main/appengine/app.yaml --project wordlearningapplication --promote --version production"
+        run: "gcloud app deploy backend/build/libs/ --appyaml backend/src/main/appengine/app.yaml --project wordlearningapplication --promote --version production"
