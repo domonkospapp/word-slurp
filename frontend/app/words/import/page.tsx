@@ -37,7 +37,7 @@ const ImportWords = async () => {
       ) : (
         <div>
           <p>You are not logged in</p>
-          <Link href="/login">Go to the login page</Link>
+          <Link href="/api/auth/signin">Go to the login page</Link>
         </div>
       )}
     </div>
