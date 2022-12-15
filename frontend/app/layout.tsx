@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import Footer from '../components/footer'
+import { AnalyticsWrapper } from './components/analytics'
 import Navbar from './navbar'
 import Providers from './providers'
 
@@ -13,6 +14,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
           <div>{children}</div>
           <Footer />
         </Providers>
+        <AnalyticsWrapper />
       </body>
     </html>
   )
