@@ -1,6 +1,9 @@
 on:
   release:
     types: [released]
+  push:
+    branches:
+      - hotfix
 jobs:
   build:
     runs-on: ubuntu-latest
