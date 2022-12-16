@@ -5,7 +5,33 @@ on:
     branches:
       - hotfix
 jobs:
-  build:
+  deploy_frontend:
+    name: Deploy production froented
     runs-on: ubuntu-latest
     steps:
     - run: curl -X POST -d {} https://api.vercel.com/v1/integrations/deploy/prj_whXZlZD3t92k1bb8pckUX5GdDAV3/Xre72LraBW
+  deploy_backend:
+    name: Deploy production backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Update access
+        run: git update-index --chmod=+x backend/gradlew
+      - name: Run build with Gradle Wrapper
+        run: backend/gradlew build
+      - uses: 73h/gae-app-yaml-replace-env-variables@v0.2
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}
+        with:
+          app_yaml_path: "backend/src/main/appengine/app.yaml"
+      - uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GCP_SA_JSON }}"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+      - name: "Deploy"
+        run: "gcloud app deploy backend/build/libs/ --appyaml backend/src/main/appengine/app.yaml --project wordlearningapplication --promote --version production"
