@@ -8,8 +8,9 @@ jobs:
   deploy_frontend:
     name: Deploy production froented
     runs-on: ubuntu-latest
+    environment: production
     steps:
-    - run: curl -X POST -d {} https://api.vercel.com/v1/integrations/deploy/prj_whXZlZD3t92k1bb8pckUX5GdDAV3/Xre72LraBW
+    - run: curl -X POST -d {} ${{ secrets.VERCEL_PRODUCTION_DEPLOYMENT_HOOK_URL }}
   deploy_backend:
     name: Deploy production backend
     runs-on: ubuntu-latest
