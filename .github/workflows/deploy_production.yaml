@@ -1,3 +1,6 @@
+name: Deploy production
+env:
+  VERCEL_PRODUCTION_DEPLOYMENT_HOOK_URL: ${{ secrets.VERCEL_PRODUCTION_DEPLOYMENT_HOOK_URL }}
 on:
   release:
     types: [released]
