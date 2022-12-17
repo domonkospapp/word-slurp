@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-    - run: curl -X POST -d {} ${{ secrets.VERCEL_PRODUCTION_DEPLOYMENT_HOOK_URL }}
     - uses: actions/checkout@v2
     - name: Install Vercel CLI
       run: npm install --global vercel@latest
