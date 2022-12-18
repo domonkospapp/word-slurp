@@ -41,11 +41,11 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}
         with:
-          app_yaml_path: "backend/src/main/appengine/app.yaml"
+          app_yaml_path: "backend/src/main/appengine/production.yaml"
       - uses: "google-github-actions/auth@v0"
         with:
           credentials_json: "${{ secrets.GCP_SA_JSON }}"
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"
       - name: "Deploy"
-        run: "gcloud app deploy build/libs/ --appyaml src/main/appengine/app.yaml --project wordlearningapplication --promote --version production"
+        run: "gcloud app deploy build/libs/ --appyaml src/main/appengine/production.yaml --project wordslurp --promote --stop-previous-version"
