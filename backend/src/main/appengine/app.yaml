@@ -1,4 +1,5 @@
 runtime: java11
+service: $SERVICE_NAME
 env: standard
 runtime_config:
   jdk: openjdk11
