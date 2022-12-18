@@ -2,13 +2,7 @@ name: Deploy production
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-on:
-  workflow_dispatch:
-  release:
-    types: [released]
-  push:
-    branches:
-      - hotfix
+on: workflow_dispatch
 jobs:
   deploy_frontend:
     name: Deploy production froented
