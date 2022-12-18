@@ -7,7 +7,6 @@ jobs:
   deploy_frontend:
     name: Deploy production froented
     runs-on: ubuntu-latest
-    environment: Production
     steps:
     - uses: actions/checkout@v2
     - name: Install Vercel CLI
