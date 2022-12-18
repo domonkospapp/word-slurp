@@ -28,4 +28,4 @@ jobs:
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v1"
       - name: "Deploy"
-        run: "gcloud app deploy build/libs/ --appyaml src/main/appengine/staging.yaml --project wordslurp --promote"
+        run: "gcloud app deploy build/libs/ --appyaml src/main/appengine/staging.yaml --project wordslurp --promote --version latest"
