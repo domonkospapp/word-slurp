@@ -1,5 +1,8 @@
 name: Deploy prod
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - prod-frontend-deploy
 jobs:
   deploy_backend:
     name: Deploy production backend
