@@ -22,6 +22,7 @@ jobs:
   deploy_backend:
     name: Deploy backend
     runs-on: ubuntu-latest
+    environment: Staging
     defaults:
       run:
         working-directory: ./backend
