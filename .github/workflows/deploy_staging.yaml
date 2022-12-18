@@ -1,12 +1,12 @@
-# name: Deploy staging
-# env:
-#   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-#   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-# on:
-#   push:
-#     branches:
-#       - main
-# jobs:
+name: Deploy staging
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+on:
+  push:
+    branches:
+      - main
+jobs:
 #   frontend-deploy:
 #     runs-on: ubuntu-latest
 #     steps:
@@ -19,3 +19,29 @@
 #         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 #       - name: Deploy Project Artifacts to Vercel
 #         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+  deploy_backend:
+    name: Deploy production backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Run build with Gradle Wrapper
+        run: ./gradlew build
+      - uses: 73h/gae-app-yaml-replace-env-variables@v0.2
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}
+        with:
+          app_yaml_path: "backend/src/main/appengine/staging.yaml"
+      - uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GCP_SA_JSON }}"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+      - name: "Deploy"
+        run: "gcloud app deploy build/libs/ --appyaml src/main/appengine/staging.yaml --project wordslurp --promote --stop-previous-version"
