@@ -1,9 +1,12 @@
-name: Deploy production
+name: Deploy prod
 on: workflow_dispatch
 jobs:
-  deploy_frontend:
-    name: Deploy
+  deploy_backend:
+    name: Deploy production backend
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
-    - uses: actions/checkout@v2
-    - name: Install Vercel CLI
+      - uses: actions/checkout@v2
+      - name: Setup Gradle
