@@ -1,5 +1,5 @@
 runtime: java11
-service: production
+service: default
 env: standard
 runtime_config:
   jdk: openjdk11
