@@ -1,35 +1,34 @@
 package com.dpapp.wordlearning
 
-import com.dpapp.wordlearning.importer.CsvImporter
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
+import com.dpapp.wordlearning.words.WordImportService
+import com.dpapp.wordlearning.words.WordLanguageService
+import com.dpapp.wordlearning.words.WordService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.projection.ProjectionFactory
-import org.springframework.data.projection.SpelAwareProxyProjectionFactory
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
 class WordController {
 
-    private final UserRepository userRepository
-    private final WordRepository wordRepository
+    private final WordService wordService
+    private final WordLanguageService wordLanguageService
+    private final WordImportService wordImportService
 
     @Autowired
-    WordController(UserRepository userRepository, WordRepository wordRepository) {
-        this.userRepository = userRepository
-        this.wordRepository = wordRepository
+    WordController(
+            WordService wordService,
+            WordLanguageService wordLanguageService,
+            WordImportService wordImportService
+    ) {
+        this.wordService = wordService
+        this.wordLanguageService = wordLanguageService
+        this.wordImportService = wordImportService
     }
 
     @PostMapping("/words")
     Word createWord(@RequestBody Word word, CustomUserJwtAuthenticationToken principal) {
-        String email = principal.getPrincipal().getEmail()
-        User currentUser = userRepository.getByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Wrong user"))
-        if (wordRepository.existsByOriginalAndForeign(word.getOriginal(), word.getForeign()))
-            throw new RuntimeException("Word already exists")
-        word.setUser(currentUser)
-        word.setLevel(0)
-        return wordRepository.save(word)
+        return wordService.createWord(word, principal)
     }
 
     @GetMapping("/words")
@@ -38,53 +37,27 @@ class WordController {
             @RequestParam(required = false) String foreignLanguage,
             CustomUserJwtAuthenticationToken principal
     ) {
-        String email = principal.getPrincipal().getEmail()
-        User existingUser = userRepository.getByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Wrong user"))
-        return wordRepository.findAll(existingUser, originalLanguage, foreignLanguage)
+        return wordService.getWords(originalLanguage, foreignLanguage, principal)
     }
 
     @GetMapping("/words/languages")
     Set<WordLanguagesProjection> getLanguagePairs(CustomUserJwtAuthenticationToken principal) {
-        String email = principal.getPrincipal().getEmail()
-        User existingUser = userRepository.getByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Wrong user"))
-        ProjectionFactory pf = new SpelAwareProxyProjectionFactory()
-        return wordRepository.findAllLanguages(existingUser.getId()).collect{pf.createProjection(WordLanguagesProjection, it)}
+        return wordLanguageService.getAllLanguagePairs(principal)
     }
 
     @PutMapping("/words/{wordId}")
     Word updateWord(@RequestBody Word word, @PathVariable String wordId, CustomUserJwtAuthenticationToken principal) {
-        String email = principal.getPrincipal().getEmail()
-        User existingUser = userRepository.getByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Wrong user"))
-        Word existingWord = wordRepository.findById(wordId.toLong()).orElseThrow(() -> new RuntimeException("Word not found"))
-        if (existingWord.getUser() != existingUser)
-            throw new RuntimeException("Can not edit others words")
-        existingWord.setOriginal(word.getOriginal())
-        existingWord.setOriginalLanguage(word.getOriginalLanguage())
-        existingWord.setForeign(word.getForeign())
-        existingWord.setForeignLanguage(word.getForeignLanguage())
-        existingWord.setLevel(word.getLevel())
-        return wordRepository.save(existingWord)
+        return wordService.updateWord(word, wordId, principal)
     }
 
     @PostMapping("/words/translations")
     List<Word> uploadFile(@RequestParam("translations") MultipartFile translations, CustomUserJwtAuthenticationToken principal) {
-        String email = principal.getPrincipal().getEmail()
-        User existingUser = userRepository.getByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Wrong user"))
-        List<Word> words = CsvImporter.loadForUser(translations, existingUser)
-        return wordRepository.saveAll(words)
+        return wordImportService.uploadFileAsFile(translations, principal)
     }
 
     @PostMapping("/words/import")
     List<Word> uploadFile(@RequestBody CsvTranslations translations, CustomUserJwtAuthenticationToken principal) {
-        String email = principal.getPrincipal().getEmail()
-        User existingUser = userRepository.getByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Wrong user"))
-        List<Word> words = CsvImporter.loadForUser(translations.getContent(), existingUser)
-        return wordRepository.saveAll(words)
+        return wordImportService.uploadFileAsString(translations, principal)
     }
 
 }
