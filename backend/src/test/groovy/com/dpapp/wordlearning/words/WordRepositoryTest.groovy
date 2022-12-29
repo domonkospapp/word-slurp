@@ -1,5 +1,9 @@
-package com.dpapp.wordlearning
+package com.dpapp.wordlearning.words
 
+import com.dpapp.wordlearning.User
+import com.dpapp.wordlearning.words.Word
+import com.dpapp.wordlearning.words.WordProjection
+import com.dpapp.wordlearning.words.WordRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import spock.lang.Specification

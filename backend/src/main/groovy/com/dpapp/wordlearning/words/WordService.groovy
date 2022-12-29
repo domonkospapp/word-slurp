@@ -1,15 +1,10 @@
 package com.dpapp.wordlearning.words
 
 import com.dpapp.wordlearning.User
-import com.dpapp.wordlearning.Word
-import com.dpapp.wordlearning.WordProjection
-import com.dpapp.wordlearning.WordRepository
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
 import com.dpapp.wordlearning.users.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
 
 @Service
 class WordService {

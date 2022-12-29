@@ -2,6 +2,7 @@ package com.dpapp.wordlearning
 
 import com.dpapp.wordlearning.security.UserPrincipal
 import com.dpapp.wordlearning.validator.ISOLanguageValidator
+import com.dpapp.wordlearning.words.Word
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 import javax.persistence.*

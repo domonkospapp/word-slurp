@@ -1,9 +1,7 @@
 package com.dpapp.wordlearning.words
 
-import com.dpapp.wordlearning.CsvTranslations
+
 import com.dpapp.wordlearning.User
-import com.dpapp.wordlearning.Word
-import com.dpapp.wordlearning.WordRepository
 import com.dpapp.wordlearning.importer.CsvImporter
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
 import com.dpapp.wordlearning.users.UserService
@@ -34,5 +32,5 @@ class WordImportService {
         List<Word> words = CsvImporter.loadForUser(translations.getContent(), user)
         return wordRepository.saveAll(words)
     }
-    
+
 }

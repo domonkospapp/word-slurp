@@ -1,5 +1,6 @@
-package com.dpapp.wordlearning
+package com.dpapp.wordlearning.words
 
+import com.dpapp.wordlearning.User
 import com.dpapp.wordlearning.validator.ISOLanguageValidator
 
 import javax.persistence.*
