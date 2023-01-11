@@ -1,30 +1,25 @@
 package com.dpapp.wordlearning
 
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
+import com.dpapp.wordlearning.users.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.projection.ProjectionFactory
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class UserController {
 
-    private final UserRepository userRepository
+    private final UserService userService
 
     @Autowired
-    UserController(UserRepository userRepository) {
-        this.userRepository = userRepository
+    UserController(UserService userService) {
+        this.userService = userService
     }
 
     @GetMapping("/users")
     UserProjection getUser(CustomUserJwtAuthenticationToken principal) {
-        String email = principal.getPrincipal().getEmail()
-        User existingUser = userRepository.getByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Wrong user"))
+        User existingUser = userService.getUser(principal)
         ProjectionFactory pf = new SpelAwareProxyProjectionFactory()
         return pf.createProjection(UserProjection.class, existingUser)
     }
@@ -32,20 +27,17 @@ class UserController {
     @PostMapping("/users")
     User createUser(CustomUserJwtAuthenticationToken principal) {
         String email = principal.getPrincipal().getEmail()
-        Optional<User> user = userRepository.getByEmail(email)
-        if (user.present) {
-            return user.get()
+        if (userService.existsByEmail(email)) {
+            return null
         }
-        return userRepository.save(new User(email))
+        return userService.saveUser(new User(email))
     }
 
     @PutMapping("/users")
     User updateUser(@RequestBody User user, CustomUserJwtAuthenticationToken principal) {
-        String email = principal.getPrincipal().getEmail()
-        User existingUser = userRepository.getByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Wrong user"))
+        User existingUser = userService.getUser(principal)
         existingUser.setNativeLanguage(user.getNativeLanguage())
-        return userRepository.save(existingUser)
+        return userService.saveUser(existingUser)
     }
 
 }

@@ -26,4 +26,12 @@ class UserService {
         return getUser(email)
     }
 
+    boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email)
+    }
+
+    User saveUser(User user){
+        return userRepository.save(user)
+    }
+
 }
