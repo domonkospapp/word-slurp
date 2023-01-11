@@ -1,5 +1,6 @@
-package com.dpapp.wordlearning
+package com.dpapp.wordlearning.languages
 
+import com.dpapp.wordlearning.TestSecurityConfig
 import com.dpapp.wordlearning.users.User
 import com.dpapp.wordlearning.users.UserRepository
 import org.springframework.beans.factory.annotation.Autowired

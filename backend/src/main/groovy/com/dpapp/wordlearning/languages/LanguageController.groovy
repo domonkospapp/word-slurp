@@ -1,4 +1,4 @@
-package com.dpapp.wordlearning
+package com.dpapp.wordlearning.languages
 
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
 import com.dpapp.wordlearning.users.User
