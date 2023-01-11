@@ -1,10 +1,8 @@
 package com.dpapp.wordlearning.words
 
 import com.dpapp.wordlearning.TestSecurityConfig
-import com.dpapp.wordlearning.User
-import com.dpapp.wordlearning.UserRepository
-import com.dpapp.wordlearning.words.Word
-import com.dpapp.wordlearning.words.WordRepository
+import com.dpapp.wordlearning.users.User
+import com.dpapp.wordlearning.users.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort

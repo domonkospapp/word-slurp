@@ -1,4 +1,4 @@
-package com.dpapp.wordlearning
+package com.dpapp.wordlearning.users
 
 import com.dpapp.wordlearning.security.UserPrincipal
 import com.dpapp.wordlearning.validator.ISOLanguageValidator

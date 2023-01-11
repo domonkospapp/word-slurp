@@ -1,7 +1,6 @@
 package com.dpapp.wordlearning.users
 
-import com.dpapp.wordlearning.User
-import com.dpapp.wordlearning.UserRepository
+
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

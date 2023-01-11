@@ -1,6 +1,6 @@
 package com.dpapp.wordlearning.security
 
-import com.dpapp.wordlearning.User
+import com.dpapp.wordlearning.users.User
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.convert.converter.Converter

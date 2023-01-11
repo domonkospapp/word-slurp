@@ -1,7 +1,7 @@
 package com.dpapp.wordlearning.words
 
 
-import com.dpapp.wordlearning.User
+import com.dpapp.wordlearning.users.User
 import com.dpapp.wordlearning.importer.CsvImporter
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
 import com.dpapp.wordlearning.users.UserService

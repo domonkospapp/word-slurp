@@ -1,6 +1,8 @@
 package com.dpapp.wordlearning
 
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
+import com.dpapp.wordlearning.users.User
+import com.dpapp.wordlearning.users.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping

@@ -1,7 +1,6 @@
-package com.dpapp.wordlearning
+package com.dpapp.wordlearning.users
 
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
-import com.dpapp.wordlearning.users.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.projection.ProjectionFactory
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory

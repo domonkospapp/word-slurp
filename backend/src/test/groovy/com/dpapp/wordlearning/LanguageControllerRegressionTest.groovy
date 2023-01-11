@@ -1,5 +1,7 @@
 package com.dpapp.wordlearning
 
+import com.dpapp.wordlearning.users.User
+import com.dpapp.wordlearning.users.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort

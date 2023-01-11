@@ -1,6 +1,6 @@
 package com.dpapp.wordlearning.importer
 
-import com.dpapp.wordlearning.User
+import com.dpapp.wordlearning.users.User
 import com.dpapp.wordlearning.words.Word
 import org.springframework.web.multipart.MultipartFile
 
