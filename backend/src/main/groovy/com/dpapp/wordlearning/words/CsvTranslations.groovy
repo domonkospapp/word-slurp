@@ -1,4 +1,4 @@
-package com.dpapp.wordlearning
+package com.dpapp.wordlearning.words
 
 class CsvTranslations {
     private String content

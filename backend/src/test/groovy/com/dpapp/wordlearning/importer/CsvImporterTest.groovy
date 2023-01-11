@@ -1,7 +1,7 @@
 package com.dpapp.wordlearning.importer
 
-import com.dpapp.wordlearning.User
-import com.dpapp.wordlearning.Word
+import com.dpapp.wordlearning.users.User
+import com.dpapp.wordlearning.words.Word
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.web.multipart.MultipartFile
 import spock.lang.Specification

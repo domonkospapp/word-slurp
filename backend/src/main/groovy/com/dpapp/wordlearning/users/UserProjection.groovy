@@ -1,4 +1,4 @@
-package com.dpapp.wordlearning
+package com.dpapp.wordlearning.users
 
 interface UserProjection {
     Long getId()
