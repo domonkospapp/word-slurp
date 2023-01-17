@@ -1,18 +1,24 @@
 import { ReactNode } from 'react'
 import Footer from '../components/footer'
-import Navbar from './navbar'
 import Providers from './providers'
 import './global.css'
+import Navbar from './components/navbar/Navbar'
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en">
-      <head />
-      <body>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
+      <body className="bg-stone-200 font-space">
         <Providers>
-          <Navbar />
-          <div>{children}</div>
-          <Footer />
+          <div className="mx-auto max-w-3xl sm:mt-6 sm:mb-6">
+            <Navbar />
+            <div className="border-stone-900 p-6 sm:border-b-4 sm:border-r-4 sm:border-l-4">
+              {children}
+              <Footer />
+            </div>
+          </div>
         </Providers>
       </body>
     </html>
