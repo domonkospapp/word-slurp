@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { LanguagePair } from '../../types/languagePair'
+import Select from '../../ui/inputs/Select'
 
 const LanguageFilter = ({ languages }: { languages: Array<LanguagePair> }) => {
   const router = useRouter()
@@ -51,7 +52,7 @@ const LanguageFilter = ({ languages }: { languages: Array<LanguagePair> }) => {
   }
 
   return (
-    <select value={languageIndex} onChange={updateLanguage}>
+    <Select value={languageIndex} onChange={updateLanguage}>
       <option value={undefined}>all</option>
       {languages &&
         languages.map((v, k) => (
@@ -59,7 +60,7 @@ const LanguageFilter = ({ languages }: { languages: Array<LanguagePair> }) => {
             {v.originalLanguage} - {v.foreignLanguage}
           </option>
         ))}
-    </select>
+    </Select>
   )
 }
 

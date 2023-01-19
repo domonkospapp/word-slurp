@@ -3,6 +3,12 @@ import Link from 'next/link'
 import { authOptions } from '../../pages/api/auth/[...nextauth]'
 import { getWords } from '../../utils/clients/wordApi'
 import { Word } from '../../types/word'
+import AddWordButton from './components/AddWordButton'
+import LearnSetButton from './components/LearnSetButton'
+import EditWordButton from './components/EditWordButton'
+import EditSetButton from './components/EditSetButton'
+import DeleteWordButton from './components/DeleteWordButton'
+import WordFilter from './components/WordFilter'
 
 const WordList = async () => {
   const session = await unstable_getServerSession(authOptions)
@@ -20,9 +26,30 @@ const WordList = async () => {
 
   return (
     <div>
+      <WordFilter />
       {session?.user ? (
         <div>
-          Your words are:
+          <div className="mt-6 grid grid-cols-4 items-center justify-center gap-4">
+            <div className="col-span-1">
+              <span className="m-2 border-b-4 border-stone-900 shadow-b-normal shadow-pink-200">
+                Life 3.0
+              </span>
+            </div>
+            <div className="col-span-1">
+              {words && words[0] && (
+                <p>
+                  {words[0].originalLanguage}/{words[0].foreignLanguage}
+                </p>
+              )}
+            </div>
+            <div className="col-span-1">
+              <AddWordButton />
+            </div>
+            <div className="col-span-1">
+              <EditSetButton />
+            </div>
+          </div>
+
           <div>
             <table>
               <tbody>
@@ -30,16 +57,18 @@ const WordList = async () => {
                   words.map((w: Word, k: number) => (
                     <tr key={k}>
                       <td></td>
-                      <td>{w.originalLanguage}:</td>
-                      <td>{w.original}</td>
-                      <td>{w.foreignLanguage}:</td>
-                      <td>{w.foreign}</td>
-                      <td>{getStars(w.level)}</td>
+                      <td className="p-2">{w.original}</td>
+                      <td className="p-2">{w.foreign}</td>
+                      <td className="p-2">{getStars(w.level)}</td>
+                      <td>
+                        <EditWordButton />
+                        <DeleteWordButton />
+                      </td>
                     </tr>
                   ))}
               </tbody>
             </table>
-            <Link href="words/create">Add new word</Link>
+            <LearnSetButton />
           </div>
         </div>
       ) : (

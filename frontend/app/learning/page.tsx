@@ -26,7 +26,7 @@ const Learning = async ({
 
   return (
     <>
-      <span>Select a specific language:</span>
+      <span className="m-2">Select a specific language:</span>
       <LanguageFilter languages={languages} />
       <WordLearningInput words={words} />
     </>
