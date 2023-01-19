@@ -1,7 +1,7 @@
 import { unstable_getServerSession } from 'next-auth'
 import { authOptions } from '../../../pages/api/auth/[...nextauth]'
 import { getLanguages } from '../../../utils/clients/languageApi'
-import CreateWordForm from './components/createWordForm'
+import CreateWordForm from './components/CreateWordForm'
 
 const CreateWord = async () => {
   await unstable_getServerSession(authOptions)
