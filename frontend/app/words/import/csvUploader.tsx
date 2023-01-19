@@ -62,7 +62,12 @@ const CsvUploader = ({
 
   return (
     <>
-      <input type="file" name="file" onChange={changeHandler} />
+      <input
+        type="file"
+        name="file"
+        onChange={changeHandler}
+        className="file:m-2 file:mr-6 file:border-4 file:border-stone-900 file:bg-violet-300 file:p-1 file:shadow-normal file:shadow-stone-900"
+      />
       {selectedFile && !error ? (
         <div>
           <LanguageMappings mappings={languageMapping} />
