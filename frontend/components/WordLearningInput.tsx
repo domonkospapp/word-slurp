@@ -2,6 +2,8 @@
 
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Word } from '../types/word'
+import Button from '../ui/inputs/Button'
+import Input from '../ui/inputs/Input'
 
 const WordLearningInput = ({ words }: { words: Array<Word> }) => {
   const pickRandom = (): Word => {
@@ -67,10 +69,20 @@ const WordLearningInput = ({ words }: { words: Array<Word> }) => {
 
   return waitingForAnswer ? (
     <div>
-      Word: {currentWord?.original}
       <br />
-      Foreign: <input type="text" value={answer} onChange={updateAnswer} />
-      <button onClick={evaulate}>Submit</button>
+      <div className="grid grid-cols-1 sm:grid-cols-2">
+        <div className="m-2 border-4 border-stone-900 bg-stone-200 p-12 text-stone-900 placeholder-stone-600 shadow-normal shadow-pink-200">
+          {currentWord?.original}
+        </div>
+        <div>
+          <span className="ml-2">Foreign:</span>
+          <Input value={answer} onChange={updateAnswer} />
+          <br />
+          <Button color="bg-violet-300" onClick={evaulate}>
+            Submit
+          </Button>
+        </div>
+      </div>
     </div>
   ) : (
     <div>
