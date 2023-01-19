@@ -1,6 +1,7 @@
 'use client'
 
 import { ChangeEvent, useEffect, useState } from 'react'
+import Select from '../ui/inputs/Select'
 
 const LanguageSelection = ({
   languages,
@@ -38,7 +39,7 @@ const LanguageSelection = ({
 
   return (
     <>
-      <select value={languageIndex} onChange={updateNativeLanguageInput}>
+      <Select value={languageIndex} onChange={updateNativeLanguageInput}>
         {languageIndex == undefined && <option value={undefined}>-</option>}
         {languages &&
           languages.map((v, k) => (
@@ -46,7 +47,7 @@ const LanguageSelection = ({
               {v}
             </option>
           ))}
-      </select>
+      </Select>
       {!autoUpdate && <button onClick={updateHandler}>Update</button>}
     </>
   )
