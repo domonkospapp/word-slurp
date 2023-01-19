@@ -14,7 +14,7 @@ const Input = ({
   <input
     className={`m-2  ${
       fullWidth ? ' w-full' : ''
-    } shadow-normal border-4 border-stone-900 bg-stone-200 p-1 text-stone-900 placeholder-stone-600 shadow-pink-200`}
+    } border-4 border-stone-900 bg-stone-200 p-1 text-stone-900 placeholder-stone-600 shadow-normal shadow-pink-200`}
     type="text"
     placeholder="Type in..."
     onChange={onChange}
