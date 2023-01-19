@@ -11,7 +11,7 @@ const Button = ({
   color: string
 }) => (
   <button
-    className={`m-2 border-4 border-stone-900 ${color} p-2 font-bold shadow-3xl shadow-stone-900`}
+    className={`m-2 border-4 border-stone-900 ${color} p-2 font-bold shadow-normal shadow-stone-900`}
     onClick={onClick}
   >
     {children}
