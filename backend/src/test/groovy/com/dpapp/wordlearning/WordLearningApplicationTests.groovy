@@ -3,6 +3,7 @@ package com.dpapp.wordlearning
 import com.dpapp.wordlearning.languages.LanguageController
 import com.dpapp.wordlearning.users.UserController
 import com.dpapp.wordlearning.words.WordController
+import com.dpapp.wordlearning.wordset.WordSetController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -22,13 +23,17 @@ class WordLearningApplicationTests extends Specification {
     private WordController wordController
 
     @Autowired
+    private WordSetController wordSetController
+
+    @Autowired
     private LanguageController languageController
 
     def "when context is loaded then all expected beans are created"() {
         expect: "the WebController is created"
-        userController
-        wordController
-        languageController
+            userController
+            wordController
+            wordSetController
+            languageController
     }
 
 }

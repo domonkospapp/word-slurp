@@ -1,0 +1,194 @@
+package com.dpapp.wordlearning.wordset
+
+import com.dpapp.wordlearning.TestSecurityConfig
+import com.dpapp.wordlearning.users.User
+import com.dpapp.wordlearning.users.UserRepository
+import com.dpapp.wordlearning.words.WordRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.http.HttpHeaders
+import spock.lang.Specification
+
+import static io.restassured.RestAssured.given
+import static org.hamcrest.Matchers.equalTo
+import static org.hamcrest.Matchers.notNullValue
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestSecurityConfig.class)
+class WordSetControllerRegressionTest extends Specification {
+
+    private static String token = TestSecurityConfig.TEST_0AUTH_TOKEN
+
+    @LocalServerPort
+    private int port
+
+    @Autowired
+    private UserRepository userRepository
+
+    @Autowired
+    private WordSetRepository wordSetRepository
+
+    @Autowired
+    private WordRepository wordRepository
+
+    private User user
+
+    void setup() {
+        wordRepository.deleteAll()
+        wordSetRepository.deleteAll()
+        userRepository.deleteAll()
+        user = new User(TestSecurityConfig.TEST_EMAIL)
+        user.setNativeLanguage("hu")
+        userRepository.save(user)
+    }
+
+    def "create word set for user"() {
+        expect:
+            given().port(port)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                    .contentType("application/json")
+                    .body("""
+                    {
+                        "name": "First",
+                        "originalLanguage":"de",
+                        "foreignLanguage":"en"
+                    }
+                """)
+                    .post("/wordSets")
+                    .then()
+                    .statusCode(200)
+                    .body(
+                            "name", equalTo("First"),
+                            "originalLanguage", equalTo("de"),
+                            "foreignLanguage", equalTo("en"),
+                            "isPublic", equalTo(false),
+                    )
+    }
+
+    def "get word sets for user"() {
+        given:
+            final WordSet firstWordSet = new WordSet(user, "First", "de", "en")
+            final WordSet secondWordSet = new WordSet(user, "Second", "en", "hu")
+            secondWordSet.setIsPublic(true)
+            wordSetRepository.saveAll([firstWordSet, secondWordSet])
+
+        expect:
+            given().port(port)
+                    .basePath("/wordSets")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                    .get()
+                    .then()
+                    .statusCode(200)
+                    .body(
+                            "size()", equalTo(2),
+                            "[0].id", notNullValue(),
+                            "[0].name", equalTo("First"),
+                            "[0].originalLanguage", equalTo("de"),
+                            "[0].foreignLanguage", equalTo("en"),
+                            "[0].isPublic", equalTo(false),
+                            "[1].id", notNullValue(),
+                            "[1].name", equalTo("Second"),
+                            "[1].originalLanguage", equalTo("en"),
+                            "[1].foreignLanguage", equalTo("hu"),
+                            "[1].isPublic", equalTo(true),
+                    )
+    }
+
+    def "get word sets for user with filter"() {
+        given:
+            wordSetRepository.saveAll([
+                    new WordSet(user, "S1", "en", "de"),
+                    new WordSet(user, "S2", "en", "de"),
+                    new WordSet(user, "S3", "en", "de"),
+                    new WordSet(user, "S4", "de", "hu"),
+                    new WordSet(user, "S5", "de", "hu"),
+                    new WordSet(user, "S6", "hu", "de"),
+            ])
+
+        expect:
+            given().port(port)
+                    .basePath("/wordSets")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                    .queryParam("originalLanguage", "en")
+                    .queryParam("foreignLanguage", "de")
+                    .get()
+                    .then()
+                    .statusCode(200)
+                    .body(
+                            "size()", equalTo(3)
+                    )
+        where:
+            originalLanguage | foreignLanguage || size
+            null             | null            || 6
+
+            "en"             | null            || 3
+            "de"             | null            || 2
+            "hu"             | null            || 1
+
+            null             | "de"            || 4
+            null             | "hu"            || 2
+
+            "en"             | "de"            || 3
+            "de"             | "hu"            || 2
+            "hu"             | "de"            || 1
+
+            "sp"             | null            || 0
+            null             | "sp"            || 0
+
+    }
+
+    def "get language pairs for user"() {
+        given:
+            wordSetRepository.saveAll([
+                    new WordSet(user, "S1", "en", "de"),
+                    new WordSet(user, "S2", "de", "en"),
+                    new WordSet(user, "S3", "de", "en"),
+                    new WordSet(user, "S4", "hu", "en"),
+                    new WordSet(user, "S5", "hu", "en"),
+                    new WordSet(user, "S6", "uk", "en"),
+            ])
+
+        expect:
+            given().port(port)
+                    .basePath("/wordSets/languages")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                    .get()
+                    .then()
+                    .statusCode(200)
+                    .body(
+                            "size()", equalTo(4),
+                            "[0].originalLanguage", equalTo("en"),
+                            "[0].foreignLanguage", equalTo("de"),
+                            "[1].originalLanguage", equalTo("de"),
+                            "[1].foreignLanguage", equalTo("en"),
+                            "[2].originalLanguage", equalTo("hu"),
+                            "[2].foreignLanguage", equalTo("en"),
+                            "[3].originalLanguage", equalTo("uk"),
+                            "[3].foreignLanguage", equalTo("en"),
+                    )
+    }
+
+    def "edit word set"() {
+        given:
+            final WordSet wordSet = wordSetRepository.save(new WordSet(user, "Set name", "de", "de"))
+
+        expect:
+            given().port(port)
+                    .basePath("/wordSets/{wordSetId}")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                    .pathParam("wordSetId", wordSet.getId())
+                    .contentType("application/json")
+                    .body("""
+                    {
+                        "name":"New set name"
+                    }
+                """)
+                    .put()
+                    .then()
+                    .statusCode(200)
+                    .body(
+                            "name", equalTo("New set name")
+                    )
+    }
+
+}

@@ -3,6 +3,7 @@ package com.dpapp.wordlearning.users
 import com.dpapp.wordlearning.security.UserPrincipal
 import com.dpapp.wordlearning.validator.ISOLanguageValidator
 import com.dpapp.wordlearning.words.Word
+import com.dpapp.wordlearning.wordset.WordSet
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 import javax.persistence.*
@@ -19,6 +20,10 @@ class User implements UserPrincipal {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Word> words
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<WordSet> wordSets
 
     private String nativeLanguage
 
@@ -60,6 +65,14 @@ class User implements UserPrincipal {
 
     void setWords(Set<Word> words) {
         this.words = words
+    }
+
+    Set<WordSet> getWordSets() {
+        return wordSets
+    }
+
+    void setWordSets(Set<WordSet> wordSets) {
+        this.wordSets = wordSets
     }
 
     String getNativeLanguage() {
