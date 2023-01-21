@@ -1,7 +1,7 @@
 package com.dpapp.wordlearning.words
 
-import com.dpapp.wordlearning.users.User
-import com.dpapp.wordlearning.validator.ISOLanguageValidator
+
+import com.dpapp.wordlearning.wordset.WordSet
 
 import javax.persistence.*
 
@@ -13,20 +13,14 @@ class Word {
     private Long id
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user
+    @JoinColumn(name = "word_set_id", nullable = false)
+    private WordSet wordSet
 
     @Column(nullable = false)
     private String original
 
-    @Column(nullable = false)
-    private String originalLanguage
-
     @Column(name = "foreign_word", nullable = false)
     private String foreign
-
-    @Column(nullable = false)
-    private String foreignLanguage
 
     @Column(nullable = false)
     private int level
@@ -35,14 +29,10 @@ class Word {
 
     }
 
-    Word(User user, String original, String originalLanguage, String foreign, String foreignLanguage, int level) {
-        ISOLanguageValidator.validateLanguage(originalLanguage)
-        ISOLanguageValidator.validateLanguage(foreignLanguage)
-        this.user = user
+    Word(WordSet wordSet, String original, String foreign, int level) {
+        this.wordSet = wordSet
         this.original = original
-        this.originalLanguage = originalLanguage
         this.foreign = foreign
-        this.foreignLanguage = foreignLanguage
         this.level = level
     }
 
@@ -50,12 +40,12 @@ class Word {
         return id
     }
 
-    User getUser() {
-        return user
+    WordSet getWordSet() {
+        return wordSet
     }
 
-    void setUser(User user) {
-        this.user = user
+    void setWordSet(WordSet wordSet) {
+        this.wordSet = wordSet
     }
 
     String getOriginal() {
@@ -80,23 +70,5 @@ class Word {
 
     void setLevel(int level) {
         this.level = level
-    }
-
-    String getOriginalLanguage() {
-        return originalLanguage
-    }
-
-    void setOriginalLanguage(String originalLanguage) {
-        ISOLanguageValidator.validateLanguage(originalLanguage)
-        this.originalLanguage = originalLanguage
-    }
-
-    String getForeignLanguage() {
-        return foreignLanguage
-    }
-
-    void setForeignLanguage(String foreignLanguage) {
-        ISOLanguageValidator.validateLanguage(foreignLanguage)
-        this.foreignLanguage = foreignLanguage
     }
 }

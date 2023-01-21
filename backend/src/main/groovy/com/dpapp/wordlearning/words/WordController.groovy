@@ -1,5 +1,6 @@
 package com.dpapp.wordlearning.words
 
+import com.dpapp.wordlearning.importer.WordImportService
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -23,28 +24,14 @@ class WordController {
         this.wordImportService = wordImportService
     }
 
-    @PostMapping("/words")
-    Word createWord(@RequestBody Word word, CustomUserJwtAuthenticationToken principal) {
-        return wordService.createWord(word, principal)
+    @PostMapping("wordSets/{wordSetId}/words")
+    Word createWord(@RequestBody Word word, @PathVariable Long wordSetId, CustomUserJwtAuthenticationToken principal) {
+        return wordService.createWord(word, wordSetId, principal)
     }
 
-    @GetMapping("/words")
-    Set<WordProjection> getWords(
-            @RequestParam(required = false) String originalLanguage,
-            @RequestParam(required = false) String foreignLanguage,
-            CustomUserJwtAuthenticationToken principal
-    ) {
-        return wordService.getWords(originalLanguage, foreignLanguage, principal)
-    }
-
-    @GetMapping("/words/languages")
-    Set<WordLanguagesProjection> getLanguagePairs(CustomUserJwtAuthenticationToken principal) {
-        return wordLanguageService.getAllLanguagePairs(principal)
-    }
-
-    @PutMapping("/words/{wordId}")
-    Word updateWord(@RequestBody Word word, @PathVariable String wordId, CustomUserJwtAuthenticationToken principal) {
-        return wordService.updateWord(word, wordId, principal)
+    @PutMapping("/wordSets/{wordSetId}/words/{wordId}")
+    Word updateWord(@RequestBody Word word, @PathVariable String wordSetId, @PathVariable String wordId, CustomUserJwtAuthenticationToken principal) {
+        return wordService.updateWord(word, wordSetId, wordId, principal)
     }
 
     @PostMapping("/words/translations")

@@ -40,4 +40,8 @@ class WordSetService {
         return wordSetRepository.save(existingWordSet)
     }
 
+    WordSet getWordSet(Long id){
+        return wordSetRepository.findById(id).orElseThrow(() -> new RuntimeException("Word set not found"))
+    }
+
 }
