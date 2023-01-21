@@ -2,7 +2,6 @@ package com.dpapp.wordlearning.users
 
 import com.dpapp.wordlearning.security.UserPrincipal
 import com.dpapp.wordlearning.validator.ISOLanguageValidator
-import com.dpapp.wordlearning.words.Word
 import com.dpapp.wordlearning.wordset.WordSet
 import com.fasterxml.jackson.annotation.JsonIgnore
 
@@ -16,10 +15,6 @@ class User implements UserPrincipal {
     @GeneratedValue
     private Long id
     private String email
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private Set<Word> words
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
@@ -45,9 +40,9 @@ class User implements UserPrincipal {
         this.email = email
     }
 
-    User(String email, Set<Word> words) {
+    User(String email, Set<WordSet> wordSets) {
         this.email = email
-        this.words = words
+        this.wordSets = wordSets
     }
 
     @Override
@@ -57,14 +52,6 @@ class User implements UserPrincipal {
 
     void setEmail(String email) {
         this.email = email
-    }
-
-    Set<Word> getWords() {
-        return words
-    }
-
-    void setWords(Set<Word> words) {
-        this.words = words
     }
 
     Set<WordSet> getWordSets() {

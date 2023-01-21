@@ -1,9 +1,7 @@
 package com.dpapp.wordlearning.wordset
 
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
-import com.dpapp.wordlearning.words.WordImportService
 import com.dpapp.wordlearning.words.WordLanguagesProjection
-import com.dpapp.wordlearning.words.WordService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 

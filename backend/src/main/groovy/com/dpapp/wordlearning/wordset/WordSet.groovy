@@ -2,6 +2,8 @@ package com.dpapp.wordlearning.wordset
 
 import com.dpapp.wordlearning.users.User
 import com.dpapp.wordlearning.validator.ISOLanguageValidator
+import com.dpapp.wordlearning.words.Word
+import com.fasterxml.jackson.annotation.JsonIgnore
 
 import javax.persistence.*
 
@@ -25,6 +27,10 @@ class WordSet {
     @Column
     private String foreignLanguage
 
+    @OneToMany(mappedBy = "wordSet")
+    @JsonIgnore
+    private Set<Word> words = []
+
     @Column
     private boolean isPublic = false
 
@@ -44,6 +50,10 @@ class WordSet {
         this.name = name
         this.originalLanguage = originalLanguage
         this.foreignLanguage = foreignLanguage
+    }
+
+    void addWord(Word word){
+        words.add(word)
     }
 
     Long getId() {
@@ -82,6 +92,14 @@ class WordSet {
     void setForeignLanguage(String foreignLanguage) {
         ISOLanguageValidator.validateLanguage(foreignLanguage)
         this.foreignLanguage = foreignLanguage
+    }
+
+    Set<Word> getWords() {
+        return words
+    }
+
+    void setWords(Set<Word> words) {
+        this.words = words
     }
 
     boolean getIsPublic() {
