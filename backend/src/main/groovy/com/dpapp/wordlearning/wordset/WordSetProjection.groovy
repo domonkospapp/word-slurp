@@ -1,5 +1,7 @@
 package com.dpapp.wordlearning.wordset
 
+import com.dpapp.wordlearning.words.WordProjection
+
 interface WordSetProjection {
     Long getId()
 
@@ -8,6 +10,8 @@ interface WordSetProjection {
     String getOriginalLanguage()
 
     String getForeignLanguage()
+
+    Set<WordProjection> getWords()
 
     boolean getIsPublic()
 }

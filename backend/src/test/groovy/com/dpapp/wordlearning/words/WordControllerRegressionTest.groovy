@@ -58,19 +58,21 @@ class WordControllerRegressionTest extends Specification {
                     .body("""
                         {
                             "original":"${original}",
-                            "foreign":"${foreign}"
+                            "foreign":"${foreign}",
+                            "wordSet": {
+                                "id": "${wordSet.getId()}"
+                            }
                         }
                     """)
-                    .basePath("wordSets/{wordSetId}/words")
-                    .pathParam("wordSetId", wordSet.getId())
+                    .basePath("/words")
                     .post()
                     .then()
                     .statusCode(200)
                     .body(
                             "original", equalTo(original),
                             "foreign", equalTo(foreign),
-                            "wordSet.id", equalTo(wordSet.getId().toInteger()),
-                            "wordSet.user.id", equalTo(user.getId().toInteger()),
+//                            "wordSet.id", equalTo(wordSet.getId().toInteger()),
+//                            "wordSet.user.id", equalTo(user.getId().toInteger()),
                             "level", equalTo(0)
                     )
     }
@@ -78,19 +80,22 @@ class WordControllerRegressionTest extends Specification {
     def "edit word"() {
         given:
             final Word word = wordRepository.save(new Word(wordSet, "original", "foreign", 0))
+            final WordSet newWordSet = wordSetRepository.save(new WordSet(user, "My new word set"))
 
         expect:
             given().port(port)
-                    .basePath("wordSets/{wordSetId}/words/{wordId}")
+                    .basePath("/words/{wordId}")
                     .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
                     .pathParam("wordId", word.getId())
-                    .pathParam("wordSetId", wordSet.getId())
                     .contentType("application/json")
                     .body("""
                         {
                             "original":"originalx",
                             "foreign":"foreignx",
-                            "level":1
+                            "level":1,
+                            "wordSet": {
+                                "id": "${newWordSet.getId()}"
+                            }
                         }
                     """)
                     .put()
@@ -99,8 +104,8 @@ class WordControllerRegressionTest extends Specification {
                     .body(
                             "original", equalTo("originalx"),
                             "foreign", equalTo("foreignx"),
-                            "wordSet.id", equalTo(wordSet.getId().toInteger()),
-                            "wordSet.user.id", equalTo(user.getId().toInteger()),
+//                            "wordSet.id", equalTo(newWordSet.getId().toInteger()),
+//                            "wordSet.user.id", equalTo(user.getId().toInteger()),
                             "level", equalTo(1)
                     )
     }

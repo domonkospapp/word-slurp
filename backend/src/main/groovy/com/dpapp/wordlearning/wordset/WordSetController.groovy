@@ -3,6 +3,8 @@ package com.dpapp.wordlearning.wordset
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
 import com.dpapp.wordlearning.words.WordLanguagesProjection
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.projection.ProjectionFactory
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -10,6 +12,7 @@ class WordSetController {
 
     private final WordSetLanguageService wordSetLanguageService
     private final WordSetService wordSetService
+    private final ProjectionFactory pf
 
     @Autowired
     WordSetController(
@@ -18,20 +21,27 @@ class WordSetController {
     ) {
         this.wordSetLanguageService = wordSetLanguageService
         this.wordSetService = wordSetService
+        this.pf = new SpelAwareProxyProjectionFactory()
     }
 
     @PostMapping("/wordSets")
-    WordSet createWord(@RequestBody WordSet wordSet, CustomUserJwtAuthenticationToken principal) {
+    WordSet createWordSet(@RequestBody WordSet wordSet, CustomUserJwtAuthenticationToken principal) {
         return wordSetService.createWordSet(wordSet, principal)
     }
 
     @GetMapping("/wordSets")
-    Set<WordSetProjection> getWords(
+    Set<WordSetProjection> getWordSets(
             @RequestParam(required = false) String originalLanguage,
             @RequestParam(required = false) String foreignLanguage,
             CustomUserJwtAuthenticationToken principal
     ) {
         return wordSetService.getWordSets(originalLanguage, foreignLanguage, principal)
+    }
+
+    @GetMapping("/wordSets/{wordSetId}")
+    WordSetProjection getWordSet(@PathVariable Long wordSetId, CustomUserJwtAuthenticationToken principal) {
+        return pf.createProjection(WordSetProjection, wordSetService.getWordSet(wordSetId, principal))
+
     }
 
     @GetMapping("/wordSets/languages")
