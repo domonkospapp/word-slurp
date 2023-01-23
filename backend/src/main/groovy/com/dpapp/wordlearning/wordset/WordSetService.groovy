@@ -40,7 +40,15 @@ class WordSetService {
         return wordSetRepository.save(existingWordSet)
     }
 
-    WordSet getWordSet(Long id){
+    WordSet getWordSet(Long id, CustomUserJwtAuthenticationToken principal) {
+        User user = userService.getUser(principal)
+        WordSet existingWordSet = wordSetRepository.findById(id).orElseThrow(() -> new RuntimeException("Word set not found"))
+        if (existingWordSet.getUser() != user)
+            throw new RuntimeException("Can not get other users word sets")
+        return existingWordSet
+    }
+
+    WordSet getWordSet(Long id) {
         return wordSetRepository.findById(id).orElseThrow(() -> new RuntimeException("Word set not found"))
     }
 

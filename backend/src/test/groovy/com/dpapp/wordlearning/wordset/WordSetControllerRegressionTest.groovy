@@ -3,6 +3,7 @@ package com.dpapp.wordlearning.wordset
 import com.dpapp.wordlearning.TestSecurityConfig
 import com.dpapp.wordlearning.users.User
 import com.dpapp.wordlearning.users.UserRepository
+import com.dpapp.wordlearning.words.Word
 import com.dpapp.wordlearning.words.WordRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -69,8 +70,12 @@ class WordSetControllerRegressionTest extends Specification {
         given:
             final WordSet firstWordSet = new WordSet(user, "First", "de", "en")
             final WordSet secondWordSet = new WordSet(user, "Second", "en", "hu")
+            final Word wordForSecondWordSet = new Word(secondWordSet, "eat", "essen", 0)
+            secondWordSet.addWord(wordForSecondWordSet)
             secondWordSet.setIsPublic(true)
+
             wordSetRepository.saveAll([firstWordSet, secondWordSet])
+            wordRepository.save(wordForSecondWordSet)
 
         expect:
             given().port(port)
@@ -90,6 +95,10 @@ class WordSetControllerRegressionTest extends Specification {
                             "[1].name", equalTo("Second"),
                             "[1].originalLanguage", equalTo("en"),
                             "[1].foreignLanguage", equalTo("hu"),
+                            "[1].words", notNullValue(),
+                            "[1].words.size()", equalTo(1),
+                            "[1].words[0].original", equalTo("eat"),
+                            "[1].words[0].foreign", equalTo("essen"),
                             "[1].isPublic", equalTo(true),
                     )
     }
@@ -188,6 +197,36 @@ class WordSetControllerRegressionTest extends Specification {
                     .statusCode(200)
                     .body(
                             "name", equalTo("New set name")
+                    )
+    }
+
+
+    def "get word set"() {
+        given:
+            final WordSet wordSet = new WordSet(user, "First", "de", "en")
+            final Word word = new Word(wordSet, "eat", "essen", 0)
+            wordSet.addWord(word)
+
+            wordSetRepository.save(wordSet)
+            wordRepository.save(word)
+
+        expect:
+            given().port(port)
+                    .basePath("/wordSets/{wordSetId}")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                    .pathParam("wordSetId", wordSet.getId())
+                    .contentType("application/json")
+                    .get()
+                    .then()
+                    .statusCode(200)
+                    .body(
+                            "id", notNullValue(),
+                            "name", equalTo("First"),
+                            "originalLanguage", equalTo("de"),
+                            "foreignLanguage", equalTo("en"),
+                            "words", notNullValue(),
+                            "words.size()", equalTo(1)
+
                     )
     }
 

@@ -22,14 +22,9 @@ class WordService {
         this.wordSetService = wordSetService
     }
 
-//    Set<WordProjection> getWords(String originalLanguage, String foreignLanguage, CustomUserJwtAuthenticationToken principal) {
-//        User user = userService.getUser(principal)
-//        return wordRepository.findAll(user, originalLanguage, foreignLanguage)
-//    }
-
-    Word createWord(Word word, Long wordSetId, CustomUserJwtAuthenticationToken principal) {
+    Word createWord(Word word, CustomUserJwtAuthenticationToken principal) {
         User user = userService.getUser(principal)
-        WordSet wordSet = wordSetService.getWordSet(wordSetId)
+        WordSet wordSet = wordSetService.getWordSet(word.getWordSet().getId())
         if (user != wordSet.getUser())
             throw new RuntimeException("Can not add word to other users set")
         word.setWordSet(wordSet)
@@ -37,13 +32,17 @@ class WordService {
         return wordRepository.save(word)
     }
 
-    Word updateWord(Word word, String wordSetId, String wordId, CustomUserJwtAuthenticationToken principal) {
+    Word updateWord(Word word, String wordId, CustomUserJwtAuthenticationToken principal) {
         User user = userService.getUser(principal)
         Word existingWord = wordRepository.findById(wordId.toLong()).orElseThrow(() -> new RuntimeException("Word not found"))
-        if (existingWord.getWordSet().getId() != wordSetId.toLong())
-            throw new RuntimeException("Word is not in the set")
         if (existingWord.getWordSet().getUser() != user)
             throw new RuntimeException("Can not edit others words")
+        if (word.getWordSet() != null) {
+            WordSet wordSet = wordSetService.getWordSet(word.getWordSet().getId())
+            if (wordSet.getUser() != user)
+                throw new RuntimeException("Can not add word to others word set")
+            existingWord.setWordSet(wordSet)
+        }
         existingWord.setOriginal(word.getOriginal())
         existingWord.setForeign(word.getForeign())
         existingWord.setLevel(word.getLevel())

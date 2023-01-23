@@ -28,7 +28,6 @@ class WordSet {
     private String foreignLanguage
 
     @OneToMany(mappedBy = "wordSet")
-    @JsonIgnore
     private Set<Word> words = []
 
     @Column
