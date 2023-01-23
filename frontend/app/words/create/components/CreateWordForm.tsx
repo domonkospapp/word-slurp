@@ -3,10 +3,19 @@
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
 import LanguageSelection from '../../../../components/languageSelection'
+import { WordSet } from '../../../../types/word-set'
 import Button from '../../../../ui/inputs/Button'
 import Input from '../../../../ui/inputs/Input'
+import Select from '../../../../ui/inputs/Select'
+import CreateSetForm from './CreateSetForm'
 
-const CreateWordForm = ({ languages }: { languages: Array<string> }) => {
+const CreateWordForm = ({
+  languages,
+  wordSets,
+}: {
+  languages: Array<string>
+  wordSets: Array<WordSet>
+}) => {
   const router = useRouter()
 
   const [originalLanguage, setOriginalLanguage] = useState<string | undefined>()
@@ -15,17 +24,24 @@ const CreateWordForm = ({ languages }: { languages: Array<string> }) => {
   const [originalWord, setOriginalWord] = useState<string>('')
   const [foreignWord, setForeignWord] = useState<string>('')
 
+  const [setIndex, setSetIndex] = useState<number | undefined>()
+
   const createWord = async () => {
-    await fetch('/api/words/create', {
-      method: 'POST',
-      body: JSON.stringify({
-        original: originalWord,
-        originalLanguage: originalLanguage,
-        foreign: foreignWord,
-        foreignLanguage: foreignLanguage,
-      }),
-    })
-    router.back()
+    if (setIndex != undefined) {
+      await fetch('/api/words/create', {
+        method: 'POST',
+        body: JSON.stringify({
+          original: originalWord,
+          originalLanguage: originalLanguage,
+          foreign: foreignWord,
+          foreignLanguage: foreignLanguage,
+          wordSet: wordSets[setIndex],
+        }),
+      })
+      router.back()
+    } else {
+      console.log('Select a set!')
+    }
   }
 
   const originalWordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +50,11 @@ const CreateWordForm = ({ languages }: { languages: Array<string> }) => {
 
   const foreignWordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForeignWord(e.target.value)
+  }
+
+  const updateSet = (e: ChangeEvent<HTMLSelectElement>) => {
+    const index: number = parseInt(e.target.value)
+    setSetIndex(index)
   }
 
   return (
@@ -66,6 +87,21 @@ const CreateWordForm = ({ languages }: { languages: Array<string> }) => {
             update={(language: string) => setForeignLanguage(language)}
             autoUpdate
           />
+        </div>
+        <div className="col-span-1 m-2">Set</div>
+        <div className="col-span-1"></div>
+        <div className="col-span-1">
+          <Select value={setIndex} onChange={updateSet}>
+            <option value={undefined}>-</option>
+            {wordSets.map((wordSet, index) => (
+              <option key={index} value={index}>
+                {wordSet.name}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <div className="col-span-1">
+          <CreateSetForm />
         </div>
       </div>
       <Button color="bg-green-300" onClick={createWord}>

@@ -1,3 +1,5 @@
+import { WordSet } from './word-set'
+
 export interface Word {
   id: number
   original: string
@@ -5,4 +7,5 @@ export interface Word {
   foreign: string
   foreignLanguage: string
   level: number
+  wordSet: WordSet
 }
