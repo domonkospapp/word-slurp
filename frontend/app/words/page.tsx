@@ -49,31 +49,27 @@ const WordList = async () => {
                       {wordSet.originalLanguage}/{wordSet.foreignLanguage}
                     </p>
                   </div>
-                  <div className="col-span-1">
-                    <AddWordButton />
-                  </div>
+                  <div className="col-span-1"></div>
                   <div className="col-span-1">
                     <EditSetButton />
+                    <AddWordButton />
                   </div>
                 </div>
-                <div>
-                  <table>
-                    <tbody>
-                      {wordSet.words &&
-                        wordSet.words.map((w: Word, k: number) => (
-                          <tr key={k}>
-                            <td></td>
-                            <td className="p-2">{w.original}</td>
-                            <td className="p-2">{w.foreign}</td>
-                            <td className="p-2">{getStars(w.level)}</td>
-                            <td>
-                              <EditWordButton />
-                              <DeleteWordButton />
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                <div className="m-2 mt-6 grid grid-cols-4 items-center justify-center gap-4">
+                  {wordSet.words &&
+                    wordSet.words.map((w: Word) => (
+                      <>
+                        <div className="col-span-1">{w.original}</div>
+                        <div className="col-span-1">{w.foreign}</div>
+                        <div className="col-span-1">{getStars(w.level)}</div>
+                        <div className="col-span-1">
+                          <EditWordButton />
+                          <DeleteWordButton />
+                        </div>
+                      </>
+                    ))}
+                </div>
+                <div className="mb-8 w-full text-center">
                   <LearnSetButton />
                 </div>
               </>
