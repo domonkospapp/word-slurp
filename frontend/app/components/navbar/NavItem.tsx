@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 
 export const NavItem = ({ item }: { item: NavItem }) => {
   const path = usePathname()
-  const isActive = path === item.href
+  const isActive = path && path.includes(item.href)
 
   return (
     <Link
