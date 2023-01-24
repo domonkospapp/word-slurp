@@ -14,7 +14,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
         <Providers>
           <div className="mx-auto max-w-3xl sm:mt-6 sm:mb-6">
             <Navbar />
-            <div className="border-stone-900 p-6 sm:border-b-4 sm:border-r-4 sm:border-l-4">
+            <div className="border-stone-900 p-2 sm:border-b-4 sm:border-r-4 sm:border-l-4">
               {children}
               <Footer />
             </div>
