@@ -110,6 +110,27 @@ class WordControllerRegressionTest extends Specification {
                     )
     }
 
+    def "get word"() {
+        given:
+            final Word word = wordRepository.save(new Word(wordSet, "original", "foreign", 0))
+
+        expect:
+            given().port(port)
+                    .basePath("/words/{wordId}")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                    .pathParam("wordId", word.getId())
+                    .contentType("application/json")
+                    .get()
+                    .then()
+                    .statusCode(200)
+                    .body(
+                            "original", equalTo("original"),
+                            "foreign", equalTo("foreign"),
+                            "wordSet.id", equalTo(wordSet.getId().toInteger()),
+                            "level", equalTo(0)
+                    )
+    }
+
     def "upload translation file"() {
         given:
         final String TEST_CSV = "build/resources/test/translations_small.csv"
