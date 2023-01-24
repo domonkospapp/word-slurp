@@ -67,32 +67,51 @@ const WordLearningInput = ({ words }: { words: Array<Word> }) => {
     window.speechSynthesis.speak(msg)
   }
 
-  return waitingForAnswer ? (
+  return (
     <div>
       <br />
       <div className="grid grid-cols-1 sm:grid-cols-2">
+        <span className="ml-2">{currentWord?.wordSet.originalLanguage}</span>
         <div className="m-2 border-4 border-stone-900 bg-stone-200 p-12 text-stone-900 placeholder-stone-600 shadow-normal shadow-pink-200">
           {currentWord?.original}
         </div>
-        <div>
-          <span className="ml-2">Foreign:</span>
-          <Input value={answer} onChange={updateAnswer} />
-          <br />
-          <Button color="bg-violet-300" onClick={evaulate}>
-            Submit
-          </Button>
-        </div>
+        <span className="ml-2 mt-4">
+          {currentWord?.wordSet.foreignLanguage}
+        </span>
+        {waitingForAnswer ? (
+          <>
+            <div className="mr-4">
+              <Input fullWidth value={answer} onChange={updateAnswer} />
+            </div>
+            <div className="grid grid-cols-2">
+              <Button color="bg-pink-200" onClick={evaulate}>
+                Don&apos;t know
+              </Button>
+              <Button color="bg-green-300" onClick={evaulate}>
+                Submit
+              </Button>
+            </div>
+          </>
+        ) : (
+          <div>
+            <div className="ml-2 mt-5 mb-5 font-bold">
+              <span>
+                {isAnswerCorrect()
+                  ? `Correct! (${currentWord?.foreign})`
+                  : `Correct is: ${currentWord?.foreign}`}
+              </span>
+            </div>
+            <div className="grid grid-cols-2">
+              <Button color="bg-violet-200" onClick={playPronunciation}>
+                Pronunce it!
+              </Button>
+              <Button color="bg-green-300" onClick={getNextWord}>
+                Next word
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
-  ) : (
-    <div>
-      <p>
-        {isAnswerCorrect() ? 'Correct!' : `Correct is: ${currentWord?.foreign}`}
-      </p>
-
-      <button onClick={playPronunciation}>Pronunce it!</button>
-      <br />
-      <button onClick={getNextWord}>Next word</button>
     </div>
   )
 }

@@ -39,9 +39,16 @@ const Learning = async ({
 
   return (
     <>
-      <span className="m-2">Select a specific language:</span>
-      <LanguageFilter languages={languages} />
-      <SetFilter wordSets={wordSetFilter} />
+      <div className="ml-2 grid grid-cols-2 items-center justify-center">
+        <div className="col-span-1">Languages</div>
+        <div className="col-span-1 flex justify-end">
+          <LanguageFilter languages={languages} />
+        </div>
+        <div className="col-span-1">Sets</div>
+        <div className="col-span-1 flex justify-end">
+          <SetFilter wordSets={wordSetFilter} />
+        </div>
+      </div>
       <WordLearningInput words={words} />
     </>
   )
