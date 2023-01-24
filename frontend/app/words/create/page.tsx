@@ -14,6 +14,11 @@ const CreateWord = async () => {
 
   return (
     <div>
+      <span className="m-2 border-b-4 border-stone-900 text-2xl font-bold shadow-b-normal shadow-pink-200">
+        Create word
+      </span>
+      <br />
+      <br />
       <CreateWordForm languages={languages} wordSets={wordSets} />
     </div>
   )
