@@ -12,6 +12,15 @@ export const createWordSet = (wordSet: WordSet) =>
     })
     .then((res) => res.data)
 
+export const updateWordSet = (wordSet: WordSet) =>
+  axios
+    .put(`${wordSetBaseUrl}/${wordSet.id}`, wordSet, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((res) => res.data)
+
 export const getWordSet = async (setId: number) => {
   return axios.get(`${wordSetBaseUrl}/${setId}`).then((res) => res.data)
 }
