@@ -2,11 +2,11 @@
 import Button from '../../../ui/inputs/Button'
 import { useRouter } from 'next/navigation'
 
-const LearnSetButton = () => {
+const LearnSetButton = ({ wordSetId }: { wordSetId: number }) => {
   const router = useRouter()
 
   const learnSet = () => {
-    router.push('learning')
+    router.push(`learning?wordSetId=${wordSetId}`)
   }
 
   return (
