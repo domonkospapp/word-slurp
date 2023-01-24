@@ -1,14 +1,14 @@
-import { authOptions } from '../../../pages/api/auth/[...nextauth]'
+import { authOptions } from '../../pages/api/auth/[...nextauth]'
 import { unstable_getServerSession } from 'next-auth'
 import CsvUploader from './csvUploader'
 import {
   getLanguages,
   getLanguagesMaping,
-} from '../../../utils/clients/languageApi'
-import { getUser } from '../../../utils/clients/userApi'
-import { User } from '../../../types/user'
+} from '../../utils/clients/languageApi'
+import { getUser } from '../../utils/clients/userApi'
+import { User } from '../../types/user'
 import Link from 'next/link'
-import SelectedNativeLanguage from '../../../components/selectedNativeLanguage'
+import SelectedNativeLanguage from '../../components/selectedNativeLanguage'
 
 const ImportWords = async () => {
   const session = await unstable_getServerSession(authOptions)

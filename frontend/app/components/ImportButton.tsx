@@ -9,7 +9,7 @@ const ImportButton = () => {
     <Button
       color="bg-green-300"
       onClick={() => {
-        router.push('/words/import')
+        router.push('/import')
       }}
     >
       Import my words
