@@ -15,7 +15,7 @@ const menu: Array<NavItem> = [
     text: 'LEARNING',
   },
   {
-    href: '/words/import',
+    href: '/import',
     text: 'IMPORT',
   },
 ]

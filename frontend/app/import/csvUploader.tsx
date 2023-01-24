@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
-import LanguageMappings from '../../../components/languageMappings/LanguageMappings'
-import MissingLanguageMappings from '../../../components/languageMappings/MissingLanguageMappings'
+import LanguageMappings from '../../components/languageMappings/LanguageMappings'
+import MissingLanguageMappings from '../../components/languageMappings/MissingLanguageMappings'
 
 const CsvUploader = ({
   languages,
