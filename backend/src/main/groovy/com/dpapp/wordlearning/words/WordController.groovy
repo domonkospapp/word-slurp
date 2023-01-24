@@ -40,6 +40,12 @@ class WordController {
         return pf.createProjection(WordProjection, updatedWord)
     }
 
+    @GetMapping("/words/{wordId}")
+    WordProjection getWord(@PathVariable String wordId, CustomUserJwtAuthenticationToken principal) {
+        Word updatedWord = wordService.getWord(wordId, principal)
+        return pf.createProjection(WordProjection, updatedWord)
+    }
+
     @PostMapping("/words/translations")
     List<Word> uploadFile(@RequestParam("translations") MultipartFile translations, CustomUserJwtAuthenticationToken principal) {
         return wordImportService.uploadFileAsFile(translations, principal)

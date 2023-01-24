@@ -49,5 +49,13 @@ class WordService {
         return wordRepository.save(existingWord)
     }
 
+    Word getWord( String wordId, CustomUserJwtAuthenticationToken principal) {
+        User user = userService.getUser(principal)
+        Word existingWord = wordRepository.findById(wordId.toLong()).orElseThrow(() -> new RuntimeException("Word not found"))
+        if (existingWord.getWordSet().getUser() != user)
+            throw new RuntimeException("Can not get others words")
+        return existingWord
+    }
+
 
 }
