@@ -2,11 +2,11 @@
 import Button from '../../../ui/inputs/Button'
 import { useRouter } from 'next/navigation'
 
-const EditWordButton = () => {
+const EditWordButton = ({ wordId }: { wordId: number }) => {
   const router = useRouter()
 
   const editWord = () => {
-    router.push('words/create')
+    router.push('words/edit/' + wordId)
   }
 
   return (
