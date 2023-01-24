@@ -10,7 +10,7 @@ const CreateSetForm = () => {
   }
 
   const createWordSet = async () => {
-    await fetch('/api/wordSet/create', {
+    await fetch('/api/wordSets/create', {
       method: 'POST',
       body: JSON.stringify({
         name: setName,
