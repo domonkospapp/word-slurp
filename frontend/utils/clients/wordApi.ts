@@ -35,6 +35,10 @@ export const getWords = async (
     .then((res) => res.data)
 }
 
+export const getWord = async (wordId: number) => {
+  return axios.get(`${wordBaseUrl}/${wordId}`).then((res) => res.data)
+}
+
 export const getUsedLanguages = () =>
   axios.get(`${wordBaseUrl}/languages`).then((res) => res.data)
 
