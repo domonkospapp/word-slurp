@@ -70,16 +70,19 @@ const WordLearningInput = ({ words }: { words: Array<Word> }) => {
   return (
     <div>
       <br />
-      <div className="grid grid-cols-1 sm:grid-cols-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
         <span className="ml-2">{currentWord?.wordSet.originalLanguage}</span>
+        <span className="ml-2 hidden sm:block">
+          {currentWord?.wordSet.foreignLanguage}
+        </span>
         <div className="m-2 border-4 border-stone-900 bg-stone-200 p-12 text-stone-900 placeholder-stone-600 shadow-normal shadow-pink-200">
           {currentWord?.original}
         </div>
-        <span className="ml-2 mt-4">
+        <span className="ml-2 mt-4 block sm:hidden">
           {currentWord?.wordSet.foreignLanguage}
         </span>
         {waitingForAnswer ? (
-          <>
+          <div>
             <div className="mr-4">
               <Input fullWidth value={answer} onChange={updateAnswer} />
             </div>
@@ -91,7 +94,7 @@ const WordLearningInput = ({ words }: { words: Array<Word> }) => {
                 Submit
               </Button>
             </div>
-          </>
+          </div>
         ) : (
           <div>
             <div className="ml-2 mt-5 mb-5 font-bold">
