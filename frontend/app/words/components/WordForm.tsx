@@ -143,12 +143,22 @@ const WordForm = ({
           />
         </div>
       </div>
-      <Button color="bg-green-300" onClick={clickSave}>
-        SAVE
-      </Button>
-      <Button color="bg-yellow-200" onClick={router.back}>
-        Cancel
-      </Button>
+      <div className="mt-6 text-center">
+        {
+          // fix this
+          initialWordOriginal && (
+            <Button color="bg-red-300" onClick={router.back}>
+              Delete
+            </Button>
+          )
+        }
+        <Button color="bg-yellow-200" onClick={router.back}>
+          Cancel
+        </Button>
+        <Button color="bg-green-300" onClick={clickSave}>
+          SAVE
+        </Button>
+      </div>
     </>
   )
 }
