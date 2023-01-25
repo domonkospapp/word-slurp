@@ -7,15 +7,29 @@ import { WordSet } from '../../types/word-set'
 import { getWordSets } from '../../utils/clients/wordSetApi'
 import WordSetListItem from './components/WordSetListItem'
 
-const WordList = async () => {
+const WordList = async ({
+  searchParams,
+}: {
+  searchParams?: { search?: string }
+}) => {
   const session = await unstable_getServerSession(authOptions)
-  const wordSets: [WordSet] = await getWordSets(undefined, undefined).catch(
-    () => null
-  )
+
+  const wordSetFilter = (wordSets: Array<WordSet>) => {
+    const searchTerm = searchParams?.search
+    if (searchTerm) {
+      return wordSets.filter((wordSet) => wordSet.name.includes(searchTerm))
+    }
+    return wordSets
+  }
+
+  const wordSets: Array<WordSet> =
+    (await getWordSets(undefined, undefined)
+      .then(wordSetFilter)
+      .catch(() => null)) || []
 
   return (
     <div>
-      <div className="pr-4">
+      <div className="pr-2">
         <WordFilter />
       </div>
 
