@@ -137,7 +137,10 @@ const WordForm = ({
           </Select>
         </div>
         <div className="col-span-1">
-          <CreateSetForm />
+          <CreateSetForm
+            originalLanguage={originalLanguage}
+            foreignLanguage={foreignLanguage}
+          />
         </div>
       </div>
       <Button color="bg-green-300" onClick={clickSave}>
