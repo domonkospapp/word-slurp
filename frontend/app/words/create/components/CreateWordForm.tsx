@@ -12,9 +12,11 @@ import CreateSetForm from './CreateSetForm'
 const CreateWordForm = ({
   languages,
   wordSets,
+  initialWordSetId,
 }: {
   languages: Array<string>
   wordSets: Array<WordSet>
+  initialWordSetId?: number
 }) => {
   const router = useRouter()
 
@@ -24,10 +26,13 @@ const CreateWordForm = ({
   const [originalWord, setOriginalWord] = useState<string>('')
   const [foreignWord, setForeignWord] = useState<string>('')
 
-  const [setIndex, setSetIndex] = useState<number | undefined>()
+  const [setId, setSetId] = useState<number | undefined>(initialWordSetId)
+
+  console.log(initialWordSetId)
 
   const createWord = async () => {
-    if (setIndex != undefined) {
+    if (setId != undefined) {
+      const set = wordSets.find((s) => s.id == setId)
       await fetch('/api/words/create', {
         method: 'POST',
         body: JSON.stringify({
@@ -35,7 +40,7 @@ const CreateWordForm = ({
           originalLanguage: originalLanguage,
           foreign: foreignWord,
           foreignLanguage: foreignLanguage,
-          wordSet: wordSets[setIndex],
+          wordSet: set,
         }),
       })
       router.back()
@@ -53,8 +58,8 @@ const CreateWordForm = ({
   }
 
   const updateSet = (e: ChangeEvent<HTMLSelectElement>) => {
-    const index: number = parseInt(e.target.value)
-    setSetIndex(index)
+    const id: number = parseInt(e.target.value)
+    setSetId(id)
   }
 
   return (
@@ -91,10 +96,10 @@ const CreateWordForm = ({
         <div className="col-span-1 m-2">Set</div>
         <div className="col-span-1"></div>
         <div className="col-span-1">
-          <Select value={setIndex} onChange={updateSet}>
+          <Select value={setId} onChange={updateSet}>
             <option value={undefined}>-</option>
-            {wordSets.map((wordSet, index) => (
-              <option key={index} value={index}>
+            {wordSets.map((wordSet) => (
+              <option key={wordSet.id} value={wordSet.id}>
                 {wordSet.name}
               </option>
             ))}

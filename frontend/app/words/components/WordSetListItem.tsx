@@ -67,7 +67,7 @@ const WordSetListItem = ({ wordSet }: { wordSet: WordSet }) => {
         </div>
         <div className="col-span-1 mr-2 flex justify-end">
           <EditSetButton editSet={editSet} isEditing={isEditing} />
-          {!isEditing && <AddWordButton />}
+          {!isEditing && <AddWordButton wordSetId={wordSet.id} />}
         </div>
       </div>
       <div className="mt-6 grid grid-cols-4 items-center justify-center">

@@ -5,7 +5,11 @@ import { getLanguages } from '../../../utils/clients/languageApi'
 import { getWordSets } from '../../../utils/clients/wordSetApi'
 import CreateWordForm from './components/CreateWordForm'
 
-const CreateWord = async () => {
+const CreateWord = async ({
+  searchParams,
+}: {
+  searchParams?: { wordSetId?: number }
+}) => {
   await unstable_getServerSession(authOptions)
   const languages: Array<string> = await getLanguages()
   const wordSets: [WordSet] = await getWordSets(undefined, undefined).catch(
@@ -19,7 +23,11 @@ const CreateWord = async () => {
       </span>
       <br />
       <br />
-      <CreateWordForm languages={languages} wordSets={wordSets} />
+      <CreateWordForm
+        languages={languages}
+        wordSets={wordSets}
+        initialWordSetId={searchParams?.wordSetId}
+      />
     </div>
   )
 }

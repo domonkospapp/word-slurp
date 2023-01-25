@@ -40,17 +40,16 @@ const WordList = async ({
 
   return (
     <div>
-      <div className="pr-2">
-        <WordFilter />
-      </div>
-
       {session?.user ? (
         <div>
+          <div className="pr-2">
+            <WordFilter />
+          </div>
+          <AddWordButton />
           {wordSets &&
             wordSets.map((wordSet, index) => (
               <WordSetListItem key={index} wordSet={wordSet} />
             ))}
-          <AddWordButton />
         </div>
       ) : (
         <div>
