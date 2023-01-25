@@ -105,7 +105,7 @@ const WordLearningInput = ({ words }: { words: Array<Word> }) => {
               </span>
             </div>
             <div className="grid grid-cols-2">
-              <Button color="bg-violet-200" onClick={playPronunciation}>
+              <Button color="bg-violet-300" onClick={playPronunciation}>
                 Pronunce it!
               </Button>
               <Button color="bg-green-300" onClick={getNextWord}>
