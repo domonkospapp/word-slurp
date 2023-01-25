@@ -8,20 +8,24 @@ const LanguageSelection = ({
   initialValue,
   update,
   autoUpdate,
+  disabled,
 }: {
   initialValue?: string
   languages: Array<string>
   update: (language: string) => void
   autoUpdate?: boolean
+  disabled?: boolean
 }) => {
-  const [languageIndex, setLanguageIndex] = useState<number | undefined>()
+  const getLanguageIndex = () =>
+    initialValue ? languages.indexOf(initialValue) : undefined
+  const [languageIndex, setLanguageIndex] = useState<number | undefined>(
+    getLanguageIndex
+  )
 
   useEffect(() => {
-    if (initialValue) {
-      setLanguageIndex(languages.indexOf(initialValue))
-    }
+    setLanguageIndex(getLanguageIndex)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [initialValue])
 
   const updateNativeLanguageInput = (e: ChangeEvent<HTMLSelectElement>) => {
     const index: number = parseInt(e.target.value)
@@ -39,7 +43,11 @@ const LanguageSelection = ({
 
   return (
     <>
-      <Select value={languageIndex} onChange={updateNativeLanguageInput}>
+      <Select
+        value={languageIndex}
+        onChange={updateNativeLanguageInput}
+        disabled={disabled}
+      >
         {languageIndex == undefined && <option value={undefined}>-</option>}
         {languages &&
           languages.map((v, k) => (

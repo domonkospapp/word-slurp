@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react'
-import Button from '../../../../ui/inputs/Button'
-import Input from '../../../../ui/inputs/Input'
+import Button from '../../../ui/inputs/Button'
+import Input from '../../../ui/inputs/Input'
 
 const CreateSetForm = () => {
   const [setName, setSetName] = useState<string>('')
