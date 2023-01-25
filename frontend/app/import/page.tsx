@@ -19,21 +19,22 @@ const ImportWords = async () => {
   return (
     <div>
       {session?.user ? (
-        <>
-          <h2>Selected native language</h2>
-          <SelectedNativeLanguage user={user} languages={languages} />
-
-          <p>
-            Native language:{' '}
-            {user.nativeLanguage || 'No native language selected'}
-          </p>
-
-          <h2>Select CSV file</h2>
+        <div>
+          {!user.nativeLanguage && (
+            <div className="grid grid-cols-2">
+              <div className="col-span-1">
+                <h2>Selected native language</h2>
+              </div>
+              <div className="col-span-1">
+                <SelectedNativeLanguage user={user} languages={languages} />
+              </div>
+            </div>
+          )}
           <CsvUploader
             languages={languages}
             languageMapping={languageMapping}
           />
-        </>
+        </div>
       ) : (
         <div>
           <p>You are not logged in</p>

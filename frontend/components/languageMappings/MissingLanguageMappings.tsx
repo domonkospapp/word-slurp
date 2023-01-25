@@ -1,5 +1,6 @@
 'use client'
 
+import { Fragment } from 'react'
 import LanguageSelection from '../languageSelection'
 
 const MissingLanguageMappings = ({
@@ -24,16 +25,25 @@ const MissingLanguageMappings = ({
   }
 
   return (
-    <div>
-      <h2>Please set these languages</h2>
+    <div className="mt-4 grid grid-cols-2 items-center">
+      {missingMappings.length > 0 && (
+        <div className="col-span-2">
+          <span className="ml-2 border-b-4 border-stone-900 text-xl font-bold leading-10 shadow-b-normal shadow-pink-200">
+            Please map these languages
+          </span>
+        </div>
+      )}
       {missingMappings.map((lang, index) => (
-        <p key={index}>
-          {lang}
-          <LanguageSelection
-            languages={languages}
-            update={(value: string) => addMapping(lang, value)}
-          />
-        </p>
+        <Fragment key={index}>
+          <div className="ml-2">{lang}</div>
+          <div className="ml-2">
+            <LanguageSelection
+              languages={languages}
+              update={(value: string) => addMapping(lang, value)}
+              autoUpdate
+            />
+          </div>
+        </Fragment>
       ))}
     </div>
   )

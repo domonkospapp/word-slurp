@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
-import LanguageMappings from '../../components/languageMappings/LanguageMappings'
 import MissingLanguageMappings from '../../components/languageMappings/MissingLanguageMappings'
+import Button from '../../ui/inputs/Button'
 
 const CsvUploader = ({
   languages,
@@ -62,28 +62,30 @@ const CsvUploader = ({
 
   return (
     <>
-      <input
-        type="file"
-        name="file"
-        onChange={changeHandler}
-        className="file:m-2 file:mr-6 file:border-4 file:border-stone-900 file:bg-violet-300 file:p-1 file:shadow-normal file:shadow-stone-900"
-      />
-      {selectedFile && !error ? (
+      <div className="mt-2">
+        <input
+          type="file"
+          name="file"
+          onChange={changeHandler}
+          className="file:m-2 file:mr-6 file:border-4 file:border-stone-900 file:bg-violet-300 file:p-1 file:shadow-normal file:shadow-stone-900"
+        />
+      </div>
+      {selectedFile && !error && (
         <div>
-          <LanguageMappings mappings={languageMapping} />
+          {
+            //<LanguageMappings mappings={languageMapping} />
+          }
           <MissingLanguageMappings
             mappings={languageMapping}
             languages={languages}
             containedLanguages={containedLanguages}
           />
-          <h2>File details</h2>
-          <p>Filename: {selectedFile.name}</p>
-          <p>Filetype: {selectedFile.type}</p>
-          <p>Size in bytes: {selectedFile.size}</p>
-          <button onClick={uploadWords}>Upload words!</button>
+          <div className="mt-4 w-full text-center">
+            <Button color="bg-green-300" onClick={uploadWords}>
+              Upload words!
+            </Button>
+          </div>
         </div>
-      ) : (
-        <p>Select an exported Google Translate csv file to import words</p>
       )}
       {error && <p>{error}</p>}
     </>

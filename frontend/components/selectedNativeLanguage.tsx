@@ -21,12 +21,11 @@ const SelectedNativeLanguage = ({
   return (
     <Suspense fallback="Loading language...">
       <LanguageSelection
+        autoUpdate
         languages={languages}
         initialValue={user.nativeLanguage}
         update={updateNativeLanguage}
       />
-      {user.nativeLanguage || 'No native language selected'}
-      <br />
     </Suspense>
   )
 }
