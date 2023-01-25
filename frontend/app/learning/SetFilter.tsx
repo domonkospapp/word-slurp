@@ -17,9 +17,14 @@ const SetFilter = ({ wordSets }: { wordSets: Array<WordSet> }) => {
   const [setId, setSetId] = useState<number | undefined>(getInitialSetId)
 
   const updateSet = (e: ChangeEvent<HTMLSelectElement>) => {
-    const id: number = parseInt(e.target.value)
-    setSetId(id)
-    router.replace(`/learning?wordSetId=${id}`)
+    if (e.target.value != 'all') {
+      const id: number = parseInt(e.target.value)
+      setSetId(id)
+      router.replace(`/learning?wordSetId=${id}`)
+    } else {
+      setSetId(undefined)
+      router.replace(`/learning`)
+    }
   }
 
   return (
