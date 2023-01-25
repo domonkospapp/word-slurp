@@ -18,6 +18,13 @@ const ImportWords = async () => {
 
   return (
     <div>
+      <p className="m-2 font-bold">Import your words from google translate!</p>
+      <a
+        className="m-2 underline"
+        href="https://github.com/domonkospapp/word-learning-frontend/wiki/How-to-import-words-from-Google-Translate"
+      >
+        How can I import?
+      </a>
       {session?.user ? (
         <div>
           {!user.nativeLanguage && (
