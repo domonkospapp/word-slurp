@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, Fragment, useState } from 'react'
 import { Word } from '../../../types/word'
 import { WordSet } from '../../../types/word-set'
 import Input from '../../../ui/inputs/Input'
@@ -73,7 +73,7 @@ const WordSetListItem = ({ wordSet }: { wordSet: WordSet }) => {
       <div className="mt-6 grid grid-cols-4 items-center justify-center">
         {wordSet.words &&
           wordSet.words.map((w: Word) => (
-            <>
+            <Fragment key={w.id}>
               <div className="${} col-span-2 m-2 block border-b-4 border-stone-900 shadow-b-normal shadow-pink-200 sm:hidden">
                 {w.original}
                 <br />
@@ -100,7 +100,7 @@ const WordSetListItem = ({ wordSet }: { wordSet: WordSet }) => {
                   </>
                 )}
               </div>
-            </>
+            </Fragment>
           ))}
       </div>
       <div className="mb-8 w-full text-center">
