@@ -1,15 +1,17 @@
 'use client'
 
-import { ChangeEventHandler } from 'react'
+import { ChangeEventHandler, KeyboardEventHandler } from 'react'
 
 const Input = ({
   fullWidth,
   onChange,
   value,
+  onKeyDown,
 }: {
   fullWidth?: boolean
   onChange: ChangeEventHandler<HTMLInputElement>
   value: string
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
 }) => (
   <input
     className={`m-2  ${
@@ -19,6 +21,7 @@ const Input = ({
     placeholder="Type in..."
     onChange={onChange}
     value={value}
+    onKeyDown={onKeyDown}
   />
 )
 
