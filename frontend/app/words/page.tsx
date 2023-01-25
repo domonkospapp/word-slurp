@@ -17,9 +17,20 @@ const WordList = async ({
   const wordSetFilter = (wordSets: Array<WordSet>) => {
     const searchTerm = searchParams?.search
     if (searchTerm) {
-      return wordSets.filter((wordSet) => wordSet.name.includes(searchTerm))
+      return wordSets.filter(
+        (wordSet) =>
+          wordSet.name.includes(searchTerm) ||
+          wordSetContainsWordLike(wordSet, searchTerm)
+      )
     }
     return wordSets
+  }
+
+  const wordSetContainsWordLike = (wordSet: WordSet, searchTerm: string) => {
+    return wordSet.words.some(
+      (word) =>
+        word.foreign.includes(searchTerm) || word.original.includes(searchTerm)
+    )
   }
 
   const wordSets: Array<WordSet> =
