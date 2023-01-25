@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 import { Word } from '../types/word'
 import Button from '../ui/inputs/Button'
 import Input from '../ui/inputs/Input'
@@ -67,6 +67,10 @@ const WordLearningInput = ({ words }: { words: Array<Word> }) => {
     window.speechSynthesis.speak(msg)
   }
 
+  const handleInputKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key == 'Enter') evaulate()
+  }
+
   return (
     <div>
       <br />
@@ -84,7 +88,12 @@ const WordLearningInput = ({ words }: { words: Array<Word> }) => {
         {waitingForAnswer ? (
           <div>
             <div className="mr-4">
-              <Input fullWidth value={answer} onChange={updateAnswer} />
+              <Input
+                fullWidth
+                value={answer}
+                onChange={updateAnswer}
+                onKeyDown={handleInputKeyPress}
+              />
             </div>
             <div className="grid grid-cols-2">
               <Button color="bg-pink-200" onClick={evaulate}>
