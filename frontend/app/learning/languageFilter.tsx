@@ -14,7 +14,7 @@ const LanguageFilter = ({ languages }: { languages: Array<LanguagePair> }) => {
     const index = getInitialLanguageIndex()
     // remove query params if not exists for the user
     if (index == -1) {
-      router.replace('/learning')
+      if (!searchParams.get('wordSetId')) router.replace('/learning')
     } else {
       setLanguageIndex(index)
     }
