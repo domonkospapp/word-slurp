@@ -1,5 +1,6 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import HamburgerMenuIcon from './HamburgerMenuIcon'
 import NavButton from './NavButton'
@@ -21,9 +22,14 @@ const menu: Array<NavItem> = [
 ]
 
 const Navbar = () => {
+  const path = usePathname()
+
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false)
 
   const toggleMenu = () => setMenuIsOpen((menuIsOpen) => !menuIsOpen)
+
+  const pageTitle =
+    (path && menu.find((m) => m.href.includes(path))?.text) || '-'
 
   return (
     <header>
@@ -36,7 +42,7 @@ const Navbar = () => {
         </div>
         <div className="grid grid-cols-2 bg-stone-200 sm:hidden">
           <div className="col-span-1 flex items-center justify-center border-b-4 border-r-4 border-stone-900  p-3.5 text-center text-4xl font-bold transition-all duration-150 sm:text-2xl">
-            Words
+            {pageTitle}
           </div>
           <button
             type="button"
