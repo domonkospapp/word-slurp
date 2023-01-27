@@ -44,25 +44,61 @@ class WordSetRepositoryTest extends Specification {
             !wordSets.get(1).getIsPublic()
     }
 
-    def "findAll"() {
+    def "findAllOwn"() {
         given:
+            User otherUser = new User("other@user.com")
+            entityManager.persist(otherUser)
+
             entityManager.persist(new WordSet(user, "S1", "nl", "de"))
             entityManager.persist(new WordSet(user, "S2", "es", "de"))
             entityManager.persist(new WordSet(user, "S3", "nl", "it"))
+
+            entityManager.persist(new WordSet(otherUser, "S4", "uk", "de"))
+            entityManager.persist(new WordSet(otherUser, "S5", "uk", "de", true))
+
             entityManager.flush()
 
         expect:
-            wordSetRepository.findAll(user, null, null).size() == 3
+            wordSetRepository.findAllOwn(user, null, null).size() == 3
 
-            wordSetRepository.findAll(user, "nl", "de").size() == 1
-            wordSetRepository.findAll(user, "es", "de").size() == 1
-            wordSetRepository.findAll(user, "nl", "it").size() == 1
+            wordSetRepository.findAllOwn(user, "nl", "de").size() == 1
+            wordSetRepository.findAllOwn(user, "es", "de").size() == 1
+            wordSetRepository.findAllOwn(user, "nl", "it").size() == 1
 
-            wordSetRepository.findAll(user, "nl", null).size() == 2
-            wordSetRepository.findAll(user, null, "de").size() == 2
+            wordSetRepository.findAllOwn(user, "nl", null).size() == 2
+            wordSetRepository.findAllOwn(user, null, "de").size() == 2
 
-            wordSetRepository.findAll(user, "es", null).size() == 1
-            wordSetRepository.findAll(user, null, "it").size() == 1
+            wordSetRepository.findAllOwn(user, "es", null).size() == 1
+            wordSetRepository.findAllOwn(user, null, "it").size() == 1
+    }
+
+    def "findAllPublic"() {
+        given:
+            User otherUser = new User("other@user.com")
+            entityManager.persist(otherUser)
+
+            entityManager.persist(new WordSet(otherUser, "S1", "nl", "de", true))
+            entityManager.persist(new WordSet(otherUser, "S2", "es", "de", true))
+            entityManager.persist(new WordSet(otherUser, "S3", "nl", "it", true))
+
+            entityManager.persist(new WordSet(user, "S4", "uk", "de", true))
+            entityManager.persist(new WordSet(user, "S5", "uk", "de", false))
+            entityManager.persist(new WordSet(otherUser, "S4", "uk", "de", false))
+
+            entityManager.flush()
+
+        expect:
+            wordSetRepository.findAllPublic(user, null, null).size() == 3
+
+            wordSetRepository.findAllPublic(user, "nl", "de").size() == 1
+            wordSetRepository.findAllPublic(user, "es", "de").size() == 1
+            wordSetRepository.findAllPublic(user, "nl", "it").size() == 1
+
+            wordSetRepository.findAllPublic(user, "nl", null).size() == 2
+            wordSetRepository.findAllPublic(user, null, "de").size() == 2
+
+            wordSetRepository.findAllPublic(user, "es", null).size() == 1
+            wordSetRepository.findAllPublic(user, null, "it").size() == 1
     }
 
     def "findAllLanguages"() {

@@ -103,8 +103,9 @@ class WordSetControllerRegressionTest extends Specification {
                     )
     }
 
-    def "get word sets for user with filter"() {
+    def "get own word sets for user with filter"() {
         given:
+            User otherUser = userRepository.save(new User("other@user.com"))
             wordSetRepository.saveAll([
                     new WordSet(user, "S1", "en", "de"),
                     new WordSet(user, "S2", "en", "de"),
@@ -112,19 +113,24 @@ class WordSetControllerRegressionTest extends Specification {
                     new WordSet(user, "S4", "de", "hu"),
                     new WordSet(user, "S5", "de", "hu"),
                     new WordSet(user, "S6", "hu", "de"),
+                    new WordSet(otherUser, "S7", "es", "it", true),
+                    new WordSet(otherUser, "S8", "es", "it", false),
             ])
+
+            def queryParams = [:]
+            if (originalLanguage) queryParams["originalLanguage"] = originalLanguage
+            if (foreignLanguage) queryParams["foreignLanguage"] = foreignLanguage
 
         expect:
             given().port(port)
                     .basePath("/wordSets")
                     .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
-                    .queryParam("originalLanguage", "en")
-                    .queryParam("foreignLanguage", "de")
+                    .queryParams(queryParams)
                     .get()
                     .then()
                     .statusCode(200)
                     .body(
-                            "size()", equalTo(3)
+                            "size()", equalTo(size)
                     )
         where:
             originalLanguage | foreignLanguage || size
@@ -143,7 +149,56 @@ class WordSetControllerRegressionTest extends Specification {
 
             "sp"             | null            || 0
             null             | "sp"            || 0
+    }
 
+    def "get public word sets for user with filter"() {
+        given:
+            User otherUser = userRepository.save(new User("other@user.com"))
+            wordSetRepository.saveAll([
+                    new WordSet(otherUser, "S1", "en", "de", true),
+                    new WordSet(otherUser, "S2", "en", "de", true),
+                    new WordSet(otherUser, "S3", "en", "de", true),
+                    new WordSet(otherUser, "S4", "de", "hu", true),
+                    new WordSet(otherUser, "S5", "de", "hu", true),
+                    new WordSet(otherUser, "S6", "hu", "de", true),
+                    new WordSet(user, "S7", "es", "it", true),
+                    new WordSet(user, "S8", "es", "it", false),
+            ])
+
+            def queryParams = [
+                    'isPublic': 'true'
+            ]
+            if (originalLanguage) queryParams["originalLanguage"] = originalLanguage
+            if (foreignLanguage) queryParams["foreignLanguage"] = foreignLanguage
+
+        expect:
+            given().port(port)
+                    .basePath("/wordSets")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                    .queryParams(queryParams)
+                    .get()
+                    .then()
+                    .statusCode(200)
+                    .body(
+                            "size()", equalTo(size)
+                    )
+        where:
+            originalLanguage | foreignLanguage || size
+            null             | null            || 6
+
+            "en"             | null            || 3
+            "de"             | null            || 2
+            "hu"             | null            || 1
+
+            null             | "de"            || 4
+            null             | "hu"            || 2
+
+            "en"             | "de"            || 3
+            "de"             | "hu"            || 2
+            "hu"             | "de"            || 1
+
+            "sp"             | null            || 0
+            null             | "sp"            || 0
     }
 
     def "get language pairs for user"() {
@@ -228,6 +283,27 @@ class WordSetControllerRegressionTest extends Specification {
                             "words.size()", equalTo(1)
 
                     )
+    }
+
+    def "can not get others word set"() {
+        given:
+            final User otherUser = userRepository.save(new User("other@user.com"))
+            final WordSet wordSet = new WordSet(otherUser, "First", "de", "en")
+            final Word word = new Word(wordSet, "eat", "essen", 0)
+            wordSet.addWord(word)
+
+            wordSetRepository.save(wordSet)
+            wordRepository.save(word)
+
+        expect:
+            given().port(port)
+                    .basePath("/wordSets/{wordSetId}")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                    .pathParam("wordSetId", wordSet.getId())
+                    .contentType("application/json")
+                    .get()
+                    .then()
+                    .statusCode(500)
     }
 
 }

@@ -33,9 +33,10 @@ class WordSetController {
     Set<WordSetProjection> getWordSets(
             @RequestParam(required = false) String originalLanguage,
             @RequestParam(required = false) String foreignLanguage,
+            @RequestParam(required = false) Boolean isPublic,
             CustomUserJwtAuthenticationToken principal
     ) {
-        return wordSetService.getWordSets(originalLanguage, foreignLanguage, principal)
+        return wordSetService.getWordSets(originalLanguage, foreignLanguage, isPublic, principal)
     }
 
     @GetMapping("/wordSets/{wordSetId}")

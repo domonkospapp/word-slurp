@@ -19,7 +19,16 @@ interface WordSetRepository extends JpaRepository<WordSet, Long> {
             AND (ws.originalLanguage = :ol OR :ol IS NULL)
             AND (ws.foreignLanguage = :fl OR :fl IS NULL)
     """)
-    List<WordSetProjection> findAll(@Param("user") User user, @Param("ol") String ol, @Param("fl") String fl)
+    List<WordSetProjection> findAllOwn(@Param("user") User user, @Param("ol") String ol, @Param("fl") String fl)
+
+    @Query("""
+        SELECT ws FROM WordSet ws
+            WHERE ws.user <> :user
+            AND (ws.originalLanguage = :ol OR :ol IS NULL)
+            AND (ws.foreignLanguage = :fl OR :fl IS NULL)
+            AND ws.isPublic IS TRUE
+    """)
+    List<WordSetProjection> findAllPublic(@Param("user") User user, @Param("ol") String ol, @Param("fl") String fl)
 
     @Query(
 

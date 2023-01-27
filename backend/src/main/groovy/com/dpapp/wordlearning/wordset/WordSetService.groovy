@@ -18,9 +18,12 @@ class WordSetService {
         this.userService = userService
     }
 
-    Set<WordSetProjection> getWordSets(String originalLanguage, String foreignLanguage, CustomUserJwtAuthenticationToken principal) {
+    Set<WordSetProjection> getWordSets(String originalLanguage, String foreignLanguage, Boolean isPublic, CustomUserJwtAuthenticationToken principal) {
         User user = userService.getUser(principal)
-        return wordSetRepository.findAll(user, originalLanguage, foreignLanguage)
+        if (isPublic) {
+            return wordSetRepository.findAllPublic(user, originalLanguage, foreignLanguage)
+        }
+        return wordSetRepository.findAllOwn(user, originalLanguage, foreignLanguage)
     }
 
     WordSet createWordSet(WordSet wordSet, CustomUserJwtAuthenticationToken principal) {
@@ -43,7 +46,7 @@ class WordSetService {
     WordSet getWordSet(Long id, CustomUserJwtAuthenticationToken principal) {
         User user = userService.getUser(principal)
         WordSet existingWordSet = wordSetRepository.findById(id).orElseThrow(() -> new RuntimeException("Word set not found"))
-        if (existingWordSet.getUser() != user)
+        if (existingWordSet.getUser() != user && !existingWordSet.getIsPublic())
             throw new RuntimeException("Can not get other users word sets")
         return existingWordSet
     }

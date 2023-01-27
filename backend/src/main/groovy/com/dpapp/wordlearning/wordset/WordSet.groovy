@@ -51,6 +51,14 @@ class WordSet {
         this.foreignLanguage = foreignLanguage
     }
 
+    WordSet(User user, String name, String originalLanguage, String foreignLanguage, boolean isPublic) {
+        this.user = user
+        this.name = name
+        this.originalLanguage = originalLanguage
+        this.foreignLanguage = foreignLanguage
+        this.isPublic = isPublic
+    }
+
     void addWord(Word word){
         words.add(word)
     }
