@@ -23,15 +23,19 @@ const Learning = async ({
     if (searchParams && searchParams.wordSetId) {
       return await getWordSet(searchParams.wordSetId).then((set) => [set])
     } else if (searchParams && searchParams.ol && searchParams.fl) {
-      return await getWordSets(searchParams.ol, searchParams.fl)
+      return await getWordSets(searchParams.ol, searchParams.fl, false)
     }
-    return await getWordSets(undefined, undefined)
+    return await getWordSets(undefined, undefined, false)
   }
 
   const words: Array<Word> = await getWordSetsBasedOnSearchParams().then(
     (wordSets) => wordSets.map((wordSet: WordSet) => wordSet.words).flat()
   )
-  const wordSetFilter: [WordSet] = await getWordSets(undefined, undefined)
+  const wordSetFilter: [WordSet] = await getWordSets(
+    undefined,
+    undefined,
+    false
+  )
 
   const languages: Array<LanguagePair> = await getUsedLanguages().catch(
     () => null

@@ -10,9 +10,11 @@ import EditWordForm from './components/EditWordForm'
 const CreateWordPage = async ({ params }: { params: { wordId: number } }) => {
   await unstable_getServerSession(authOptions)
   const languages: Array<string> = await getLanguages()
-  const wordSets: [WordSet] = await getWordSets(undefined, undefined).catch(
-    (e) => console.log(e)
-  )
+  const wordSets: [WordSet] = await getWordSets(
+    undefined,
+    undefined,
+    false
+  ).catch((e) => console.log(e))
 
   const word: Word = await getWord(params.wordId)
 

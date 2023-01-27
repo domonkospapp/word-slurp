@@ -1,42 +1,32 @@
 import { unstable_getServerSession } from 'next-auth'
 import Link from 'next/link'
 import { authOptions } from '../../pages/api/auth/[...nextauth]'
+import WordList from './components/WordList'
 import AddWordButton from './components/AddWordButton'
 import WordFilter from './components/WordFilter'
-import { WordSet } from '../../types/word-set'
-import { getWordSets } from '../../utils/clients/wordSetApi'
-import WordSetListItem from './components/WordSetListItem'
 
-const WordList = async ({
+const PublicSwitch = ({
+  isPublic,
+  search,
+}: {
+  isPublic: boolean
+  search: string | undefined
+}) => {
+  let query = ''
+  if (search) {
+    query += `search=${search}&`
+  }
+  query += `isPublic=${isPublic}`
+
+  return <Link href={`/words?${query}`}>{isPublic ? 'Public' : 'Private'}</Link>
+}
+
+const WordListPage = async ({
   searchParams,
 }: {
-  searchParams?: { search?: string }
+  searchParams?: { search?: string; isPublic: boolean }
 }) => {
   const session = await unstable_getServerSession(authOptions)
-
-  const wordSetFilter = (wordSets: Array<WordSet>) => {
-    const searchTerm = searchParams?.search
-    if (searchTerm) {
-      return wordSets.filter(
-        (wordSet) =>
-          wordSet.name.includes(searchTerm) ||
-          wordSetContainsWordLike(wordSet, searchTerm)
-      )
-    }
-    return wordSets
-  }
-
-  const wordSetContainsWordLike = (wordSet: WordSet, searchTerm: string) => {
-    return wordSet.words.some(
-      (word) =>
-        word.foreign.includes(searchTerm) || word.original.includes(searchTerm)
-    )
-  }
-
-  const wordSets: Array<WordSet> =
-    (await getWordSets(undefined, undefined)
-      .then(wordSetFilter)
-      .catch(() => null)) || []
 
   return (
     <div>
@@ -45,11 +35,18 @@ const WordList = async ({
           <div className="pr-2">
             <WordFilter />
           </div>
-          <AddWordButton />
-          {wordSets &&
-            wordSets.map((wordSet, index) => (
-              <WordSetListItem key={index} wordSet={wordSet} />
-            ))}
+          <div className="flex justify-between">
+            <AddWordButton />
+            <div className="ml-auto mt-2">
+              <PublicSwitch isPublic={false} search={searchParams?.search} />|
+              <PublicSwitch isPublic={true} search={searchParams?.search} />
+            </div>
+          </div>
+          {/* @ts-expect-error Server Component */}
+          <WordList
+            search={searchParams?.search}
+            isPublic={searchParams?.isPublic || false}
+          />
         </div>
       ) : (
         <div>
@@ -60,4 +57,4 @@ const WordList = async ({
     </div>
   )
 }
-export default WordList
+export default WordListPage
