@@ -12,9 +12,11 @@ const CreateWord = async ({
 }) => {
   await unstable_getServerSession(authOptions)
   const languages: Array<string> = await getLanguages()
-  const wordSets: [WordSet] = await getWordSets(undefined, undefined).catch(
-    (e) => console.log(e)
-  )
+  const wordSets: [WordSet] = await getWordSets(
+    undefined,
+    undefined,
+    false
+  ).catch((e) => console.log(e))
 
   return (
     <div>

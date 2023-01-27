@@ -27,13 +27,15 @@ export const getWordSet = async (setId: number) => {
 
 export const getWordSets = async (
   originalLanguage: string | undefined | string[],
-  foreignLanguage: string | undefined | string[]
+  foreignLanguage: string | undefined | string[],
+  isPublic: boolean
 ) => {
   return axios
     .get(wordSetBaseUrl, {
       params: {
         originalLanguage: originalLanguage,
         foreignLanguage: foreignLanguage,
+        isPublic: isPublic,
       },
     })
     .then((res) => res.data)
