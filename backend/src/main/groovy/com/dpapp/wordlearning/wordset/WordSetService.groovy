@@ -3,6 +3,7 @@ package com.dpapp.wordlearning.wordset
 import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
 import com.dpapp.wordlearning.users.User
 import com.dpapp.wordlearning.users.UserService
+import com.dpapp.wordlearning.words.Word
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -46,13 +47,32 @@ class WordSetService {
     WordSet getWordSet(Long id, CustomUserJwtAuthenticationToken principal) {
         User user = userService.getUser(principal)
         WordSet existingWordSet = wordSetRepository.findById(id).orElseThrow(() -> new RuntimeException("Word set not found"))
-        if (existingWordSet.getUser() != user && !existingWordSet.getIsPublic())
-            throw new RuntimeException("Can not get other users word sets")
-        return existingWordSet
+        if (existingWordSet.getUser() == user) {
+            return existingWordSet
+        }
+        if (existingWordSet.getIsPublic()) {
+            return copyWordSet(existingWordSet.id, principal)
+        }
+        throw new RuntimeException("Can not get other users word sets")
     }
 
     WordSet getWordSet(Long id) {
         return wordSetRepository.findById(id).orElseThrow(() -> new RuntimeException("Word set not found"))
+    }
+
+    WordSet copyWordSet(Long id, CustomUserJwtAuthenticationToken principal) {
+        User user = userService.getUser(principal)
+        WordSet existingWordSet = wordSetRepository.findById(id).orElseThrow(() -> new RuntimeException("Word set not found"))
+        if (!existingWordSet.getIsPublic())
+            throw new RuntimeException("Word set is not public")
+        WordSet wordSet = new WordSet(
+                user,
+                existingWordSet.name,
+                existingWordSet.originalLanguage,
+                existingWordSet.foreignLanguage
+        )
+        wordSet.setWords(existingWordSet.words.collect { new Word(wordSet, it.original, it.foreign, 0) }.toSet())
+        return wordSetRepository.save(wordSet)
     }
 
 }

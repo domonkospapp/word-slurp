@@ -234,7 +234,12 @@ class WordSetControllerRegressionTest extends Specification {
 
     def "edit word set"() {
         given:
-            final WordSet wordSet = wordSetRepository.save(new WordSet(user, "Set name", "de", "de"))
+            final WordSet wordSet = new WordSet(user, "Set name", "de", "de")
+            final Word word = new Word(wordSet, "eat", "essen", 0)
+            wordSet.addWord(word)
+
+            wordSetRepository.save(wordSet)
+            wordRepository.save(word)
 
         expect:
             given().port(port)
@@ -304,6 +309,37 @@ class WordSetControllerRegressionTest extends Specification {
                     .get()
                     .then()
                     .statusCode(500)
+    }
+
+    def "copy word set"() {
+        given:
+            final User otherUser = userRepository.save(new User("other@user.com"))
+            final WordSet wordSet = wordSetRepository.save(new WordSet(otherUser, "First", "de", "en", true))
+            final Word word = new Word(wordSet, "eat", "essen", 5)
+            wordSet.addWord(word)
+            wordRepository.save(word)
+
+        expect:
+            given().port(port)
+                    .basePath("/wordSets/{wordSetId}/copy")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer ${token}")
+                    .pathParam("wordSetId", wordSet.getId())
+                    .contentType("application/json")
+                    .post()
+                    .then()
+                    .statusCode(200)
+                    .body(
+                            "id", notNullValue(),
+                            "name", equalTo("First"),
+                            "originalLanguage", equalTo("de"),
+                            "foreignLanguage", equalTo("en"),
+                            "isPublic", equalTo(false),
+                            "words", notNullValue(),
+                            "words.size()", equalTo(1),
+                            "words[0].level", equalTo(0),
+                            "words[0].original", equalTo("eat"),
+                            "words[0].foreign", equalTo("essen"),
+                    )
     }
 
 }

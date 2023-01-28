@@ -3,7 +3,6 @@ package com.dpapp.wordlearning.wordset
 import com.dpapp.wordlearning.users.User
 import com.dpapp.wordlearning.validator.ISOLanguageValidator
 import com.dpapp.wordlearning.words.Word
-import com.fasterxml.jackson.annotation.JsonIgnore
 
 import javax.persistence.*
 
@@ -59,12 +58,16 @@ class WordSet {
         this.isPublic = isPublic
     }
 
-    void addWord(Word word){
+    void addWord(Word word) {
         words.add(word)
     }
 
     Long getId() {
         return id
+    }
+
+    void setId(Long id) {
+        this.id = id
     }
 
     User getUser() {
