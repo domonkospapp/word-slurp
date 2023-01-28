@@ -199,6 +199,7 @@ class WordSetControllerRegressionTest extends Specification {
 
             "sp"             | null            || 0
             null             | "sp"            || 0
+
     }
 
     def "get language pairs for user"() {
