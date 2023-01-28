@@ -51,8 +51,13 @@ class WordSetController {
     }
 
     @PutMapping("/wordSets/{wordSetId}")
-    WordSet updateWord(@RequestBody WordSet wordSet, @PathVariable String wordSetId, CustomUserJwtAuthenticationToken principal) {
-        return wordSetService.updateWordSet(wordSet, wordSetId, principal)
+    WordSetProjection updateWord(@RequestBody WordSet wordSet, @PathVariable String wordSetId, CustomUserJwtAuthenticationToken principal) {
+        return pf.createProjection(WordSetProjection, wordSetService.updateWordSet(wordSet, wordSetId, principal))
+    }
+
+    @PostMapping("/wordSets/{wordSetId}/copy")
+    WordSetProjection copyWordSet(@PathVariable Long wordSetId, CustomUserJwtAuthenticationToken principal) {
+        return pf.createProjection(WordSetProjection, wordSetService.copyWordSet(wordSetId, principal))
     }
 
 }
