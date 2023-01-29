@@ -125,7 +125,7 @@ const WordForm = ({
           />
         </div>
         <div className="col-span-1 m-2">Set</div>
-        <div className="col-span-1">... or create a new one</div>
+        <div className="col-span-1 m-2">... or create a new one</div>
         <div className="col-span-1">
           <Select value={setId} onChange={updateSet}>
             <option value={undefined}>-</option>
