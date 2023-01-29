@@ -31,7 +31,7 @@ const Navbar = () => {
   const pageTitle =
     path && path == '/'
       ? 'HOME'
-      : (path && menu.find((m) => m.href.includes(path))?.text) || '-'
+      : (path && menu.find((m) => path.includes(m.href))?.text) || '-'
 
   return (
     <header>
