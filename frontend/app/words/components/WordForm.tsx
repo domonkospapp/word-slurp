@@ -124,7 +124,7 @@ const WordForm = ({
             disabled={setId != undefined}
           />
         </div>
-        <div className="col-span-1 m-2">Set</div>
+        <div className="col-span-1 m-2">Select set</div>
         <div className="col-span-1 m-2">... or create a new one</div>
         <div className="col-span-1">
           <Select value={setId} onChange={updateSet}>
@@ -147,7 +147,7 @@ const WordForm = ({
         {
           // fix this
           initialWordOriginal && (
-            <Button color="bg-red-300" onClick={router.back}>
+            <Button color="bg-red-400" onClick={router.back}>
               Delete
             </Button>
           )
