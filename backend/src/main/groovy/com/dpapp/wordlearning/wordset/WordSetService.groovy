@@ -4,6 +4,7 @@ import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
 import com.dpapp.wordlearning.users.User
 import com.dpapp.wordlearning.users.UserService
 import com.dpapp.wordlearning.words.Word
+import com.dpapp.wordlearning.words.WordRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -12,11 +13,13 @@ class WordSetService {
 
     private final WordSetRepository wordSetRepository
     private final UserService userService
+    private final WordRepository wordRepository
 
     @Autowired
-    WordSetService(WordSetRepository wordSetRepository, UserService userService) {
+    WordSetService(WordSetRepository wordSetRepository, UserService userService, WordRepository wordRepository) {
         this.wordSetRepository = wordSetRepository
         this.userService = userService
+        this.wordRepository = wordRepository
     }
 
     Set<WordSetProjection> getWordSets(String originalLanguage, String foreignLanguage, Boolean isPublic, CustomUserJwtAuthenticationToken principal) {
@@ -65,14 +68,16 @@ class WordSetService {
         WordSet existingWordSet = wordSetRepository.findById(id).orElseThrow(() -> new RuntimeException("Word set not found"))
         if (!existingWordSet.getIsPublic())
             throw new RuntimeException("Word set is not public")
-        WordSet wordSet = new WordSet(
+        WordSet wordSet = wordSetRepository.save(new WordSet(
                 user,
                 existingWordSet.name,
                 existingWordSet.originalLanguage,
                 existingWordSet.foreignLanguage
-        )
-        wordSet.setWords(existingWordSet.words.collect { new Word(wordSet, it.original, it.foreign, 0) }.toSet())
-        return wordSetRepository.save(wordSet)
+        ))
+        List<Word> words = existingWordSet.words.collect { new Word(wordSet, it.original, it.foreign, 0) }.toList()
+        wordSet.setWords(words.toSet())
+        wordRepository.saveAll(words)
+        return wordSet
     }
 
 }

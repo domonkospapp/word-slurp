@@ -5,6 +5,7 @@ import com.dpapp.wordlearning.security.CustomUserJwtAuthenticationToken
 import com.dpapp.wordlearning.users.User
 import com.dpapp.wordlearning.users.UserService
 import com.dpapp.wordlearning.words.Word
+import com.dpapp.wordlearning.words.WordRepository
 import spock.lang.Specification
 
 class WordSetServiceTest extends Specification {
@@ -12,7 +13,8 @@ class WordSetServiceTest extends Specification {
     CustomUserJwtAuthenticationToken principal = Mock(CustomUserJwtAuthenticationToken)
     UserService userService = Mock(UserService)
     WordSetRepository wordSetRepository = Mock(WordSetRepository)
-    WordSetService classUnderTest = new WordSetService(wordSetRepository, userService)
+    WordRepository wordRepository = Mock(WordRepository)
+    WordSetService classUnderTest = new WordSetService(wordSetRepository, userService, wordRepository)
 
     def "copyWordSet should copy word set and set level to 0"() {
         given:
@@ -23,6 +25,7 @@ class WordSetServiceTest extends Specification {
             userService.getUser(principal) >> new User("user@user.com")
             wordSetRepository.findById(wordSet.id) >> Optional.of(wordSet)
             wordSetRepository.save(_ as WordSet) >> { WordSet ws -> ws.id = 123L; ws }
+            wordRepository.saveAll(_ as Set<Word>) >> { Set<Word> words -> words }
 
         when:
             def result = classUnderTest.copyWordSet(wordSet.id, principal)
