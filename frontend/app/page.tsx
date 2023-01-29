@@ -13,13 +13,17 @@ const Home = () => {
       <p className="m-2 font-bold">
         Start importing your words from google translate!
       </p>
-      <ImportButton />
-      <a
-        className="m-2 ml-10 underline"
-        href="https://github.com/domonkospapp/word-learning-frontend/wiki/How-to-import-words-from-Google-Translate"
-      >
-        How can I import?
-      </a>
+      <div className="grid grid-cols-1 items-center justify-around text-center sm:grid-cols-2">
+        <div>
+          <ImportButton />
+        </div>
+        <a
+          className="m-2  whitespace-nowrap underline"
+          href="https://github.com/domonkospapp/word-learning-frontend/wiki/How-to-import-words-from-Google-Translate"
+        >
+          How can I import?
+        </a>
+      </div>
     </div>
   )
 }
