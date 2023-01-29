@@ -9,7 +9,10 @@ const EditSetButton = ({
   isEditing: boolean
 }) => {
   return (
-    <Button onClick={editSet} color="bg-pink-200">
+    <Button
+      onClick={editSet}
+      color={isEditing ? 'bg-green-300' : 'bg-violet-300'}
+    >
       {isEditing ? 'Save' : 'Edit'}
     </Button>
   )
