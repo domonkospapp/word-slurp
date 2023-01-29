@@ -16,9 +16,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
             <Navbar />
             <div className="border-stone-900 p-2 sm:border-b-4 sm:border-r-4 sm:border-l-4">
               {children}
-              <Footer />
             </div>
           </div>
+          <Footer />
         </Providers>
       </body>
     </html>
