@@ -21,6 +21,19 @@ export const updateWordSet = (wordSet: WordSet) =>
     })
     .then((res) => res.data)
 
+export const copyWordSet = (setId: number) =>
+  axios
+    .post(
+      `${wordSetBaseUrl}/${setId}/copy`,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    .then((res) => res.data)
+
 export const getWordSet = async (setId: number) => {
   return axios.get(`${wordSetBaseUrl}/${setId}`).then((res) => res.data)
 }
