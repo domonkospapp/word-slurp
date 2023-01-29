@@ -24,9 +24,10 @@ const PublicSwitch = ({
 const WordListPage = async ({
   searchParams,
 }: {
-  searchParams?: { search?: string; isPublic: boolean }
+  searchParams?: { search?: string; isPublic?: string }
 }) => {
   const session = await unstable_getServerSession(authOptions)
+  const showPublicSets = searchParams?.isPublic === 'true'
 
   return (
     <div>
@@ -43,10 +44,7 @@ const WordListPage = async ({
             </div>
           </div>
           {/* @ts-expect-error Server Component */}
-          <WordList
-            search={searchParams?.search}
-            isPublic={searchParams?.isPublic || false}
-          />
+          <WordList search={searchParams?.search} isPublic={showPublicSets} />
         </div>
       ) : (
         <div>

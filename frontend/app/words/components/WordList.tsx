@@ -37,8 +37,12 @@ const WordList = async ({
   return (
     <div>
       {wordSets &&
-        wordSets.map((wordSet, index) => (
-          <WordSetListItem key={index} wordSet={wordSet} />
+        wordSets.map((wordSet) => (
+          <WordSetListItem
+            key={wordSet.id}
+            wordSet={wordSet}
+            isPublic={isPublic}
+          />
         ))}
     </div>
   )

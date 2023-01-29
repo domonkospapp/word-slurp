@@ -10,7 +10,13 @@ import EditSetButton from './EditSetButton'
 import EditWordButton from './EditWordButton'
 import LearnSetButton from './LearnSetButton'
 
-const WordSetListItem = ({ wordSet }: { wordSet: WordSet }) => {
+const WordSetListItem = ({
+  wordSet,
+  isPublic,
+}: {
+  wordSet: WordSet
+  isPublic: boolean
+}) => {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [setName, setSetName] = useState<string>(wordSet.name)
 
@@ -65,10 +71,12 @@ const WordSetListItem = ({ wordSet }: { wordSet: WordSet }) => {
             </span>
           )}
         </div>
-        <div className="col-span-1 mr-2 flex justify-end">
-          <EditSetButton editSet={editSet} isEditing={isEditing} />
-          {!isEditing && <AddWordButton wordSetId={wordSet.id} />}
-        </div>
+        {!isPublic && (
+          <div className="col-span-1 mr-2 flex justify-end">
+            <EditSetButton editSet={editSet} isEditing={isEditing} />
+            {!isEditing && <AddWordButton wordSetId={wordSet.id} />}
+          </div>
+        )}
       </div>
       <div className="mt-6 grid grid-cols-4 items-center justify-center">
         {wordSet.words &&
