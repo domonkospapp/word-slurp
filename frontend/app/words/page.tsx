@@ -7,9 +7,11 @@ import WordFilter from './components/WordFilter'
 
 const PublicSwitch = ({
   isPublic,
+  active,
   search,
 }: {
   isPublic: boolean
+  active: boolean
   search: string | undefined
 }) => {
   let query = ''
@@ -18,7 +20,14 @@ const PublicSwitch = ({
   }
   query += `isPublic=${isPublic}`
 
-  return <Link href={`/words?${query}`}>{isPublic ? 'Public' : 'Private'}</Link>
+  return (
+    <Link
+      className={`${active == isPublic ? 'underline' : ''}`}
+      href={`/words?${query}`}
+    >
+      {isPublic ? 'Public' : 'Private'}
+    </Link>
+  )
 }
 
 const WordListPage = async ({
@@ -39,8 +48,17 @@ const WordListPage = async ({
           <div className="flex justify-between">
             <AddWordButton />
             <div className="ml-auto mt-2">
-              <PublicSwitch isPublic={false} search={searchParams?.search} />|
-              <PublicSwitch isPublic={true} search={searchParams?.search} />
+              <PublicSwitch
+                isPublic={false}
+                search={searchParams?.search}
+                active={showPublicSets}
+              />
+              |
+              <PublicSwitch
+                isPublic={true}
+                search={searchParams?.search}
+                active={showPublicSets}
+              />
             </div>
           </div>
           {/* @ts-expect-error Server Component */}
