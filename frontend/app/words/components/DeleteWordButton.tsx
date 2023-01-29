@@ -10,7 +10,7 @@ const DeleteWordButton = () => {
   }
 
   return (
-    <Button onClick={deleteWords} color="bg-red-300">
+    <Button onClick={deleteWords} color="bg-red-400">
       X
     </Button>
   )
