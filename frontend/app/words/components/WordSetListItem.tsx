@@ -45,15 +45,6 @@ const WordSetListItem = ({
     setSetName(e.target.value)
   }
 
-  const getStars = (count: number) => {
-    if (count == 0) return '0'
-    let stars = ''
-    const countAbs = Math.abs(count)
-    for (let index = 0; index < countAbs; index++) {
-      stars += count > 0 ? ' * ' : ' - '
-    }
-    return stars
-  }
   return (
     <>
       <div className="mt-6 grid grid-cols-2 items-center justify-center">
@@ -82,19 +73,21 @@ const WordSetListItem = ({
         {wordSet.words &&
           wordSet.words.map((w: Word) => (
             <Fragment key={w.id}>
-              <div className="${} col-span-2 m-2 block border-b-4 border-stone-900 shadow-b-normal shadow-pink-200 sm:hidden">
+              <div className="col-span-2 m-2 block border-b-4 border-stone-900 sm:hidden">
                 {w.original}
                 <br />
                 {w.foreign}
               </div>
-              <div className="col-span-1 m-2 hidden border-b-4 border-stone-900 shadow-b-normal shadow-pink-200 sm:block">
+              <div className="col-span-1 m-2 mr-0 hidden border-b-4 border-stone-900 sm:block">
                 {w.original}
               </div>
-              <div className="col-span-1 m-2 hidden border-b-4 border-stone-900 shadow-b-normal shadow-pink-200 sm:block">
+              <div className="col-span-1 m-2 ml-0 hidden border-b-4 border-stone-900 sm:block">
                 {w.foreign}
               </div>
               {!isEditing && (
-                <div className="col-span-1">{getStars(w.level)}</div>
+                <div className="col-span-1 text-right">
+                  {!isPublic ? w.level + 'p' : ''}
+                </div>
               )}
               <div
                 className={`col-span-1 mr-2 flex justify-end ${
