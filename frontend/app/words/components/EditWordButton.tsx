@@ -10,7 +10,7 @@ const EditWordButton = ({ wordId }: { wordId: number }) => {
   }
 
   return (
-    <Button onClick={editWord} color="bg-yellow-200">
+    <Button onClick={editWord} color="bg-violet-300">
       Edit
     </Button>
   )

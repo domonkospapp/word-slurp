@@ -30,7 +30,7 @@ const LearnSetButton = ({
   }
 
   return (
-    <Button onClick={learnSet} color="bg-green-300" disabled={isCopying}>
+    <Button onClick={learnSet} color="bg-pink-200" disabled={isCopying}>
       {isCopying ? 'Copy set...' : 'Learn set'}
     </Button>
   )
