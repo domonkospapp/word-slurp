@@ -50,11 +50,8 @@ class WordSetService {
     WordSet getWordSet(Long id, CustomUserJwtAuthenticationToken principal) {
         User user = userService.getUser(principal)
         WordSet existingWordSet = wordSetRepository.findById(id).orElseThrow(() -> new RuntimeException("Word set not found"))
-        if (existingWordSet.getUser() == user) {
+        if (existingWordSet.getUser() == user || existingWordSet.getIsPublic()) {
             return existingWordSet
-        }
-        if (existingWordSet.getIsPublic()) {
-            return copyWordSet(existingWordSet.id, principal)
         }
         throw new RuntimeException("Can not get other users word sets")
     }
