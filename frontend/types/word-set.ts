@@ -5,6 +5,6 @@ export interface WordSet {
   name: string
   originalLanguage: string
   foreignLanguage: string
-  private: boolean
+  isPublic: boolean
   words: Array<Word>
 }

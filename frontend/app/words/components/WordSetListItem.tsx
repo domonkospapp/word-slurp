@@ -112,7 +112,7 @@ const WordSetListItem = ({
           ))}
       </div>
       <div className="mb-8 w-full text-center">
-        <LearnSetButton wordSetId={wordSet.id} />
+        <LearnSetButton wordSetId={wordSet.id} shouldCopy={wordSet.isPublic} />
       </div>
     </>
   )
