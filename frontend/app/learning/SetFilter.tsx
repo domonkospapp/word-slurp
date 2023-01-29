@@ -28,7 +28,7 @@ const SetFilter = ({ wordSets }: { wordSets: Array<WordSet> }) => {
   }
 
   return (
-    <Select value={setId} onChange={updateSet}>
+    <Select value={setId} onChange={updateSet} fullWidth>
       <option value={undefined}>all</option>
       {wordSets.map((wordSet, index) => (
         <option key={index} value={wordSet.id}>

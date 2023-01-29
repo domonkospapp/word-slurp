@@ -52,7 +52,7 @@ const LanguageFilter = ({ languages }: { languages: Array<LanguagePair> }) => {
   }
 
   return (
-    <Select value={languageIndex} onChange={updateLanguage}>
+    <Select value={languageIndex} onChange={updateLanguage} fullWidth>
       <option value={undefined}>all</option>
       {languages &&
         languages.map((v, k) => (
