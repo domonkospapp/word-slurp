@@ -29,7 +29,9 @@ const Navbar = () => {
   const toggleMenu = () => setMenuIsOpen((menuIsOpen) => !menuIsOpen)
 
   const pageTitle =
-    (path && menu.find((m) => m.href.includes(path))?.text) || '-'
+    path && path == '/'
+      ? 'HOME'
+      : (path && menu.find((m) => m.href.includes(path))?.text) || '-'
 
   return (
     <header>
