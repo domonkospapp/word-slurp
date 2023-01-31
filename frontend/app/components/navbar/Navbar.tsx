@@ -21,7 +21,7 @@ const menu: Array<NavItem> = [
   },
 ]
 
-const Navbar = () => {
+const Navbar = ({ loggedIn }: { loggedIn: boolean }) => {
   const path = usePathname()
 
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false)
@@ -40,7 +40,7 @@ const Navbar = () => {
           {menu.map((item, index) => (
             <NavItem key={index} item={item} />
           ))}
-          <NavButton />
+          <NavButton loggedIn={loggedIn} />
         </div>
         <div className="grid grid-cols-2 bg-stone-200 sm:hidden">
           <div className="col-span-1 flex items-center justify-center border-b-4 border-r-4 border-stone-900  p-3.5 text-center text-4xl font-bold transition-all duration-150 sm:text-2xl">
@@ -60,7 +60,7 @@ const Navbar = () => {
             {menu.map((item, index) => (
               <NavItem key={index} item={item} />
             ))}
-            <NavButton />
+            <NavButton loggedIn={loggedIn} />
           </div>
         )}
       </nav>
