@@ -1,9 +1,8 @@
-import { unstable_getServerSession } from 'next-auth'
 import Link from 'next/link'
-import { authOptions } from '../../pages/api/auth/[...nextauth]'
 import WordList from './components/WordList'
 import AddWordButton from './components/AddWordButton'
 import WordFilter from './components/WordFilter'
+import { Suspense } from 'react'
 
 const PublicSwitch = ({
   isPublic,
@@ -35,41 +34,35 @@ const WordListPage = async ({
 }: {
   searchParams?: { search?: string; isPublic?: string }
 }) => {
-  const session = await unstable_getServerSession(authOptions)
   const showPublicSets = searchParams?.isPublic === 'true'
 
   return (
     <div>
-      {session?.user ? (
-        <div>
-          <div className="pr-2">
-            <WordFilter />
+      <div>
+        <div className="pr-2">
+          <WordFilter />
+        </div>
+        <div className="flex justify-between">
+          <AddWordButton />
+          <div className="ml-auto mt-2">
+            <PublicSwitch
+              isPublic={false}
+              search={searchParams?.search}
+              active={showPublicSets}
+            />
+            |
+            <PublicSwitch
+              isPublic={true}
+              search={searchParams?.search}
+              active={showPublicSets}
+            />
           </div>
-          <div className="flex justify-between">
-            <AddWordButton />
-            <div className="ml-auto mt-2">
-              <PublicSwitch
-                isPublic={false}
-                search={searchParams?.search}
-                active={showPublicSets}
-              />
-              |
-              <PublicSwitch
-                isPublic={true}
-                search={searchParams?.search}
-                active={showPublicSets}
-              />
-            </div>
-          </div>
+        </div>
+        <Suspense fallback={<p>Loading...</p>}>
           {/* @ts-expect-error Server Component */}
           <WordList search={searchParams?.search} isPublic={showPublicSets} />
-        </div>
-      ) : (
-        <div>
-          <p>You are not logged in</p>
-          <Link href="/api/auth/signin">Go to the login page</Link>
-        </div>
-      )}
+        </Suspense>
+      </div>
     </div>
   )
 }
