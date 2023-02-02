@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -13,7 +16,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      space: ['SpaceMono'],
+      space: ['var(--font-space)', ...defaultTheme.fontFamily.mono],
     },
   },
   plugins: [],
