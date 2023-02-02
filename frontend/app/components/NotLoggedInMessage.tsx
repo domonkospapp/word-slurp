@@ -1,4 +1,4 @@
-import ImportButton from './ImportButton'
+import LoginButton from './LoginButton'
 
 const NotLoggedInMessage = () => {
   return (
@@ -22,11 +22,11 @@ const NotLoggedInMessage = () => {
           lists for study and practice.
         </p>
         <p className="m-2 font-bold">
-          Start importing your words from google translate!
+          Login and import your words from google translate!
         </p>
         <div className="grid grid-cols-1 items-center justify-around text-center sm:grid-cols-2">
           <div>
-            <ImportButton />
+            <LoginButton />
           </div>
           <a
             className="m-2  whitespace-nowrap underline"
