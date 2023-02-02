@@ -6,13 +6,31 @@ import Navbar from './components/navbar/Navbar'
 import { unstable_getServerSession } from 'next-auth'
 import { authOptions } from '../pages/api/auth/[...nextauth]'
 import NotLoggedInMessage from './components/NotLoggedInMessage'
+import localFont from '@next/font/local'
+
+const spaceMono = localFont({
+  src: [
+    {
+      path: './fonts/SpaceMono-Regular.ttf',
+      weight: 'normal',
+      style: 'normal',
+    },
+    {
+      path: './fonts/SpaceMono-Bold.ttf',
+      weight: 'bold',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-space',
+  display: 'swap',
+})
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const session = await unstable_getServerSession(authOptions)
   const loggedIn: boolean = session ? session.user != null : false
 
   return (
-    <html lang="en">
+    <html lang="en" className={spaceMono.className}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
