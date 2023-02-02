@@ -22,10 +22,10 @@ const LearnSetButton = ({
       })
         .then((res) => res.json())
         .then((set) => {
-          router.push(`learning?wordSetId=${set.id}`)
+          router.push(`?wordSetId=${set.id}`)
         })
     } else {
-      router.push(`learning?wordSetId=${wordSetId}`)
+      router.push(`?wordSetId=${wordSetId}`)
     }
   }
 

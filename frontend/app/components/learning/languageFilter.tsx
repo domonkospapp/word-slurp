@@ -2,8 +2,8 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
-import { LanguagePair } from '../../types/languagePair'
-import Select from '../../ui/inputs/Select'
+import { LanguagePair } from '../../../types/languagePair'
+import Select from '../../../ui/inputs/Select'
 
 const LanguageFilter = ({ languages }: { languages: Array<LanguagePair> }) => {
   const router = useRouter()
@@ -14,7 +14,7 @@ const LanguageFilter = ({ languages }: { languages: Array<LanguagePair> }) => {
     const index = getInitialLanguageIndex()
     // remove query params if not exists for the user
     if (index == -1) {
-      if (!searchParams.get('wordSetId')) router.replace('/learning')
+      if (!searchParams.get('wordSetId')) router.replace('/')
     } else {
       setLanguageIndex(index)
     }
@@ -34,7 +34,7 @@ const LanguageFilter = ({ languages }: { languages: Array<LanguagePair> }) => {
     setLanguageIndex(index || undefined)
     const currentLanguage = languages[index]
     const searchParams = createSearchParams(currentLanguage)
-    router.replace(`/learning${searchParams}`)
+    router.replace(`/${searchParams}`)
   }
 
   const createSearchParams = (languages: LanguagePair) => {
