@@ -8,12 +8,12 @@ import { NavItem } from './NavItem'
 
 const menu: Array<NavItem> = [
   {
-    href: '/words',
-    text: 'WORDS',
+    href: '/',
+    text: 'LEARNING',
   },
   {
-    href: '/learning',
-    text: 'LEARNING',
+    href: '/words',
+    text: 'WORDS',
   },
   {
     href: '/import',
@@ -30,7 +30,7 @@ const Navbar = ({ loggedIn }: { loggedIn: boolean }) => {
 
   const pageTitle =
     path && path == '/'
-      ? 'HOME'
+      ? 'LEARNING'
       : (path && menu.find((m) => path.includes(m.href))?.text) || '-'
 
   return (

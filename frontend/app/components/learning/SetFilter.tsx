@@ -2,8 +2,8 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
-import { WordSet } from '../../types/word-set'
-import Select from '../../ui/inputs/Select'
+import { WordSet } from '../../../types/word-set'
+import Select from '../../../ui/inputs/Select'
 
 const SetFilter = ({ wordSets }: { wordSets: Array<WordSet> }) => {
   const router = useRouter()
@@ -20,10 +20,10 @@ const SetFilter = ({ wordSets }: { wordSets: Array<WordSet> }) => {
     if (e.target.value != 'all') {
       const id: number = parseInt(e.target.value)
       setSetId(id)
-      router.replace(`/learning?wordSetId=${id}`)
+      router.replace(`?wordSetId=${id}`)
     } else {
       setSetId(undefined)
-      router.replace(`/learning`)
+      router.replace(`/`)
     }
   }
 
