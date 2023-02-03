@@ -52,7 +52,7 @@ const WordSetListItem = ({
           {isEditing ? (
             <Input value={setName} onChange={setNameChange} />
           ) : (
-            <span className="m-2 whitespace-nowrap border-b-4 border-stone-900 text-2xl shadow-b-normal shadow-pink-200">
+            <span className="m-2 border-b-4 border-stone-900 text-2xl shadow-b-normal shadow-pink-200">
               {wordSet.name}
             </span>
           )}
