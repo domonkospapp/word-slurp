@@ -1,5 +1,5 @@
 'use client'
-import Button from '../../../ui/inputs/Button'
+import Button from '../../../../ui/inputs/Button'
 import { useRouter } from 'next/navigation'
 
 const DeleteWordButton = () => {

@@ -1,7 +1,7 @@
 'use client'
-import Button from '../../../ui/inputs/Button'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import Button from '../../../../ui/inputs/Button'
 
 const LearnSetButton = ({
   wordSetId,

@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import WordList from './components/WordList'
-import AddWordButton from './components/AddWordButton'
+import AddWordButton from './components/buttons/AddWordButton'
 import WordFilter from './components/WordFilter'
 import { Suspense } from 'react'
+import WordSetList from './components/wordSetList/WordSetList'
 
 const PublicSwitch = ({
   isPublic,
@@ -60,7 +60,10 @@ const WordListPage = async ({
         </div>
         <Suspense fallback={<p>Loading...</p>}>
           {/* @ts-expect-error Server Component */}
-          <WordList search={searchParams?.search} isPublic={showPublicSets} />
+          <WordSetList
+            search={searchParams?.search}
+            isPublic={showPublicSets}
+          />
         </Suspense>
       </div>
     </div>
