@@ -44,7 +44,7 @@ const WordListPage = async ({
         </div>
         <div className="flex justify-between">
           <AddWordButton />
-          <div className="ml-auto mt-2">
+          <div className="ml-auto mt-2 mr-3">
             <PublicSwitch
               isPublic={false}
               search={searchParams?.search}
