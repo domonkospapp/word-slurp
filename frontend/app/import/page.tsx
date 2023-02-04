@@ -5,7 +5,9 @@ import CsvUploader from './components/csvUploader/csvUploader'
 const ImportWords = async () => {
   return (
     <div>
-      <p className="m-2 font-bold">Import your words from google translate!</p>
+      <h2 className="col-span-1 m-2 text-xl font-bold leading-10 ">
+        Import your words from google translate!
+      </h2>
       <a
         className="m-2 underline"
         href="https://github.com/domonkospapp/word-learning-frontend/wiki/How-to-import-words-from-Google-Translate"
