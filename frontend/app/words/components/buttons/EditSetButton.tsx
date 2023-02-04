@@ -1,5 +1,6 @@
 'use client'
-import Button from '../../../ui/inputs/Button'
+
+import Button from '../../../../ui/inputs/Button'
 
 const EditSetButton = ({
   editSet,

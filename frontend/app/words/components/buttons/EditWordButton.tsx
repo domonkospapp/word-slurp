@@ -1,6 +1,6 @@
 'use client'
-import Button from '../../../ui/inputs/Button'
 import { useRouter } from 'next/navigation'
+import Button from '../../../../ui/inputs/Button'
 
 const EditWordButton = ({ wordId }: { wordId: number }) => {
   const router = useRouter()
