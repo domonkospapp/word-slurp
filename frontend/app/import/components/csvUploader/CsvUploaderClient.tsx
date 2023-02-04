@@ -67,7 +67,7 @@ const CsvUploaderClient = ({
           type="file"
           name="file"
           onChange={changeHandler}
-          className="file:m-2 file:mr-6 file:border-4 file:border-stone-900 file:bg-blue-300 file:p-1  file:font-bold file:shadow-normal file:shadow-stone-900"
+          className="file:m-2 file:mr-6 file:border-4 file:border-stone-900 file:bg-blue-300 file:p-1 file:font-bold file:text-stone-900 file:shadow-normal file:shadow-stone-900"
         />
       </div>
       {selectedFile && !error && (
