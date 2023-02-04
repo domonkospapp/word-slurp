@@ -2,10 +2,10 @@
 
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
-import MissingLanguageMappings from '../../components/languageMappings/MissingLanguageMappings'
-import Button from '../../ui/inputs/Button'
+import MissingLanguageMappings from '../../../../components/languageMappings/MissingLanguageMappings'
+import Button from '../../../../ui/inputs/Button'
 
-const CsvUploader = ({
+const CsvUploaderClient = ({
   languages,
   languageMapping,
 }: {
@@ -91,4 +91,4 @@ const CsvUploader = ({
     </>
   )
 }
-export default CsvUploader
+export default CsvUploaderClient
