@@ -11,7 +11,7 @@ const Select = ({
 }: {
   children: ReactNode
   onChange: ChangeEventHandler<HTMLSelectElement>
-  value: number | undefined
+  value: string | number | undefined
   disabled?: boolean
   fullWidth?: boolean
 }) => (
