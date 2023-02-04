@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
+import CsvUploader from './components/csvUploader/CsvUploader'
 import SelectedNativeLanguage from './components/selectNativeLanguage/SelectedNativeLanguage'
-import CsvUploader from './components/csvUploader/csvUploader'
 
 const ImportWords = async () => {
   return (
