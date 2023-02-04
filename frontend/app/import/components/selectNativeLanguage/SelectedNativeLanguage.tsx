@@ -11,14 +11,19 @@ const SelectNativeLanguage = async () => {
   return user.nativeLanguage ? (
     <div></div>
   ) : (
-    <div className="grid grid-cols-2">
-      <div className="col-span-1">
-        <h2>Selected native language</h2>
-      </div>
-      <div className="col-span-1">
-        <Suspense>
-          <SelectNativeLanguageClient user={user} languages={languages} />
-        </Suspense>
+    <div>
+      <span className="ml-2 border-b-4 border-stone-900 text-xl font-bold leading-10 shadow-b-normal shadow-pink-200">
+        Select a native language
+      </span>
+      <div className="grid grid-cols-2 items-center">
+        <div className="col-span-1 ml-2">
+          <span>Native language</span>
+        </div>
+        <div className="col-span-1">
+          <Suspense>
+            <SelectNativeLanguageClient user={user} languages={languages} />
+          </Suspense>
+        </div>
       </div>
     </div>
   )
