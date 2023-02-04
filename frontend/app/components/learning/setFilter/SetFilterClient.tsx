@@ -1,11 +1,10 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ChangeEvent, useState } from 'react'
-import { WordSet } from '../../../types/word-set'
-import Select from '../../../ui/inputs/Select'
+import { ChangeEvent, ReactElement, useState } from 'react'
+import Select from '../../../../ui/inputs/Select'
 
-const SetFilter = ({ wordSets }: { wordSets: Array<WordSet> }) => {
+const SetFilterClient = ({ children }: { children: ReactElement }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -30,13 +29,9 @@ const SetFilter = ({ wordSets }: { wordSets: Array<WordSet> }) => {
   return (
     <Select value={setId} onChange={updateSet} fullWidth>
       <option value={undefined}>all</option>
-      {wordSets.map((wordSet, index) => (
-        <option key={index} value={wordSet.id}>
-          {wordSet.name}
-        </option>
-      ))}
+      {children}
     </Select>
   )
 }
 
-export default SetFilter
+export default SetFilterClient
