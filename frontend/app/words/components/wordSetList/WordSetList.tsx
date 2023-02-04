@@ -1,8 +1,8 @@
-import { WordSet } from '../../../types/word-set'
-import { getWordSets } from '../../../utils/clients/wordSetApi'
+import { WordSet } from '../../../../types/word-set'
+import { getWordSets } from '../../../../utils/clients/wordSetApi'
 import WordSetListItem from './WordSetListItem'
 
-const WordList = async ({
+const WordSetList = async ({
   search,
   isPublic,
 }: {
@@ -47,4 +47,4 @@ const WordList = async ({
     </div>
   )
 }
-export default WordList
+export default WordSetList
