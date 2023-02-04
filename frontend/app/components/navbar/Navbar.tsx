@@ -31,7 +31,9 @@ const Navbar = ({ loggedIn }: { loggedIn: boolean }) => {
   const pageTitle =
     path && path == '/'
       ? 'LEARNING'
-      : (path && menu.find((m) => path.includes(m.href))?.text) || '-'
+      : (path &&
+          menu.find((m) => m.href != '/' && path.includes(m.href))?.text) ||
+        '-'
 
   return (
     <header>
