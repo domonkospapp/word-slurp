@@ -1,4 +1,5 @@
 import { Word } from '../../../../types/word'
+import { LearningSearchParams } from '../../../../types/learning-search-params'
 import { WordSet } from '../../../../types/word-set'
 import { getWordSet, getWordSets } from '../../../../utils/clients/wordSetApi'
 import WordLearningInputClient from './WordLearningInputClient'
@@ -6,7 +7,7 @@ import WordLearningInputClient from './WordLearningInputClient'
 const WordLearningInput = async ({
   searchParams,
 }: {
-  searchParams?: { ol?: string; fl?: string; wordSetId?: number }
+  searchParams?: LearningSearchParams
 }) => {
   const getWordSetsBasedOnSearchParams = async () => {
     if (searchParams && searchParams.wordSetId) {
