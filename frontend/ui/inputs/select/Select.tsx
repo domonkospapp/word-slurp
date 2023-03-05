@@ -23,7 +23,7 @@ const Select = ({
           <Listbox.Option
             key={v.value}
             value={v}
-            className="p-2 ui-active:bg-stone-900 ui-not-active:bg-green-300"
+            className="p-2 ui-active:bg-stone-900 ui-active:text-green-300"
           >
             {v.text}
           </Listbox.Option>
