@@ -19,5 +19,5 @@ module.exports = {
       space: ['var(--font-space)', ...defaultTheme.fontFamily.mono],
     },
   },
-  plugins: [],
+  plugins: [require('@headlessui/tailwindcss')],
 }
