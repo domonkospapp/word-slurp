@@ -33,6 +33,10 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
     <html lang="en" className={spaceMono.className}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+          name="description"
+          content="The WordSlurp app is a tool for learning new words and expanding your vocabulary. With WordSlurp, you can import words from other applications, such as Google Translate, to create personalized word lists for study and practice."
+        />
       </head>
       <body className="bg-stone-200 font-space text-stone-900">
         <Providers>
