@@ -19,9 +19,9 @@ const Select = ({
         </div>
       </Listbox.Button>
       <Listbox.Options className="absolute ml-2 border-4 border-stone-900 bg-violet-300 font-bold shadow-normal shadow-stone-900">
-        {options.map((v) => (
+        {options.map((v, i) => (
           <Listbox.Option
-            key={v.value}
+            key={i}
             value={v}
             className="p-2 ui-active:bg-stone-900 ui-active:text-green-300"
           >
