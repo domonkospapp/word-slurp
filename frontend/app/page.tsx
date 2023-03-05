@@ -25,6 +25,7 @@ const Learning = async ({
         <div className="col-span-1">Sets</div>
         <div className="col-span-1 flex justify-start sm:pr-9">
           <div className="mr-4 w-full sm:ml-1 sm:w-1/2">
+            {/* @ts-expect-error Server Component */}
             <SetFilter />
           </div>
         </div>

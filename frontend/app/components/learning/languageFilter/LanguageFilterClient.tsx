@@ -28,9 +28,6 @@ const LanguageFilterClient = ({
   useEffect(() => {
     const option = getOptionFromSearchParams()
     setSelected(option)
-    // remove query params if not exists for the user
-    if (searchParams.get('wordSetId')) router.replace('/')
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 

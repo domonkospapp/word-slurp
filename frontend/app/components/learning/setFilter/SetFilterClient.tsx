@@ -1,47 +1,40 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ChangeEvent, ReactElement, useState, useEffect } from 'react'
-import Select from '../../../../ui/inputs/Select'
+import { useState, useEffect } from 'react'
+import Select from '../../../../ui/inputs/select/Select'
+import { Option } from '../../../../ui/inputs/select/Select'
 
-const SetFilterClient = ({ children }: { children: ReactElement }) => {
+const SetFilterClient = ({ setOptions }: { setOptions: Array<Option> }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const getInitialSetId = () => {
+  const getOptionFromSearchParams = () => {
     const wordSetIdParam = searchParams.get('wordSetId')
-    return wordSetIdParam ? parseInt(wordSetIdParam) : undefined
+    return setOptions.find((o) => o.value == wordSetIdParam) || setOptions[0]
   }
 
-  const [setId, setSetId] = useState<number | undefined>(getInitialSetId)
+  const [selectedSet, setSelectedSet] = useState<Option>(
+    getOptionFromSearchParams()
+  )
 
   useEffect(() => {
-    if (!getInitialSetId()) {
-      setSetId(undefined)
-    }
+    const selected = getOptionFromSearchParams()
+    setSelectedSet(selected)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 
-  const updateSet = (e: ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value != 'all') {
-      const id: number = parseInt(e.target.value)
-      setSetId(id)
-      router.replace(`?wordSetId=${id}`)
+  const updateSet = (value: Option) => {
+    setSelectedSet(value)
+    if (value.value != '') {
+      router.replace(`?wordSetId=${value.value}`)
     } else {
-      setSetId(undefined)
       router.replace(`/`)
     }
   }
 
   return (
-    <Select
-      value={setId === undefined ? 'all' : setId}
-      onChange={updateSet}
-      fullWidth
-    >
-      <option value="all">all</option>
-      {children}
-    </Select>
+    <Select selected={selectedSet} update={updateSet} options={setOptions} />
   )
 }
 
