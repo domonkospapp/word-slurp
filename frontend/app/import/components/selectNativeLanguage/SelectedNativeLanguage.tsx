@@ -20,9 +20,11 @@ const SelectNativeLanguage = async () => {
           <span>Native language</span>
         </div>
         <div className="col-span-1">
-          <Suspense>
-            <SelectNativeLanguageClient user={user} languages={languages} />
-          </Suspense>
+          <div className="sm:grid sm:grid-cols-2">
+            <Suspense>
+              <SelectNativeLanguageClient user={user} languages={languages} />
+            </Suspense>
+          </div>
         </div>
       </div>
     </div>
