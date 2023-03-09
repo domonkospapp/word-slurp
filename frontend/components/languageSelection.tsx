@@ -1,13 +1,12 @@
 'use client'
 
-import { ChangeEvent, useEffect, useState } from 'react'
-import Select from '../ui/inputs/Select'
+import { useEffect, useState } from 'react'
+import Select, { Option } from '../ui/inputs/select/Select'
 
 const LanguageSelection = ({
   languages,
   initialValue,
   update,
-  autoUpdate,
   disabled,
 }: {
   initialValue?: string
@@ -16,48 +15,36 @@ const LanguageSelection = ({
   autoUpdate?: boolean
   disabled?: boolean
 }) => {
-  const getLanguageIndex = () =>
-    initialValue ? languages.indexOf(initialValue) : undefined
-  const [languageIndex, setLanguageIndex] = useState<number | undefined>(
-    getLanguageIndex
-  )
+  const getInitialValue = () => {
+    return {
+      text: initialValue || '-',
+      value: initialValue || '',
+    }
+  }
+
+  const [language, setLanguage] = useState<Option>(getInitialValue)
 
   useEffect(() => {
-    setLanguageIndex(getLanguageIndex)
+    setLanguage(getInitialValue)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialValue])
 
-  const updateNativeLanguageInput = (e: ChangeEvent<HTMLSelectElement>) => {
-    const index: number = parseInt(e.target.value)
-    setLanguageIndex(index)
-    if (autoUpdate) {
-      update(languages[index])
-    }
+  const changeLanguage = (value: Option) => {
+    setLanguage(value)
+    update(value.value)
   }
 
-  const updateHandler = () => {
-    if (languageIndex) {
-      update(languages[languageIndex])
-    }
-  }
+  const options: Array<Option> = languages.map((l) => {
+    return { text: l, value: l }
+  })
 
   return (
-    <>
-      <Select
-        value={languageIndex}
-        onChange={updateNativeLanguageInput}
-        disabled={disabled}
-      >
-        {languageIndex == undefined && <option value={undefined}>-</option>}
-        {languages &&
-          languages.map((v, k) => (
-            <option key={k} value={k}>
-              {v}
-            </option>
-          ))}
-      </Select>
-      {!autoUpdate && <button onClick={updateHandler}>Update</button>}
-    </>
+    <Select
+      options={options}
+      selected={language}
+      update={changeLanguage}
+      disabled={disabled}
+    />
   )
 }
 
