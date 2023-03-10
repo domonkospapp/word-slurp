@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Select, { Option } from '../ui/inputs/select/Select'
 
 const LanguageSelection = ({
@@ -15,12 +15,14 @@ const LanguageSelection = ({
   autoUpdate?: boolean
   disabled?: boolean
 }) => {
-  const getInitialValue = () => {
+  const convertToOption = (language: string | undefined) => {
     return {
-      text: initialValue || '-',
-      value: initialValue || '',
+      text: language || '-',
+      value: language || '',
     }
   }
+
+  const getInitialValue = () => convertToOption(initialValue)
 
   const [language, setLanguage] = useState<Option>(getInitialValue)
 
@@ -34,9 +36,13 @@ const LanguageSelection = ({
     update(value.value)
   }
 
-  const options: Array<Option> = languages.map((l) => {
-    return { text: l, value: l }
-  })
+  const generateOptions = () => {
+    const options: Array<Option> = languages.map(convertToOption)
+    options.unshift(convertToOption(undefined))
+    return options
+  }
+
+  const options: Array<Option> = useMemo(generateOptions, [languages])
 
   return (
     <Select
