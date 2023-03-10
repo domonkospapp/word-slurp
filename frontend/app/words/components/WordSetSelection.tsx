@@ -40,7 +40,7 @@ const WordSetSelection = ({
 
   const getOptions = () => {
     const options: Array<Option> = wordSets.map(convertToOption)
-    options.unshift(convertToOption())
+    options.unshift(convertToOption(undefined))
     return options
   }
 
