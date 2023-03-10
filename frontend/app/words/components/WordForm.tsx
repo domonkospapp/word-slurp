@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useState } from 'react'
-import LanguageSelection from '../../../components/languageSelection'
+import LanguageSelection from '../../../components/LanguageSelection'
 import { Word } from '../../../types/word'
 import { WordSet } from '../../../types/word-set'
 import Button from '../../../ui/inputs/Button'
