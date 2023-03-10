@@ -12,7 +12,11 @@ const Select = ({ options, selected, update, disabled }: SelectProps) => {
   return (
     <Listbox value={selected} onChange={update} disabled={disabled}>
       <div className="relative mr-4">
-        <Listbox.Button className="m-2 w-full border-4 border-stone-900 bg-violet-300 p-2 font-bold shadow-normal shadow-stone-900">
+        <Listbox.Button
+          className={`${
+            disabled ? 'bg-stone-300' : 'bg-violet-300'
+          } m-2 w-full border-4 border-stone-900   p-2 font-bold shadow-normal shadow-stone-900`}
+        >
           <div className="flex justify-between">
             <span>{selected.text}</span>
             <span>&#9662;</span>
