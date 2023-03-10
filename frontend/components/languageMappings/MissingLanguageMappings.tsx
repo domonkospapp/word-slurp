@@ -1,7 +1,7 @@
 'use client'
 
 import { Fragment } from 'react'
-import LanguageSelection from '../languageSelection'
+import LanguageSelection from '../LanguageSelection'
 
 const MissingLanguageMappings = ({
   containedLanguages,

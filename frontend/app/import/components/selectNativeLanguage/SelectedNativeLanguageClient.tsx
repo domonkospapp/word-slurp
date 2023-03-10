@@ -1,6 +1,6 @@
 'use client'
 
-import LanguageSelection from '../../../../components/languageSelection'
+import LanguageSelection from '../../../../components/LanguageSelection'
 import { User } from '../../../../types/user'
 
 const SelectNativeLanguageClient = ({
