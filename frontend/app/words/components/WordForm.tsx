@@ -7,8 +7,8 @@ import { Word } from '../../../types/word'
 import { WordSet } from '../../../types/word-set'
 import Button from '../../../ui/inputs/Button'
 import Input from '../../../ui/inputs/Input'
-import Select from '../../../ui/inputs/Select'
 import CreateSetForm from './CreateSetForm'
+import WordSetSelection from './WordSetSelection'
 
 const WordForm = ({
   languages,
@@ -57,12 +57,10 @@ const WordForm = ({
     setForeignWord(e.target.value)
   }
 
-  const updateSet = (e: ChangeEvent<HTMLSelectElement>) => {
-    const id: number | undefined =
-      e.target.value == '-' ? undefined : parseInt(e.target.value)
-    setSetId(id)
+  const updateSet = (wordSetId: number | undefined) => {
+    setSetId(wordSetId)
 
-    const wordSet: WordSet | undefined = wordSets.find((s) => s.id == id)
+    const wordSet: WordSet | undefined = wordSets.find((s) => s.id == wordSetId)
 
     if (wordSet && wordSet.originalLanguage) {
       setOriginalLanguage(wordSet.originalLanguage)
@@ -70,7 +68,7 @@ const WordForm = ({
     if (wordSet && wordSet.foreignLanguage) {
       setForeignLanguage(wordSet.foreignLanguage)
     }
-    if (id == undefined) {
+    if (wordSetId == undefined) {
       setOriginalLanguage(undefined)
       setForeignLanguage(undefined)
     }
@@ -127,14 +125,7 @@ const WordForm = ({
         <div className="col-span-1 m-2">Select set</div>
         <div className="col-span-1 m-2">... or create a new one</div>
         <div className="col-span-1">
-          <Select value={setId} onChange={updateSet}>
-            <option value={undefined}>-</option>
-            {wordSets.map((wordSet) => (
-              <option key={wordSet.id} value={wordSet.id}>
-                {wordSet.name}
-              </option>
-            ))}
-          </Select>
+          <WordSetSelection wordSets={wordSets} update={updateSet} />
         </div>
         <div className="col-span-1">
           <CreateSetForm
