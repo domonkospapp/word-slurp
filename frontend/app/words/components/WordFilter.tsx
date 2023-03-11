@@ -31,7 +31,7 @@ const WordFilter = () => {
 
   return (
     <div className="flex">
-      <Input onChange={searchTextChange} value={searchText} fullWidth />
+      <Input onChange={searchTextChange} value={searchText} />
       <Button onClick={search} color="bg-green-300">
         Search
       </Button>

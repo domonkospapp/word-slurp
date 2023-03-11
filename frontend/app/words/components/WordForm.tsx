@@ -96,36 +96,46 @@ const WordForm = ({
         <div className="col-span-1 m-2 hidden sm:block">Languages</div>
         <div className="col-span-1 m-2 sm:hidden">Word</div>
         <div className="col-span-1">
-          <Input value={originalWord} onChange={originalWordChange} />
+          <div className="w-full sm:w-2/3">
+            <Input value={originalWord} onChange={originalWordChange} />
+          </div>
         </div>
         <div className="col-span-1 m-2 sm:hidden">Language</div>
         <div className="col-span-1">
-          <LanguageSelection
-            initialValue={originalLanguage}
-            languages={languages}
-            update={(language: string) => setOriginalLanguage(language)}
-            autoUpdate
-            disabled={setId != undefined}
-          />
+          <div className="w-full sm:w-1/2">
+            <LanguageSelection
+              initialValue={originalLanguage}
+              languages={languages}
+              update={(language: string) => setOriginalLanguage(language)}
+              autoUpdate
+              disabled={setId != undefined}
+            />
+          </div>
         </div>
         <div className="col-span-1 m-2 sm:hidden">Word</div>
         <div className="col-span-1">
-          <Input value={foreignWord} onChange={foreignWordChange} />
+          <div className="w-full sm:w-2/3">
+            <Input value={foreignWord} onChange={foreignWordChange} />
+          </div>
         </div>
         <div className="col-span-1 m-2 sm:hidden">Language</div>
         <div className="col-span-1">
-          <LanguageSelection
-            initialValue={foreignLanguage}
-            languages={languages}
-            update={(language: string) => setForeignLanguage(language)}
-            autoUpdate
-            disabled={setId != undefined}
-          />
+          <div className="w-full sm:w-1/2">
+            <LanguageSelection
+              initialValue={foreignLanguage}
+              languages={languages}
+              update={(language: string) => setForeignLanguage(language)}
+              autoUpdate
+              disabled={setId != undefined}
+            />
+          </div>
         </div>
         <div className="col-span-1 m-2">Select set</div>
         <div className="col-span-1 m-2">... or create a new one</div>
         <div className="col-span-1">
-          <WordSetSelection wordSets={wordSets} update={updateSet} />
+          <div className="w-full sm:w-2/3">
+            <WordSetSelection wordSets={wordSets} update={updateSet} />
+          </div>
         </div>
         <div className="col-span-1">
           <CreateSetForm

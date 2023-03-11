@@ -87,14 +87,11 @@ const WordLearningInputClient = ({ words }: { words: Array<Word> }) => {
       </span>
       {waitingForAnswer ? (
         <div>
-          <div className="mr-4">
-            <Input
-              fullWidth
-              value={answer}
-              onChange={updateAnswer}
-              onKeyDown={handleInputKeyPress}
-            />
-          </div>
+          <Input
+            value={answer}
+            onChange={updateAnswer}
+            onKeyDown={handleInputKeyPress}
+          />
           <div className="grid grid-cols-2">
             <Button color="bg-pink-200" onClick={evaulate}>
               Don&apos;t know
