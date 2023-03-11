@@ -36,7 +36,7 @@ const MissingLanguageMappings = ({
       {missingMappings.map((lang, index) => (
         <Fragment key={index}>
           <div className="ml-2">{lang}</div>
-          <div className="ml-2">
+          <div className="my-4 w-full sm:w-1/2">
             <LanguageSelection
               languages={languages}
               update={(value: string) => addMapping(lang, value)}

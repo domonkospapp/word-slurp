@@ -33,16 +33,20 @@ const CreateSetForm = ({
   )
 
   return (
-    <>
-      <Input value={setName} onChange={setNameChange} />
-      <Button
-        color="bg-pink-200"
-        onClick={createWordSet}
-        disabled={createIsDisabled}
-      >
-        Create
-      </Button>
-    </>
+    <div className="grid grid-cols-2">
+      <div className="col-span-1">
+        <Input value={setName} onChange={setNameChange} />
+      </div>
+      <div className="col-span-1">
+        <Button
+          color="bg-pink-200"
+          onClick={createWordSet}
+          disabled={createIsDisabled}
+        >
+          Create
+        </Button>
+      </div>
+    </div>
   )
 }
 

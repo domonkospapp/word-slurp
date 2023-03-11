@@ -48,7 +48,9 @@ const WordSetListItem = ({
       <div className="mt-6 grid grid-cols-2 items-center justify-center">
         <div className="col-span-1 flex flex-wrap items-center">
           {isEditing ? (
-            <Input value={setName} onChange={setNameChange} />
+            <div className="w-full sm:w-1/2">
+              <Input value={setName} onChange={setNameChange} />
+            </div>
           ) : (
             <div>
               <span className="m-2 border-b-4 border-stone-900 text-2xl shadow-b-normal shadow-pink-200">
