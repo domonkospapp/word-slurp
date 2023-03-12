@@ -1,5 +1,5 @@
 runtime: java11
-service: staging
+service: testing
 env: standard
 runtime_config:
   jdk: openjdk11
