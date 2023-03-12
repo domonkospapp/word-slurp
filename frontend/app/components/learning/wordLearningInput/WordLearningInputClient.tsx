@@ -74,7 +74,8 @@ const WordLearningInputClient = ({ words }: { words: Array<Word> }) => {
   return (
     <>
       <span className="ml-2">
-        {currentWord?.wordSet.originalLanguage || 'loading...'}
+        {(words.length > 0 && currentWord?.wordSet.originalLanguage) ||
+          'No words found'}
       </span>
       <span className="ml-2 hidden sm:block">
         {currentWord?.wordSet.foreignLanguage}
