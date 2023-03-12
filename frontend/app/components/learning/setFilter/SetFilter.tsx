@@ -1,5 +1,5 @@
 import { WordSet } from '../../../../types/word-set'
-import { Option } from '../../../../ui/inputs/select/Select'
+import { Option } from '../../../../ui/inputs/Select'
 import { getWordSets } from '../../../../utils/clients/wordSetApi'
 import SetFilterClient from './SetFilterClient'
 

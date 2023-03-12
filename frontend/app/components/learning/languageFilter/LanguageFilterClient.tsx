@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import Select, { Option } from '../../../../ui/inputs/select/Select'
+import Select, { Option } from '../../../../ui/inputs/Select'
 
 const LanguageFilterClient = ({
   languageOptions,
