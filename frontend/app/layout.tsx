@@ -5,7 +5,7 @@ import './global.css'
 import Navbar from './components/navbar/Navbar'
 import { unstable_getServerSession } from 'next-auth'
 import { authOptions } from '../pages/api/auth/[...nextauth]'
-import NotLoggedInMessage from './components/NotLoggedInMessage'
+import NotLoggedInMessage from './components/common/NotLoggedInMessage'
 import localFont from '@next/font/local'
 
 const spaceMono = localFont({
