@@ -2,7 +2,7 @@
 
 import { SessionProvider } from 'next-auth/react'
 import { ReactNode } from 'react'
-import { AnalyticsWrapper } from './components/analytics'
+import { AnalyticsWrapper } from './components/common/analytics'
 
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
