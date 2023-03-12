@@ -17,14 +17,14 @@ const Learning = async ({
       <div className="ml-2 mb-4 grid grid-cols-2 items-center justify-center">
         <div className="col-span-1">Languages</div>
         <div className="col-span-1 flex justify-start sm:pr-9">
-          <div className="mr-4 w-full sm:ml-1 sm:w-1/2">
+          <div className="w-full sm:ml-1 sm:w-1/2">
             {/* @ts-expect-error Server Component */}
             <LanguageFilter />
           </div>
         </div>
         <div className="col-span-1">Sets</div>
         <div className="col-span-1 flex justify-start sm:pr-9">
-          <div className="mr-4 w-full sm:ml-1 sm:w-1/2">
+          <div className="w-full sm:ml-1 sm:w-1/2">
             {/* @ts-expect-error Server Component */}
             <SetFilter />
           </div>
