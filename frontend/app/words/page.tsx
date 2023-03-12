@@ -58,7 +58,7 @@ const WordListPage = async ({
             />
           </div>
         </div>
-        <Suspense fallback={<p>Loading...</p>}>
+        <Suspense fallback={<p className="m-2">Loading...</p>}>
           {/* @ts-expect-error Server Component */}
           <WordSetList
             search={searchParams?.search}
