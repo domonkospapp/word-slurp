@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import Select, { Option } from '../ui/inputs/select/Select'
+import Select, { Option } from '../ui/inputs/Select'
 
 const LanguageSelection = ({
   languages,

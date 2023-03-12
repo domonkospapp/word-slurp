@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { WordSet } from '../../../types/word-set'
-import Select, { Option } from '../../../ui/inputs/select/Select'
+import Select, { Option } from '../../../ui/inputs/Select'
 
 const WordSetSelection = ({
   wordSets,

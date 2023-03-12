@@ -1,5 +1,5 @@
 import { LanguagePair } from '../../../../types/languagePair'
-import { Option } from '../../../../ui/inputs/select/Select'
+import { Option } from '../../../../ui/inputs/Select'
 import { getUsedLanguages } from '../../../../utils/clients/wordSetApi'
 import LanguageFilterClient from './LanguageFilterClient'
 

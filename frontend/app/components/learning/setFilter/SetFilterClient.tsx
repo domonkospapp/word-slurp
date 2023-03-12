@@ -2,8 +2,8 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import Select from '../../../../ui/inputs/select/Select'
-import { Option } from '../../../../ui/inputs/select/Select'
+import Select from '../../../../ui/inputs/Select'
+import { Option } from '../../../../ui/inputs/Select'
 
 const SetFilterClient = ({ setOptions }: { setOptions: Array<Option> }) => {
   const router = useRouter()
