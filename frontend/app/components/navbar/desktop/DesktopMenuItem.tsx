@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { NavItem } from '../Navbar'
 
-export const NavItem = ({ item }: { item: NavItem }) => {
+const DesktopMenuItem = ({ item }: { item: NavItem }) => {
   const path = usePathname()
   const isActive = item.href == '/' ? path == '/' : path?.includes(item.href)
 
@@ -22,7 +23,4 @@ export const NavItem = ({ item }: { item: NavItem }) => {
   )
 }
 
-export interface NavItem {
-  href: string
-  text: string
-}
+export default DesktopMenuItem
