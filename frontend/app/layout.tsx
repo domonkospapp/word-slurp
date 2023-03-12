@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import Footer from './components/common/Footer'
-import Providers from './providers'
+import Providers from './components/common/providersR'
 import './global.css'
 import Navbar from './components/navbar/Navbar'
 import { unstable_getServerSession } from 'next-auth'
