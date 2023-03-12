@@ -72,9 +72,6 @@ const CsvUploaderClient = ({
       </div>
       {selectedFile && !error && (
         <div>
-          {
-            //<LanguageMappings mappings={languageMapping} />
-          }
           <MissingLanguageMappings
             mappings={languageMapping}
             languages={languages}
