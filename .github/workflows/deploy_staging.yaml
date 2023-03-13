@@ -5,9 +5,9 @@ env:
 on:
   push:
     branches:
-      - main
+      - 33-issue
     paths:
-      - "./backend/**"
+      - "./.github/**"
 jobs:
   deploy_backend:
     name: Deploy backend
