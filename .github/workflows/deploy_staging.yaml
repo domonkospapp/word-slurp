@@ -7,7 +7,7 @@ on:
 #     branches:
 #       - 33-issue
     paths:
-      - "./**"
+      - ./**
 jobs:
   deploy_backend:
     name: Deploy backend
